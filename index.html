@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="live-enhanced.css">
 <link rel="stylesheet" href="prediction-enhanced.css">
+<link rel="stylesheet" href="buy-enhanced.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
 .token-calculator {
@@ -339,37 +340,218 @@
 </div>
 </section>
 
-<section class="how-to-buy">
+<section class="how-to-buy" id="how-to-buy">
 <div class="container">
+<div class="buy-header">
+<div class="time-badge">⏱️ Takes 2 mins</div>
 <h2>🚀 How to Buy $KEN</h2>
-<p class="section-subtitle">Join the movement in 4 simple steps on Base</p>
-<div class="steps-grid">
-<div class="step-card">
-<div class="step-number">01</div>
-<h3>Create Wallet</h3>
-<p>Download MetaMask, Coinbase Wallet, or any EVM-compatible wallet. This is your gateway to the Base network.</p>
+<p class="section-subtitle">Your journey to becoming a $KEN holder starts here</p>
 </div>
-<div class="step-card">
-<div class="step-number">02</div>
-<h3>Get ETH on Base</h3>
-<p>Purchase ETH on a centralized exchange (like Coinbase or Binance) and withdraw it to your wallet address on the <strong>Base Network</strong>.</p>
+
+<!-- Progress Tracker -->
+<div class="progress-tracker">
+<div class="progress-line">
+<div class="progress-dot active" data-step="1"></div>
+<div class="progress-dot" data-step="2"></div>
+<div class="progress-dot" data-step="3"></div>
+<div class="progress-dot" data-step="4"></div>
 </div>
-<div class="step-card">
-<div class="step-number">03</div>
-<h3>Connect to Virtuals</h3>
-<p>Navigate to <a href="https://app.virtuals.io" target="_blank">app.virtuals.io</a> and connect your wallet to the platform.</p>
-</div>
-<div class="step-card">
-<div class="step-number">04</div>
-<h3>Swap for $KEN</h3>
-<p>Select $KEN (or paste the contract address) and swap your ETH. Confirm the transaction and welcome to the family!</p>
+<div class="progress-labels">
+<span class="active">Wallet</span>
+<span>Fund</span>
+<span>Connect</span>
+<span>Swap</span>
 </div>
 </div>
-<div class="buy-cta-container">
-<a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="btn btn-primary btn-large">Buy $KEN on Virtuals →</a>
+
+<!-- Interactive Steps -->
+<div class="steps-container">
+<!-- Step 1: Create Wallet -->
+<div class="step-item active" data-step="1">
+<div class="step-header" onclick="toggleStep(1)">
+<div class="step-icon">👛</div>
+<div class="step-info">
+<h3>Step 1: Create Your Wallet</h3>
+<span class="step-status">Click to expand</span>
+</div>
+<div class="step-arrow">▼</div>
+</div>
+<div class="step-content">
+<div class="wallet-options">
+<div class="wallet-card" onclick="selectWallet('metamask')">
+<div class="wallet-logo">🦊</div>
+<div class="wallet-name">MetaMask</div>
+<div class="wallet-desc">Most popular, browser extension</div>
+</div>
+<div class="wallet-card" onclick="selectWallet('coinbase')">
+<div class="wallet-logo">📱</div>
+<div class="wallet-name">Coinbase Wallet</div>
+<div class="wallet-desc">Mobile app, beginner friendly</div>
+</div>
+<div class="wallet-card" onclick="selectWallet('rabby')">
+<div class="wallet-logo">🐰</div>
+<div class="wallet-name">Rabby</div>
+<div class="wallet-desc">Security-focused, smooth UX</div>
 </div>
 </div>
-</section>
+<div class="step-actions">
+<a href="https://metamask.io/download/" target="_blank" class="btn btn-secondary" id="walletLink">Download MetaMask →</a>
+<span class="wallet-tip">💡 Tip: Write down your seed phrase and keep it safe!</span>
+</div>
+</div>
+</div>
+
+<!-- Step 2: Get ETH -->
+<div class="step-item" data-step="2">
+<div class="step-header" onclick="toggleStep(2)">
+<div class="step-icon">💰</div>
+<div class="step-info">
+<h3>Step 2: Get ETH on Base</h3>
+<span class="step-status">Click to expand</span>
+</div>
+<div class="step-arrow">▼</div>
+</div>
+<div class="step-content">
+<div class="fund-options">
+<div class="fund-card">
+<div class="fund-icon">🏦</div>
+<h4>From Exchange</h4>
+<ol>
+<li>Buy ETH on Coinbase/Binance</li>
+<li>Withdraw to wallet</li>
+<li><strong>Select "Base" network</strong></li>
+</ol>
+</div>
+<div class="fund-card">
+<div class="fund-icon">🌉</div>
+<h4>Bridge from ETH</h4>
+<ol>
+<li>Use <a href="https://bridge.base.org" target="_blank">Base Bridge</a></li>
+<li>Connect wallet</li>
+<li>Bridge ETH to Base</li>
+</ol>
+</div>
+<div class="fund-card">
+<div class="fund-icon">💳</div>
+<h4>Buy Direct</h4>
+<ol>
+<li>Coinbase Wallet on-ramp</li>
+<li>Ramp.network</li>
+<li>Apple Pay/Google Pay</li>
+</ol>
+</div>
+</div>
+<div class="eth-needed">
+<span class="eth-amount">You need: ~$15-20 in ETH</span>
+<span class="eth-breakdown">for swap + gas fees (~$16-22 total)</span>
+</div>
+</div>
+</div>
+
+<!-- Step 3: Connect -->
+<div class="step-item" data-step="3">
+<div class="step-header" onclick="toggleStep(3)">
+<div class="step-icon">🔗</div>
+<div class="step-info">
+<h3>Step 3: Connect to Virtuals</h3>
+<span class="step-status">Click to expand</span>
+</div>
+<div class="step-arrow">▼</div>
+</div>
+<div class="step-content">
+<div class="connect-demo">
+<div class="demo-card">
+<div class="demo-step">
+<span class="demo-num">1</span>
+<span>Visit <a href="https://app.virtuals.io" target="_blank" class="highlight-link">app.virtuals.io</a></span>
+</div>
+<div class="demo-step">
+<span class="demo-num">2</span>
+<span>Click "Connect Wallet"</span>
+</div>
+<div class="demo-step">
+<span class="demo-num">3</span>
+<span>Approve in wallet</span>
+</div>
+<div class="demo-step">
+<span class="demo-num">4</span>
+<span>You're in! 🎉</span>
+</div>
+</div>
+<div class="network-check">
+<div class="check-item">
+<span class="check-icon">✓</span>
+<span>Network: Base Mainnet</span>
+</div>
+<div class="check-item">
+<span class="check-icon">✓</span>
+<span>Wallet Connected</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Step 4: Swap -->
+<div class="step-item" data-step="4">
+<div class="step-header" onclick="toggleStep(4)">
+<div class="step-icon">🔄</div>
+<div class="step-info">
+<h3>Step 4: Swap for $KEN</h3>
+<span class="step-status">Click to expand</span>
+</div>
+<div class="step-arrow">▼</div>
+</div>
+<div class="step-content">
+<div class="swap-interface">
+<div class="contract-box-enhanced">
+<div class="contract-label">$KEN Contract Address</div>
+<div class="contract-input">
+<code>0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5</code>
+<button class="copy-btn" onclick="copyContract('0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5')">
+<span class="copy-text">📋 Copy</span>
+<span class="copied-text">✓ Copied!</span>
+</button>
+</div>
+</div>
+<div class="swap-steps">
+<div class="swap-step">
+<div class="swap-icon">1️⃣</div>
+<div class="swap-text">Paste contract in search</div>
+</div>
+<div class="swap-arrow">→</div>
+<div class="swap-step">
+<div class="swap-icon">2️⃣</div>
+<div class="swap-text">Select amount to swap</div>
+</div>
+<div class="swap-arrow">→</div>
+<div class="swap-step">
+<div class="swap-icon">3️⃣</div>
+<div class="swap-text">Confirm transaction</div>
+</div>
+</div>
+<div class="swap-tip">
+💡 <strong>Pro tip:</strong> Start with a small test amount first!
+</div>
+</div>
+<div class="step-actions">
+<a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="btn btn-primary btn-large">🚀 Buy $KEN Now</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- FAQ Accordion -->
+<div class="buy-faq">
+<h4>❓ Frequently Asked Questions</h4>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>What's the minimum amount I can buy?</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-answer">
+<p>There's no minimum! You can buy as little as $1 worth of $KEN. However, we recommend at least $15-20 to cover gas fees and make the transaction worthwhile.</p>
 
 <section class="token-calculator" id="calculator">
 <div class="container">
@@ -699,6 +881,85 @@ function submitPrediction() {
 
 // Initialize prediction section on load
 updatePrediction();
+</script>
+</bod
+// HOW TO BUY - Interactive Functions
+let selectedWallet = 'metamask';
+
+function toggleStep(stepNum) {
+  const step = document.querySelector(`.step-item[data-step="${stepNum}"]`);
+  const isActive = step.classList.contains('active');
+  
+  // Close all steps
+  document.querySelectorAll('.step-item').forEach(s => s.classList.remove('active'));
+  
+  // Toggle current
+  if (!isActive) {
+    step.classList.add('active');
+    updateProgressDots(stepNum);
+  }
+}
+
+function updateProgressDots(currentStep) {
+  document.querySelectorAll('.progress-dot').forEach(dot => {
+    const dotStep = parseInt(dot.dataset.step);
+    dot.classList.remove('active', 'completed');
+    
+    if (dotStep === currentStep) {
+      dot.classList.add('active');
+    } else if (dotStep < currentStep) {
+      dot.classList.add('completed');
+    }
+  });
+  
+  document.querySelectorAll('.progress-labels span').forEach((label, index) => {
+    label.classList.toggle('active', index + 1 === currentStep);
+  });
+}
+
+function selectWallet(wallet) {
+  selectedWallet = wallet;
+  document.querySelectorAll('.wallet-card').forEach(card => card.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  
+  const links = {
+    metamask: 'https://metamask.io/download/',
+    coinbase: 'https://www.coinbase.com/wallet',
+    rabby: 'https://rabby.io/'
+  };
+  
+  const names = {
+    metamask: 'Download MetaMask →',
+    coinbase: 'Download Coinbase Wallet →',
+    rabby: 'Download Rabby →'
+  };
+  
+  document.getElementById('walletLink').href = links[wallet];
+  document.getElementById('walletLink').textContent = names[wallet];
+}
+
+function copyContract(address) {
+  navigator.clipboard.writeText(address);
+  const btn = event.currentTarget;
+  btn.classList.add('copied');
+  setTimeout(() => btn.classList.remove('copied'), 2000);
+}
+
+function toggleFaq(element) {
+  const item = element.parentElement;
+  const isOpen = item.classList.contains('open');
+  
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  
+  if (!isOpen) {
+    item.classList.add('open');
+  }
+}
+
+// Open first step by default
+document.addEventListener('DOMContentLoaded', () => {
+  toggleStep(1);
+});
 </script>
 </body>
 </html>
