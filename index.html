@@ -632,13 +632,13 @@ const growthRate = document.getElementById('growthRate');
 const endLabel = document.getElementById('endLabel');
 
 // Calculate target date based on days
-defunction calculateTargetDate(days) {
+function calculateTargetDate(days) {
   const now = new Date();
   const target = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
   return target.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });}
 
 // Calculate required growth rate (from $166K to $1M)
-defunction calculateGrowthRate(days) {
+function calculateGrowthRate(days) {
   // Compound daily growth rate needed
   const start = 166000;
   const end = 1000000;
@@ -647,7 +647,7 @@ defunction calculateGrowthRate(days) {
   return { multiplier: (end/start).toFixed(2), daily: dailyGrowth };}
 
 // Update all prediction UI elements
-defunction updatePrediction() {
+function updatePrediction() {
   const days = parseInt(predictionSlider.value);
   const percentage = ((days - 7) / (365 - 7)) * 100;
   
@@ -672,7 +672,7 @@ defunction updatePrediction() {
 predictionSlider.addEventListener('input', updatePrediction);
 
 // Submit prediction with animation
-defunction submitPrediction() {
+function submitPrediction() {
   const btn = document.getElementById('submitPrediction');
   const days = predictionSlider.value;
   
