@@ -1,0 +1,346 @@
+<!-- Token Calculator Component -->
+<section class="token-calculator" id="calculator">
+  <div class="container">
+    <div class="calc-card animated-card">
+      <div class="calc-header">
+        <h2>💰 $KEN Profit Calculator</h2>
+        <p class="calc-subtitle">See what your tokens could be worth at different market caps</p>
+      </div>
+      
+      <div class="calc-body">
+        <div class="calc-input-section">
+          <div class="input-group">
+            <label for="token-amount">Your $KEN Balance</label>
+            <div class="input-wrapper">
+              <input type="number" id="token-amount" placeholder="10000" value="10000" min="0">
+              <span class="token-suffix">$KEN</span>
+            </div>
+            <div class="quick-amounts">
+              <button onclick="setAmount(1000)">1K</button>
+              <button onclick="setAmount(10000)">10K</button>
+              <button onclick="setAmount(100000)">100K</button>
+              <button onclick="setAmount(1000000)">1M</button>
+            </div>
+          </div>
+
+          <div class="price-display">
+            <div class="price-item">
+              <span class="label">Current Price</span>
+              <span class="value" id="current-price-display">$0.016</span>
+            </div>
+            <div class="price-item">
+              <span class="label">Current MC</span>
+              <span class="value" id="current-mc-display">$166K</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <h3>Projected Portfolio Value</h3>
+          <div class="results-grid">
+            <div class="result-card" data-target="166000">
+              <div class="result-header">
+                <span class="result-label">Now</span>
+                <span class="result-mc">$166K MC</span>
+              </div>
+              <div class="result-value" id="val-now">$160</div>
+              <div class="result-change">Baseline</div>
+            </div>
+            
+            <div class="result-card" data-target="500000">
+              <div class="result-header">
+                <span class="result-label">At $500K MC</span>
+                <span class="result-mc">3x</span>
+              </div>
+              <div class="result-value" id="val-500k">$481</div>
+              <div class="result-change positive">+200%</div>
+            </div>
+            
+            <div class="result-card highlight" data-target="1000000">
+              <div class="result-header">
+                <span class="result-label">At $1M MC 🎯</span>
+                <span class="result-mc">6x</span>
+              </div>
+              <div class="result-value" id="val-1m">$962</div>
+              <div class="result-change positive">+500%</div>
+            </div>
+            
+            <div class="result-card moon" data-target="10000000">
+              <div class="result-header">
+                <span class="result-label">At $10M MC 🚀</span>
+                <span class="result-mc">60x</span>
+              </div>
+              <div class="result-value" id="val-10m">$9,615</div>
+              <div class="result-change moon">+5,900%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-actions">
+          <button class="btn btn-primary btn-calc-action" onclick="shareCalculation()">
+            📤 Share Your Prediction
+          </button>
+          <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" class="btn btn-secondary" target="_blank">
+            Buy $KEN Now →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.token-calculator {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(236,72,153,0.1) 50%, rgba(6,182,212,0.1) 100%);
+}
+
+.calc-card {
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 3rem;
+  backdrop-filter: blur(20px);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.calc-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.calc-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.calc-subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.calc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.calc-input-section {
+  background: rgba(0,0,0,0.2);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(6,182,212,0.2);
+}
+
+.input-wrapper input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  outline: none;
+}
+
+.token-suffix {
+  color: var(--accent);
+  font-weight: 600;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+.quick-amounts {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.quick-amounts button {
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.quick-amounts button:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.price-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.price-item {
+  background: rgba(255,255,255,0.03);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.price-item .label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.price-item .value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.calc-results h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #e2e8f0;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.result-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.result-card.highlight {
+  background: linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(236,72,153,0.2) 100%);
+  border-color: var(--primary);
+}
+
+.result-card.moon {
+  background: linear-gradient(135deg, rgba(236,72,153,0.2) 0%, rgba(6,182,212,0.2) 100%);
+  border-color: var(--secondary);
+}
+
+.result-header {
+  margin-bottom: 1rem;
+}
+
+.result-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
+}
+
+.result-mc {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.result-value {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0.
+<script>
+// Token Calculator Logic
+const KEN_PRICE = 0.016;
+const CURRENT_MC = 166000;
+
+function calculateValue(tokens, targetMC) {
+  const priceRatio = targetMC / CURRENT_MC;
+  const value = tokens * KEN_PRICE * priceRatio;
+  return value;
+}
+
+function formatCurrency(value) {
+  if (value >= 1000) {
+    return '$' + value.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  return '$' + value.toFixed(2);
+}
+
+function updateCalculator() {
+  const tokens = parseFloat(document.getElementById('token-amount').value) || 0;
+  
+  document.getElementById('val-now').textContent = formatCurrency(calculateValue(tokens, 166000));
+  document.getElementById('val-500k').textContent = formatCurrency(calculateValue(tokens, 500000));
+  document.getElementById('val-1m').textContent = formatCurrency(calculateValue(tokens, 1000000));
+  document.getElementById('val-10m').textContent = formatCurrency(calculateValue(tokens, 10000000));
+}
+
+function setAmount(amount) {
+  document.getElementById('token-amount').value = amount;
+  updateCalculator();
+}
+
+function shareCalculation() {
+  const tokens = document.getElementById('token-amount').value;
+  const val1m = document.getElementById('val-1m').textContent;
+  const text = `If I hold ${tokens} $KEN tokens, they'll be worth ${val1m} at $1M MC! 📈\n\nJoin the mission: https://kenagent.xyz\n\n#KenAgent #AIagent #VirtualsProtocol`;
+  
+  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
+// Initialize
+document.getElementById('token-amount').addEventListener('input', updateCalculator);
+updateCalculator();
+</script>

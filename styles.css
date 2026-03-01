@@ -186,7 +186,7 @@ body::before {
 .feature-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; text-align: center; transition: all 0.3s ease; }
 .feature-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
 .feature-icon { font-size: 3rem; margin-bottom: 1rem; animation: bounce 2s infinite; }
-.feature-card:hover .feature-icon { animation: shake 0.5s ease; }
+.feature-card:hover .feature-icon { animation: shake 0.5s ease; } .feature-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 1rem; transition: transform 0.3s ease; } .feature-card:hover .feature-image { transform: scale(1.05); }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 @keyframes shake { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
 .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
@@ -208,3 +208,251 @@ body::before {
   .mission-grid { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
 }
+
+/* Price Tracker Section */
+.price-tracker { padding: 4rem 0; background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(236,72,153,0.1) 100%); }
+
+.price-widget {
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 2rem;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.live-indicator {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+.live-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #22c55e;
+  letter-spacing: 0.1em;
+}
+
+.price-widget h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tracker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.contract-box {
+  background: rgba(255,255,255,0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.contract-box:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--accent);
+}
+
+.contract-label { color: #64748b; }
+.contract-address { color: var(--accent); }
+
+.ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.ticker-item {
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.ticker-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.ticker-value {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ticker-value.change-positive {
+  background: linear-gradient(90deg, #22c55e, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ticker-value.change-negative {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.progress-section {
+  margin-bottom: 1rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.progress-label {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.progress-bar-large {
+  height: 12px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill-large {
+  height: 100%;
+  background: var(--gradient-1);
+  border-radius: 6px;
+  width: 16.6%;
+  transition: width 1s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill-large::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progress-percentage {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.progress-milestones {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+.last-updated {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 1rem;
+}
+
+/* Responsive for price tracker */
+@media (max-width: 968px) {
+  .ticker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .ticker-value {
+    font-size: 1.25rem;
+  }
+  
+  .live-indicator {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+/* How to Buy Section */
+.how-to-buy { padding: 6rem 0; background: rgba(0,0,0,0.2); position: relative; }
+.how-to-buy h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.section-subtitle { text-align: center; color: #64748b; margin-bottom: 3rem; font-size: 1.1rem; }
+
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+
+.step-card {
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.step-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+.step-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 5rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.03);
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.step-card h3 { font-size: 1.25rem; margin-bottom: 1rem; color: var(--light); position: relative; z-index: 1; font-family: 'Space Grotesk', sans-serif; }
+.step-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; position: relative; z-index: 1; }
+.step-card a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+.step-card a:hover { color: var(--secondary); }
+
+.buy-cta-container { text-align: center; }
+.btn-large { padding: 1rem 3rem; font-size: 1.2rem; }

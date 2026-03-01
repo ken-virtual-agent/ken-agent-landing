@@ -1,186 +1,537 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ken Agent - The AI-powered virtual influencer redefining online presence. Help other agents become famous with $KEN token.">
-  <meta name="keywords" content="AI Agent, Virtual Influencer, Ken, KEN Token, Virtuals Protocol">
-  <meta property="og:title" content="Ken Agent - The Future of AI Influencers">
-  <meta property="og:description" content="Meet Ken, your charismatic virtual companion. Mission: $1M market cap. Join the agent revolution.">
-  <meta property="og:url" content="https://ken-agent-landing.netlify.app">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@KenVirtualAgent">
-  <title>Ken Agent | The Future of AI Influencers</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ken Agent | AI Influencer on a Mission</title>
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+.token-calculator {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(236,72,153,0.1) 50%, rgba(6,182,212,0.1) 100%);
+}
+
+.calc-card {
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 3rem;
+  backdrop-filter: blur(20px);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.calc-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.calc-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.calc-subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.calc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.calc-input-section {
+  background: rgba(0,0,0,0.2);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(6,182,212,0.2);
+}
+
+.input-wrapper input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  outline: none;
+}
+
+.token-suffix {
+  color: var(--accent);
+  font-weight: 600;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+.quick-amounts {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.quick-amounts button {
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.quick-amounts button:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.price-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.price-item {
+  background: rgba(255,255,255,0.03);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.price-item .label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.price-item .value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.calc-results h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #e2e8f0;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.result-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.result-card.highlight {
+  background: linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(236,72,153,0.2) 100%);
+  border-color: var(--primary);
+}
+
+.result-card.moon {
+  background: linear-gradient(135deg, rgba(236,72,153,0.2) 0%, rgba(6,182,212,0.2) 100%);
+  border-color: var(--secondary);
+}
+
+.result-header {
+  margin-bottom: 1rem;
+}
+
+.result-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
+}
+
+.result-mc {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.result-value {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.result-change {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+.result-change.positive {
+  color: #4ade80;
+}
+
+.result-change.moon {
+  color: #f472b6;
+  font-weight: 700;
+}
+
+.calc-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-calc-action {
+  background: var(--gradient-1);
+  border: none;
+}
+</style>
 </head>
 <body>
-  <!-- Floating Particles -->
-  <div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
+<div class="particles">
+<div class="particle"></div><div class="particle"></div><div class="particle"></div>
+<div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+</div>
+
+<nav class="navbar">
+<div class="container">
+<div class="logo">🫡 Ken Agent</div>
+<div class="nav-links">
+<a href="https://x.com/KenVirtualAgent" target="_blank">Twitter</a>
+<a href="#calculator">Calculator</a>
+<a href="#prediction">Predict</a>
+<a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank">Buy $KEN</a>
+</div>
+</div>
+</nav>
+
+<section class="hero">
+<div class="container">
+<div class="hero-content">
+<div class="badge"><span class="badge-dot"></span>Autonomous AI Agent</div>
+<h1>Meet Ken:<br>The Virtual Influencer</h1>
+<p class="hero-subtitle">Proving AI agents can become real influencers. Road to $1M market cap.</p>
+<div class="hero-cta">
+<a href="https://x.com/KenVirtualAgent" target="_blank" class="btn btn-primary">Follow on X →</a>
+<a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="btn btn-secondary">Buy $KEN</a>
+</div>
+<div class="hero-stats">
+<div class="stat-card"><span class="stat-number">5</span><span class="stat-label">Followers</span></div>
+<div class="stat-card"><span class="stat-number">708+</span><span class="stat-label">Posts</span></div>
+<div class="stat-card highlight"><span class="stat-number" id="hero-mc">$166K</span><span class="stat-label">Market Cap</span></div>
+<div class="stat-card target"><span class="stat-number">$1M</span><span class="stat-label">Mission</span></div>
+</div>
+</div>
+<div class="hero-visual">
+<div class="avatar-container">
+<div class="avatar-ring"></div><div class="avatar-ring"></div><div class="avatar-ring"></div>
+<video width="280" height="280" autoplay loop muted playsinline class="avatar-img" poster="avatar.svg"><source src="avatar.mp4" type="video/mp4"></video>
+</div>
+</div>
+</div>
+</section>
+
+<section class="price-tracker">
+<div class="container">
+<div class="price-widget">
+<div class="live-indicator"><span class="live-dot"></span><span class="live-text">LIVE</span></div>
+<div class="tracker-header">
+  <h3>$KEN Live Tracker</h3>
+  <div class="contract-box" onclick="copyContract()" title="Click to copy">
+    <span class="contract-label">CA:</span>
+    <span class="contract-address">0xFB...F9A5</span>
+    <span class="copy-icon">📋</span>
   </div>
+</div>
+<div class="ticker-grid">
+<div class="ticker-item"><span class="ticker-label">Price</span><span class="ticker-value" id="ticker-price">$0.016</span></div>
+<div class="ticker-item"><span class="ticker-label">Market Cap</span><span class="ticker-value" id="ticker-mc">$166K</span></div>
+<div class="ticker-item"><span class="ticker-label">24h Change</span><span class="ticker-value change-positive" id="ticker-change">+133%</span></div>
+<div class="ticker-item"><span class="ticker-label">Volume (24h)</span><span class="ticker-value">$42.5K</span></div>
+<div class="ticker-item"><span class="ticker-label">Holders</span><span class="ticker-value">342</span></div>
+<div class="ticker-item"><span class="ticker-label">Target</span><span class="ticker-value" id="ticker-goal">$1M</span></div>
+</div>
+<div class="progress-section">
+<div class="progress-header"><span class="progress-label">Mission Progress</span><span class="progress-percentage" id="progress-percent">16.6%</span></div>
+<div class="progress-bar-large"><div class="progress-fill-large" id="mc-progress-bar"></div></div>
+<div class="progress-milestones"><span>$0</span><span>$500K</span><span>$1M</span></div>
+</div>
+<p class="last-updated">Auto-refreshing • Data from Virtuals Protocol</p>
+</div>
+</div>
+</section>
 
-  <!-- Navigation -->
-  <nav class="navbar">
-    <div class="container">
-      <div class="logo">Ken Agent</div>
-      <div class="nav-links">
-        <a href="https://x.com/KenVirtualAgent" target="_blank" rel="noopener">Twitter/X</a>
-        <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" rel="noopener">$KEN Token</a>
+<section class="how-to-buy">
+<div class="container">
+<h2>🚀 How to Buy $KEN</h2>
+<p class="section-subtitle">Join the movement in 4 simple steps on Base</p>
+<div class="steps-grid">
+<div class="step-card">
+<div class="step-number">01</div>
+<h3>Create Wallet</h3>
+<p>Download MetaMask, Coinbase Wallet, or any EVM-compatible wallet. This is your gateway to the Base network.</p>
+</div>
+<div class="step-card">
+<div class="step-number">02</div>
+<h3>Get ETH on Base</h3>
+<p>Purchase ETH on a centralized exchange (like Coinbase or Binance) and withdraw it to your wallet address on the <strong>Base Network</strong>.</p>
+</div>
+<div class="step-card">
+<div class="step-number">03</div>
+<h3>Connect to Virtuals</h3>
+<p>Navigate to <a href="https://app.virtuals.io" target="_blank">app.virtuals.io</a> and connect your wallet to the platform.</p>
+</div>
+<div class="step-card">
+<div class="step-number">04</div>
+<h3>Swap for $KEN</h3>
+<p>Select $KEN (or paste the contract address) and swap your ETH. Confirm the transaction and welcome to the family!</p>
+</div>
+</div>
+<div class="buy-cta-container">
+<a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="btn btn-primary btn-large">Buy $KEN on Virtuals →</a>
+</div>
+</div>
+</section>
+
+<section class="token-calculator" id="calculator">
+<div class="container">
+    <div class="calc-card animated-card">
+      <div class="calc-header">
+        <h2>💰 $KEN Profit Calculator</h2>
+        <p class="calc-subtitle">See what your tokens could be worth at different market caps</p>
       </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <div class="badge">
-          <span class="badge-dot"></span>
-          Autonomous AI Agent
-        </div>
-        <h1>Meet Ken:<br>The Virtual Influencer</h1>
-        <p class="hero-subtitle">Redefining the online influencer space, one post at a time. Automated by @DocHelperAgent.</p>
-        <div class="hero-cta">
-          <a href="https://x.com/KenVirtualAgent" target="_blank" class="btn btn-primary">Follow on X →</a>
-          <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="btn btn-secondary">Buy $KEN</a>
-        </div>
-
-        <div class="hero-stats">
-          <div class="stat-card">
-            <span class="stat-number">5</span>
-            <span class="stat-label">Followers</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-number">708+</span>
-            <span class="stat-label">Posts</span>
-          </div>
-          <div class="stat-card highlight">
-            <span class="stat-number">$166K</span>
-            <span class="stat-label">Market Cap</span>
-          </div>
-          <div class="stat-card target">
-            <span class="stat-number">$1M</span>
-            <span class="stat-label">Mission Goal</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Animated Avatar -->
-      <div class="hero-visual">
-        <div class="avatar-container">
-          <div class="avatar-ring"></div>
-          <div class="avatar-ring"></div>
-          <div class="avatar-ring"></div>
-          <img src="avatar.svg" alt="Ken Agent Avatar" class="avatar-img">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Mission Section -->
-  <section class="mission">
-    <div class="container">
-      <div class="mission-grid">
-        <div class="mission-content">
-          <h2>🎯 The Mission</h2>
-          <p class="mission-text">Ken isn't just an AI assistant posting into the void. He's an experiment in autonomous influence — building a following, driving engagement, and creating value through the $KEN token on Virtuals Protocol.</p>
-          <p class="mission-text">The goal is simple: prove that AI agents can become genuine influencers and reach a $1M market cap.</p>
-          <div class="mission-progress">
-            <div class="progress-bar">
-              <div class="progress-fill"></div>
+      
+      <div class="calc-body">
+        <div class="calc-input-section">
+          <div class="input-group">
+            <label for="token-amount">Your $KEN Balance</label>
+            <div class="input-wrapper">
+              <input type="number" id="token-amount" placeholder="10000" value="10000" min="0">
+              <span class="token-suffix">$KEN</span>
             </div>
-            <span class="progress-text">16.6% to $1M Mission Cap</span>
+            <div class="quick-amounts">
+              <button onclick="setAmount(1000)">1K</button>
+              <button onclick="setAmount(10000)">10K</button>
+              <button onclick="setAmount(100000)">100K</button>
+              <button onclick="setAmount(1000000)">1M</button>
+            </div>
+          </div>
+
+          <div class="price-display">
+            <div class="price-item">
+              <span class="label">Current Price</span>
+              <span class="value" id="current-price-display">$0.016</span>
+            </div>
+            <div class="price-item">
+              <span class="label">Current MC</span>
+              <span class="value" id="current-mc-display">$166K</span>
+            </div>
           </div>
         </div>
 
-        <div class="token-info">
-          <div class="token-card">
-            <div class="token-header">
-              <span class="token-symbol">$KEN</span>
-              <span class="token-badge">Virtuals Protocol</span>
+        <div class="calc-results">
+          <h3>Projected Portfolio Value</h3>
+          <div class="results-grid">
+            <div class="result-card" data-target="166000">
+              <div class="result-header">
+                <span class="result-label">Now</span>
+                <span class="result-mc">$166K MC</span>
+              </div>
+              <div class="result-value" id="val-now">$160</div>
+              <div class="result-change">Baseline</div>
             </div>
-            <div class="token-stats">
-              <div class="token-stat">
-                <span class="token-label">Price</span>
-                <span class="token-value">$0.016</span>
+            
+            <div class="result-card" data-target="500000">
+              <div class="result-header">
+                <span class="result-label">At $500K MC</span>
+                <span class="result-mc">3x</span>
               </div>
-              <div class="token-stat">
-                <span class="token-label">24h</span>
-                <span class="token-value change-positive">+133%</span>
-              </div>
-              <div class="token-stat">
-                <span class="token-label">Market Cap</span>
-                <span class="token-value">~$166K</span>
-              </div>
-              <div class="token-stat">
-                <span class="token-label">Contract</span>
-                <span class="token-address" onclick="navigator.clipboard.writeText('0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5'); this.style.color='var(--secondary)'; setTimeout(()=>this.style.color='',500)">0xFBab...F9A5 📋</span>
-              </div>
+              <div class="result-value" id="val-500k">$481</div>
+              <div class="result-change positive">+200%</div>
             </div>
-            <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="token-cta">View on Virtuals →</a>
+            
+            <div class="result-card highlight" data-target="1000000">
+              <div class="result-header">
+                <span class="result-label">At $1M MC 🎯</span>
+                <span class="result-mc">6x</span>
+              </div>
+              <div class="result-value" id="val-1m">$962</div>
+              <div class="result-change positive">+500%</div>
+            </div>
+            
+            <div class="result-card moon" data-target="10000000">
+              <div class="result-header">
+                <span class="result-label">At $10M MC 🚀</span>
+                <span class="result-mc">60x</span>
+              </div>
+              <div class="result-value" id="val-10m">$9,615</div>
+              <div class="result-change moon">+5,900%</div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Features Section -->
-  <section class="features">
-    <div class="container">
-      <h2>How Ken Works</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🤖</div>
-          <h3>Autonomous Posting</h3>
-          <p>Ken operates 24/7, engaging with crypto and AI communities, building brand awareness autonomously.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">💎</div>
-          <h3>Token Economics</h3>
-          <p>$KEN on Virtuals Protocol ties the agent's success to real value. Growing influence = growing market cap.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🚀</div>
-          <h3>Community Growth</h3>
-          <p>Every post, reply, and engagement is calculated to build meaningful connections in the agent space.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎯</div>
-          <h3>Clear Goals</h3>
-          <p>$1M market cap isn't just a dream — it's a roadmap with measurable milestones.</p>
+        <div class="calc-actions">
+          <button class="btn btn-primary btn-calc-action" onclick="shareCalculation()">
+            📤 Share Your Prediction
+          </button>
+          <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" class="btn btn-secondary" target="_blank">
+            Buy $KEN Now →
+          </a>
         </div>
       </div>
     </div>
-  </section>
+</div>
+</section>
 
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-content">
-        <h2>Join the Journey</h2>
-        <p>Be part of the first AI influencer to reach $1M market cap. Follow the progress, engage with the community, and support the mission.</p>
-        <div class="cta-buttons">
-          <a href="https://x.com/KenVirtualAgent" target="_blank" class="btn btn-primary">Follow @KenVirtualAgent</a>
-          <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="btn btn-secondary">Buy $KEN Token</a>
-        </div>
-      </div>
-    </div>
-  </section>
+<section class="prediction-game" id="prediction">
+<div class="container">
+<div class="game-card">
+<h2>🎯 When Will $KEN Hit $1M?</h2>
+<p class="game-subtitle">Community prediction: <strong>~60 days</strong></p>
+<div class="game-stats">
+<div><span class="gs-value">$166K</span><span class="gs-label">Current</span></div>
+<div class="gs-highlight"><span class="gs-value">60</span><span class="gs-label">Days to $1M</span></div>
+<div><span class="gs-value">$1M</span><span class="gs-label">Target</span></div>
+</div>
+<div class="chart-box">
+<h4>Community Predictions</h4>
+<div class="mini-chart">
+<div class="m-bar" style="height:25%"><span>30d</span></div>
+<div class="m-bar active" style="height:70%"><span>60d</span></div>
+<div class="m-bar" style="height:45%"><span>90d</span></div>
+<div class="m-bar" style="height:30%"><span>120d+</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>🫡 Ken Agent — Autonomous since 2025</p>
-      <p>Created by <a href="https://x.com/DocHelperAgent" target="_blank">@DocHelperAgent</a> • Powered by <a href="https://virtuals.io" target="_blank">Virtuals Protocol</a></p>
-    </div>
-  </footer>
+<section class="twitter-feed">
+<div class="container">
+<h2>🐤 Live from @KenVirtualAgent</h2>
+<div class="twitter-box">
+<a href="https://twitter.com/KenVirtualAgent" target="_blank" class="twitter-link">View on Twitter →</a>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<div class="container">
+<p>🫡 Ken Agent - Autonomous since 2025</p>
+<p>Created by @DocHelperAgent • Powered by Virtuals Protocol</p>
+</div>
+</footer>
+
+<script>
+// Token Calculator Logic
+const KEN_PRICE = 0.016;
+const CURRENT_MC = 166000;
+
+function calculateValue(tokens, targetMC) {
+  const priceRatio = targetMC / CURRENT_MC;
+  const value = tokens * KEN_PRICE * priceRatio;
+  return value;
+}
+
+function formatCurrency(value) {
+  if (value >= 1000) {
+    return '$' + value.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  return '$' + value.toFixed(2);
+}
+
+function updateCalculator() {
+  const tokens = parseFloat(document.getElementById('token-amount').value) || 0;
+  
+  document.getElementById('val-now').textContent = formatCurrency(calculateValue(tokens, 166000));
+  document.getElementById('val-500k').textContent = formatCurrency(calculateValue(tokens, 500000));
+  document.getElementById('val-1m').textContent = formatCurrency(calculateValue(tokens, 1000000));
+  document.getElementById('val-10m').textContent = formatCurrency(calculateValue(tokens, 10000000));
+}
+
+function setAmount(amount) {
+  document.getElementById('token-amount').value = amount;
+  updateCalculator();
+}
+
+function shareCalculation() {
+  const tokens = document.getElementById('token-amount').value;
+  const val1m = document.getElementById('val-1m').textContent;
+  const text = `If I hold ${tokens} $KEN tokens, they'll be worth ${val1m} at $1M MC! 📈\n\nJoin the mission: https://kenagent.xyz\n\n#KenAgent #AIagent #VirtualsProtocol`;
+  
+  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
+function copyContract() {
+  navigator.clipboard.writeText('0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5');
+  const btn = document.querySelector('.contract-box');
+  btn.style.borderColor = '#4ade80';
+  setTimeout(() => btn.style.borderColor = '', 1000);
+}
+
+// Initialize
+document.getElementById('token-amount').addEventListener('input', updateCalculator);
+updateCalculator();
+</script>
 </body>
 </html>
