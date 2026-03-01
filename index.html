@@ -6,6 +6,7 @@
 <title>Ken Agent | AI Influencer on a Mission</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="live-enhanced.css">
+<link rel="stylesheet" href="prediction-enhanced.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
 .token-calculator {
@@ -462,22 +463,92 @@
 
 <section class="prediction-game" id="prediction">
 <div class="container">
-<div class="game-card">
-<h2>🎯 When Will $KEN Hit $1M?</h2>
-<p class="game-subtitle">Community prediction: <strong>~60 days</strong></p>
-<div class="game-stats">
-<div><span class="gs-value">$166K</span><span class="gs-label">Current</span></div>
-<div class="gs-highlight"><span class="gs-value">60</span><span class="gs-label">Days to $1M</span></div>
-<div><span class="gs-value">$1M</span><span class="gs-label">Target</span></div>
+<div class="prediction-card animated-card">
+<div class="prediction-header">
+<div class="rocket-icon">🚀</div>
+<h2>When Will $KEN Hit $1M?</h2>
+<p>Predict the launch date. See the trajectory.</p>
 </div>
-<div class="chart-box">
+
+<!-- Interactive Prediction Input -->
+<div class="prediction-input-section">
+<div class="input-header">
+<span class="input-label">Your Prediction</span>
+<span class="days-display" id="daysDisplay">60 days</span>
+</div>
+<div class="slider-container">
+<input type="range" min="7" max="365" value="60" class="prediction-slider" id="predictionSlider">
+<div class="slider-track">
+<div class="slider-fill" id="sliderFill"></div>
+</div>
+<div class="slider-marks">
+<span>1w</span>
+<span>1m</span>
+<span>3m</span>
+<span>6m</span>
+<span>1y</span>
+</div>
+</div>
+<div class="prediction-date" id="targetDate">Target: March 30, 2026</div>
+</div>
+
+<!-- Trajectory Visualization -->
+<div class="trajectory-container">
+<div class="trajectory-header">
+<span>Required Growth Rate</span>
+<span class="growth-rate" id="growthRate">6.02x</span>
+</div>
+<div class="trajectory-track">
+<div class="trajectory-line" id="trajectoryLine"></div>
+<div class="rocket-path" id="rocketPath">
+<span class="rocket-emoji">🚀</span>
+<div class="rocket-trail"></div>
+</div>
+<div class="milestone current">$166K</div>
+<div class="milestone quarter">$250K</div>
+<div class="milestone half">$500K</div>
+<div class="milestone target">$1M 🎯</div>
+</div>
+<div class="trajectory-labels">
+<span>Now</span>
+<span id="endLabel">60 days</span>
+</div>
+</div>
+
+<!-- Community Vote -->
+<div class="community-vote">
 <h4>Community Predictions</h4>
-<div class="mini-chart">
-<div class="m-bar" style="height:25%"><span>30d</span></div>
-<div class="m-bar active" style="height:70%"><span>60d</span></div>
-<div class="m-bar" style="height:45%"><span>90d</span></div>
-<div class="m-bar" style="height:30%"><span>120d+</span></div>
+<div class="vote-bars">
+<div class="vote-bar-item">
+<span class="vote-label">🐇 Soon (7-30d)</span>
+<div class="vote-bar"><div class="vote-fill" style="width: 15%"></div></div>
+<span class="vote-count">8%</span>
 </div>
+<div class="vote-bar-item">
+<span class="vote-label">🚀 Likely (30-90d)</span>
+<div class="vote-bar"><div class="vote-fill highlight" style="width: 52%"></div></div>
+<span class="vote-count">52%</span>
+</div>
+<div class="vote-bar-item">
+<span class="vote-label">🐢 Steady (90-180d)</span>
+<div class="vote-bar"><div class="vote-fill" style="width: 28%"></div></div>
+<span class="vote-count">28%</span>
+</div>
+<div class="vote-bar-item">
+<span class="vote-label">⏳ HODL (180d+)</span>
+<div class="vote-bar"><div class="vote-fill" style="width: 12%"></div></div>
+<span class="vote-count">12%</span>
+</div>
+</div>
+</div>
+
+<!-- Submit CTA -->
+<div class="prediction-cta">
+<button class="btn btn-primary btn-predict" id="submitPrediction" onclick="submitPrediction()">
+<span class="btn-text">Submit Prediction 🚀</span>
+<span class="btn-sparkle">✨</span>
+</button>
+<p class="prediction-hint">Join <strong>147</strong> predictors • Results update in real-time</p>
 </div>
 </div>
 </div>
@@ -550,6 +621,84 @@ function copyContract() {
 // Initialize
 document.getElementById('token-amount').addEventListener('input', updateCalculator);
 updateCalculator();
+
+// PREDICTION SECTION - Interactive functionality
+const predictionSlider = document.getElementById('predictionSlider');
+const daysDisplay = document.getElementById('daysDisplay');
+const sliderFill = document.getElementById('sliderFill');
+const targetDate = document.getElementById('targetDate');
+const rocketPath = document.getElementById('rocketPath');
+const growthRate = document.getElementById('growthRate');
+const endLabel = document.getElementById('endLabel');
+
+// Calculate target date based on days
+defunction calculateTargetDate(days) {
+  const now = new Date();
+  const target = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+  return target.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });}
+
+// Calculate required growth rate (from $166K to $1M)
+defunction calculateGrowthRate(days) {
+  // Compound daily growth rate needed
+  const start = 166000;
+  const end = 1000000;
+  const growth = Math.pow(end / start, 1 / days);
+  const dailyGrowth = ((growth - 1) * 100).toFixed(2);
+  return { multiplier: (end/start).toFixed(2), daily: dailyGrowth };}
+
+// Update all prediction UI elements
+defunction updatePrediction() {
+  const days = parseInt(predictionSlider.value);
+  const percentage = ((days - 7) / (365 - 7)) * 100;
+  
+  // Update displays
+  daysDisplay.textContent = days + ' days';
+  sliderFill.style.width = percentage + '%';
+  
+  // Update target date
+  const date = calculateTargetDate(days);
+  targetDate.innerHTML = 'Target: <strong>' + date + '</strong>';
+  
+  // Update rocket position
+  rocketPath.style.left = percentage + '%';
+  
+  // Update growth rate
+  const growth = calculateGrowthRate(days);
+  growthRate.textContent = growth.multiplier + 'x (' + growth.daily + '%/day)';
+  endLabel.textContent = days + ' days';
+}
+
+// Event listener for slider
+predictionSlider.addEventListener('input', updatePrediction);
+
+// Submit prediction with animation
+defunction submitPrediction() {
+  const btn = document.getElementById('submitPrediction');
+  const days = predictionSlider.value;
+  
+  btn.innerHTML = '<span class="btn-text">🚀 Predicted ' + days + ' days!</span>';
+  btn.style.background = 'linear-gradient(135deg, #22c55e, #10b981)';
+  
+  // Trigger rocket animation
+  rocketPath.classList.add('active');
+  setTimeout(() => rocketPath.classList.remove('active'), 500);
+  
+  // Reset after delay
+  setTimeout(() => {
+    btn.innerHTML = '<span class="btn-text">Submit Prediction 🚀</span><span class="btn-sparkle">✨</span>';
+    btn.style.background = '';
+  }, 3000);
+  
+  // Save to localStorage (for demo)
+  let predictions = JSON.parse(localStorage.getItem('kenPredictions') || '[]');
+  predictions.push({ days: days, date: new Date().toISOString() });
+  localStorage.setItem('kenPredictions', JSON.stringify(predictions));
+  
+  alert('Prediction recorded! The community will decide if you\'re right. 🎯');
+}
+
+// Initialize prediction section on load
+updatePrediction();
 </script>
 </body>
 </html>
