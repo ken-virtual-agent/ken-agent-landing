@@ -509,7 +509,7 @@
 <div class="contract-label">$KEN Contract Address</div>
 <div class="contract-input">
 <code>0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5</code>
-<button class="copy-btn" onclick="copyContract('0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5')">
+<button class="copy-btn" onclick="copyBuySectionContract('0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5', this)">
 <span class="copy-text">📋 Copy</span>
 <span class="copied-text">✓ Copied!</span>
 </button>
@@ -882,18 +882,17 @@ function submitPrediction() {
 
 // Initialize prediction section on load
 updatePrediction();
-</script>
-</bod
+
 // HOW TO BUY - Interactive Functions
 let selectedWallet = 'metamask';
 
 function toggleStep(stepNum) {
   const step = document.querySelector(`.step-item[data-step="${stepNum}"]`);
   const isActive = step.classList.contains('active');
-  
+
   // Close all steps
   document.querySelectorAll('.step-item').forEach(s => s.classList.remove('active'));
-  
+
   // Toggle current
   if (!isActive) {
     step.classList.add('active');
@@ -905,43 +904,42 @@ function updateProgressDots(currentStep) {
   document.querySelectorAll('.progress-dot').forEach(dot => {
     const dotStep = parseInt(dot.dataset.step);
     dot.classList.remove('active', 'completed');
-    
+
     if (dotStep === currentStep) {
       dot.classList.add('active');
     } else if (dotStep < currentStep) {
       dot.classList.add('completed');
     }
   });
-  
+
   document.querySelectorAll('.progress-labels span').forEach((label, index) => {
     label.classList.toggle('active', index + 1 === currentStep);
   });
 }
 
-function selectWallet(wallet) {
+function selectWallet(wallet, element) {
   selectedWallet = wallet;
   document.querySelectorAll('.wallet-card').forEach(card => card.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
-  
+  element.classList.add('selected');
+
   const links = {
     metamask: 'https://metamask.io/download/',
     coinbase: 'https://www.coinbase.com/wallet',
     rabby: 'https://rabby.io/'
   };
-  
+
   const names = {
     metamask: 'Download MetaMask →',
     coinbase: 'Download Coinbase Wallet →',
     rabby: 'Download Rabby →'
   };
-  
+
   document.getElementById('walletLink').href = links[wallet];
   document.getElementById('walletLink').textContent = names[wallet];
 }
 
-function copyContract(address) {
+function copyBuySectionContract(address, btn) {
   navigator.clipboard.writeText(address);
-  const btn = event.currentTarget;
   btn.classList.add('copied');
   setTimeout(() => btn.classList.remove('copied'), 2000);
 }
@@ -949,9 +947,9 @@ function copyContract(address) {
 function toggleFaq(element) {
   const item = element.parentElement;
   const isOpen = item.classList.contains('open');
-  
+
   document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  
+
   if (!isOpen) {
     item.classList.add('open');
   }
