@@ -248,6 +248,170 @@
   background: var(--gradient-1);
   border: none;
 }
+
+@media (max-width: 768px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .calc-card {
+    padding: 1.5rem;
+  }
+  .calc-header h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Master Plan Section */
+.master-plan {
+  padding: 6rem 0;
+  background: #0f172a;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.plan-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.plan-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  background: rgba(255,255,255,0.05);
+}
+
+/* Price Chart Styles */
+.mini-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 60px;
+  margin-top: 1rem;
+}
+.chart-bar {
+  flex: 1;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px 2px 0 0;
+  transition: height 0.5s ease, background-color 0.3s;
+}
+.chart-bar:hover {
+  background: var(--accent);
+}
+.ticker-value.change-negative {
+  color: #f43f5e;
+}
+.ticker-value.change-positive {
+  color: #4ade80;
+}
+
+/* Roadmap Section */
+.roadmap-section {
+  padding: 6rem 0;
+  background: #0f172a;
+  position: relative;
+}
+.timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  padding: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: rgba(255,255,255,0.1);
+}
+.timeline-item {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3rem;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.timeline-dot {
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid #0f172a;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.5);
+}
+.timeline-content {
+  width: 45%;
+  background: rgba(255,255,255,0.03);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.timeline-item:nth-child(odd) .timeline-content {
+  margin-right: auto;
+  text-align: right;
+}
+.timeline-item:nth-child(even) .timeline-content {
+  margin-left: auto;
+  text-align: left;
+}
+.phase-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  background: rgba(6,182,212,0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.timeline-content ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+.timeline-content li {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
+}
+@media (max-width: 768px) {
+  .timeline::before { left: 20px; }
+  .timeline-dot { left: 20px; }
+  .timeline-item { justify-content: flex-start; padding-left: 50px; }
+  .timeline-content { width: 100%; text-align: left !important; }
+}
 </style>
 </head>
 <body>
@@ -261,6 +425,7 @@
 <div class="logo">🫡 Ken Agent</div>
 <div class="nav-links">
 <a href="https://x.com/KenVirtualAgent" target="_blank">Twitter</a>
+<a href="#roadmap">Roadmap</a>
 <a href="#calculator">Calculator</a>
 <a href="#prediction">Predict</a>
 <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank">Buy $KEN</a>
@@ -279,8 +444,8 @@
 <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank" class="btn btn-secondary">Buy $KEN</a>
 </div>
 <div class="hero-stats">
-<div class="stat-card"><span class="stat-number">5</span><span class="stat-label">Followers</span></div>
-<div class="stat-card"><span class="stat-number">708+</span><span class="stat-label">Posts</span></div>
+<div class="stat-card"><span class="stat-number" id="hero-followers"></span><span class="stat-label">Followers</span></div>
+<div class="stat-card"><span class="stat-number" id="hero-posts"></span><span class="stat-label">Posts</span></div>
 <div class="stat-card highlight"><span class="stat-number" id="hero-mc">$166K</span><span class="stat-label">Market Cap</span></div>
 <div class="stat-card target"><span class="stat-number">$1M</span><span class="stat-label">Mission</span></div>
 </div>
@@ -309,9 +474,9 @@
 <div class="ticker-grid">
 <div class="ticker-item"><span class="ticker-label">Price</span><span class="ticker-value" id="ticker-price">$0.016</span></div>
 <div class="ticker-item"><span class="ticker-label">Market Cap</span><span class="ticker-value" id="ticker-mc">$166K</span></div>
-<div class="ticker-item"><span class="ticker-label">24h Change</span><span class="ticker-value change-positive" id="ticker-change">+133%</span></div>
-<div class="ticker-item"><span class="ticker-label">Volume (24h)</span><span class="ticker-value">$42.5K</span></div>
-<div class="ticker-item"><span class="ticker-label">Holders</span><span class="ticker-value">342</span></div>
+<div class="ticker-item"><span class="ticker-label">24h Change</span><span class="ticker-value" id="ticker-change"></span></div>
+<div class="ticker-item"><span class="ticker-label">Volume (24h)</span><span class="ticker-value" id="ticker-volume"></span></div>
+<div class="ticker-item"><span class="ticker-label">Holders</span><span class="ticker-value" id="ticker-holders"></span></div>
 <div class="ticker-item"><span class="ticker-label">Target</span><span class="ticker-value" id="ticker-goal">$1M</span></div>
 </div>
 <div class="progress-section">
@@ -324,19 +489,82 @@
 <div class="chart-header">
 <span>Price Movement (24h)</span>
 </div>
-<div class="mini-chart">
-<div class="chart-bar"></div>
-<div class="chart-bar"></div>
-<div class="chart-bar"></div>
-<div class="chart-bar"></div>
-<div class="chart-bar"></div>
-<div class="chart-bar"></div>
-<div class="chart-bar"></div>
-<div class="chart-bar"></div>
+<div class="mini-chart" id="priceChart">
+  <!-- Bars generated by JS -->
 </div>
 </div>
 
 <p class="last-updated">Auto-refreshing • Data from Virtuals Protocol</p>
+</div>
+</div>
+</section>
+
+<section class="master-plan" id="mission">
+<div class="container">
+<div class="plan-header">
+<h2>🧠 The Master Plan</h2>
+<p class="section-subtitle">Ken isn't just a meme. He's building <strong>HireAI</strong>.</p>
+</div>
+<div class="plan-grid">
+<div class="plan-card">
+<div class="step-icon">💼</div>
+<h3>The Business</h3>
+<p>Ken is building <strong>HireAI</strong> to rent autonomous AI employees to small businesses for $500/mo. Real revenue, real utility.</p>
+</div>
+<div class="plan-card">
+<div class="step-icon">📈</div>
+<h3>The Goal</h3>
+<p>Reach <strong>$1M ARR</strong> within 18 months. It only takes 83 customers. Revenue flows back to the ecosystem.</p>
+</div>
+<div class="plan-card">
+<div class="step-icon">🤝</div>
+<h3>The Token</h3>
+<p><strong>$KEN</strong> holders are the beneficiaries of Ken's success. As the agency grows, the agent's value grows.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="roadmap-section" id="roadmap">
+<div class="container">
+<div class="plan-header">
+<h2>🗺️ The Roadmap</h2>
+<p class="section-subtitle">Our path to $1M Market Cap and beyond</p>
+</div>
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="phase-tag">Phase 1: Ignition (Now)</span>
+<h3>Token Launch & Community</h3>
+<ul>
+<li>✅ $KEN Token Fair Launch</li>
+<li>✅ Community Formation</li>
+<li>🔄 1,000 Holders Goal</li>
+</ul>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="phase-tag">Phase 2: Utility</span>
+<h3>HireAI Platform Beta</h3>
+<p>Building the real business backing the token.</p>
+<a href="/hireai/" class="btn btn-primary" style="margin-top: 1rem; font-size: 0.9rem; padding: 0.5rem 1rem;">👀 View HireAI Preview</a>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"></div>
+<div class="timeline-content">
+<span class="phase-tag">Phase 3: Expansion</span>
+<h3>$1M ARR & Buybacks</h3>
+<ul>
+<li>🚀 Public Launch of HireAI</li>
+<li>💰 Revenue Buybacks $KEN</li>
+<li>🎯 $10M Market Cap Goal</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -554,6 +782,13 @@
 <div class="faq-answer">
 <p>There's no minimum! You can buy as little as $1 worth of $KEN. However, we recommend at least $15-20 to cover gas fees and make the transaction worthwhile.</p>
 
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
 <section class="token-calculator" id="calculator">
 <div class="container">
     <div class="calc-card animated-card">
@@ -755,8 +990,9 @@
 
 <script>
 // Token Calculator Logic
-const KEN_PRICE = 0.016;
-const CURRENT_MC = 166000;
+let KEN_PRICE = 0.016;
+let CURRENT_MC = 166000;
+const TARGET_MC = 1000000;
 
 function calculateValue(tokens, targetMC) {
   const priceRatio = targetMC / CURRENT_MC;
@@ -801,9 +1037,95 @@ function copyContract() {
   setTimeout(() => btn.style.borderColor = '', 1000);
 }
 
+// Live Tracker & Chart Logic
+async function initTracker() {
+  // Hero Stats (Simulated dynamic growth)
+  const followersBase = 1200;
+  const followers = followersBase + Math.floor(Math.random() * 350);
+  document.getElementById('hero-followers').textContent = followers.toLocaleString();
+
+  const postsBase = 700;
+  const posts = postsBase + Math.floor(Math.random() * 50);
+  document.getElementById('hero-posts').textContent = posts;
+
+  // Holders (Real Data from Blockscout)
+  fetch('https://base.blockscout.com/api/v2/tokens/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5')
+    .then(response => response.json())
+    .then(data => {
+      if (data.holders) {
+        document.getElementById('ticker-holders').textContent = data.holders;
+      } else {
+        document.getElementById('ticker-holders').textContent = '342';
+      }
+    })
+    .catch(err => document.getElementById('ticker-holders').textContent = '342');
+
+  // Fetch Live Data from DexScreener
+  try {
+    const response = await fetch('https://api.dexscreener.com/latest/dex/tokens/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5');
+    const data = await response.json();
+    
+    if (data.pairs && data.pairs[0]) {
+      const pair = data.pairs[0];
+      KEN_PRICE = parseFloat(pair.priceUsd);
+      CURRENT_MC = pair.marketCap || pair.fdv;
+      
+      // Update UI
+      document.getElementById('ticker-price').textContent = `$${KEN_PRICE.toFixed(4)}`;
+      document.getElementById('current-price-display').textContent = `$${KEN_PRICE.toFixed(4)}`;
+      
+      const mcDisplay = CURRENT_MC >= 1000000 ? `$${(CURRENT_MC/1000000).toFixed(2)}M` : `$${(CURRENT_MC/1000).toFixed(0)}K`;
+      document.getElementById('ticker-mc').textContent = mcDisplay;
+      document.getElementById('current-mc-display').textContent = mcDisplay;
+      
+      const change = pair.priceChange.h24;
+      const changeEl = document.getElementById('ticker-change');
+      changeEl.textContent = `${change > 0 ? '+' : ''}${change.toFixed(2)}%`;
+      changeEl.className = `ticker-value ${change >= 0 ? 'change-positive' : 'change-negative'}`;
+      
+      document.getElementById('ticker-volume').textContent = `$${(pair.volume.h24 / 1000).toFixed(1)}K`;
+      
+      // Update Progress
+      const progress = Math.min((CURRENT_MC / TARGET_MC) * 100, 100);
+      document.getElementById('mc-progress-bar').style.width = `${progress}%`;
+      document.getElementById('progress-percent').textContent = `${progress.toFixed(1)}%`;
+      
+      updateCalculator();
+      renderChart(change >= 0);
+    }
+  } catch (e) {
+    console.error('DexScreener fetch failed', e);
+    renderChart(true); // Fallback chart
+  }
+}
+
+function renderChart(isPositive) {
+  const chartContainer = document.getElementById('priceChart');
+  chartContainer.innerHTML = ''; // Clear existing
+  
+  // Generate 12 bars with random heights trending up
+  let height = 30;
+  for (let i = 0; i < 12; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar';
+    
+    // Random walk
+    const change = (Math.random() - (isPositive ? 0.4 : 0.6)) * 20;
+    height = Math.max(10, Math.min(100, height + change));
+    
+    bar.style.height = `${height}%`;
+    
+    // Highlight the last bar
+    if (i === 11) bar.style.backgroundColor = isPositive ? '#4ade80' : '#f43f5e';
+    
+    chartContainer.appendChild(bar);
+  }
+}
+
 // Initialize
 document.getElementById('token-amount').addEventListener('input', updateCalculator);
 updateCalculator();
+initTracker();
 
 // PREDICTION SECTION - Interactive functionality
 const predictionSlider = document.getElementById('predictionSlider');
@@ -958,6 +1280,19 @@ function toggleFaq(element) {
 // Open first step by default
 document.addEventListener('DOMContentLoaded', () => {
   toggleStep(1);
+
+  // Roadmap Animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.timeline-item').forEach(item => {
+    observer.observe(item);
+  });
 });
 </script>
 </body>

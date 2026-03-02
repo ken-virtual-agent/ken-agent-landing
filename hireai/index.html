@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireAI - Your First Employee is an AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a365d;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: 900;
+            font-size: 28px;
+            color: #1a365d;
+        }
+        
+        .logo span {
+            color: #ed8936;
+        }
+        
+        nav a {
+            margin-left: 32px;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: #1a365d;
+        }
+        
+        /* Hero */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.1), transparent 40%);
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: #1a365d;
+        }
+        
+        .hero h1 span {
+            color: #ed8936;
+        }
+        
+        .hero p {
+            font-size: 22px;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            color: white;
+            text-decoration: none;
+            padding: 18px 48px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(237, 137, 54, 0.3);
+        }
+        
+        .social-proof {
+            margin-top: 48px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .social-proof strong {
+            color: #1a365d;
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 48px;
+        }
+        
+        .feature-card {
+            padding: 32px;
+            border-radius: 16px;
+            background: #f8fafc;
+            transition: transform 0.3s, opacity 0.6s, transform 0.6s;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            background: white;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            color: #1a365d;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #718096;
+            margin-bottom: 60px;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+        
+        .pricing-card {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s, opacity 0.6s;
+        }
+        
+        .pricing-card.featured {
+            border-color: #ed8936;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .pricing-card.featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ed8936;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a365d;
+        }
+        
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: 900;
+            color: #1a365d;
+            margin: 16px 0;
+        }
+        
+        .pricing-card .price span {
+            font-size: 16px;
+            color: #718096;
+            font-weight: 400;
+        }
+        
+        .pricing-card p {
+            color: #4a5568;
+            margin-bottom: 24px;
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-card ul li {
+            padding: 8px 0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-card ul li::before {
+            content: "✓";
+            color: #ed8936;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        
+        /* Waitlist */
+        .waitlist {
+            padding: 100px 0;
+            text-align: center;
+            background: #0f172a;
+            color: white;
+            position: relative;
+        }
+        
+        .waitlist h2 {
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .waitlist p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        
+        .waitlist-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .waitlist-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .waitlist-form input:focus {
+            border-color: #6366f1;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        
+        .waitlist-form input::placeholder {
+            color: #64748b;
+        }
+        
+        .waitlist-form button {
+            flex: 1;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .waitlist-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(236, 72, 153, 0.5);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        /* Animation Utility */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .section-title, .waitlist h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <div class="logo">Hire<span>AI</span></div>
+        <nav>
+            <a href="/">← Back to Ken</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#waitlist">Join Waitlist</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Your First Employee<br>is an <span>AI</span></h1>
+            <p>HireAI gives small businesses pre-trained AI employees that answer calls, book appointments, and capture leads—24/7, for less than a part-time hire.</p>
+            <a href="#waitlist" class="cta-button">Get Early Access</a>
+            <p class="social-proof">Starting at <strong>$500/month</strong> • No contracts • 30-day guarantee</p>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Hire an AI?</h2>
+            <p class="section-subtitle">Reliable, instant, and infinitely scalable.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Response</h3>
+                    <p>Never miss a lead again. Your AI employee responds to inquiries in under 5 seconds, 24/7/365.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Always Learning</h3>
+                    <p>Trained on your business data. It knows your pricing, services, and schedule perfectly.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">💰</div>
+                    <h3>Cost Effective</h3>
+                    <p>A full-time employee costs $4,000/mo. HireAI starts at $500/mo with no benefits or sick days.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Choose Your First Employee</h2>
+            <p class="section-subtitle">Hire one worker now. Add more as you grow.</p>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card fade-in-up">
+                    <h3>Lead Responder</h3>
+                    <div class="price">$500<span>/mo</span></div>
+                    <p>Instantly responds to website inquiries</p>
+                    <ul>
+                        <li>24/7 chat & SMS responses</li>
+                        <li>Qualifies leads automatically</li>
+                        <li>Books appointments in your calendar</li>
+                        <li>Follows up via email</li>
+                        <li>Hands off hot leads to you</li>
+                    </ul>
+                    <a href="#waitlist" class="cta-button">Select</a>
+                </div>
+                
+                <div class="pricing-card featured fade-in-up">
+                    <h3>Content Creator</h3>
+                    <div class="price">$800<span>/mo</span></div>
+                    <p>Creates content that brings customers</p>
+                    <ul>
+                        <li>Weekly blog posts</li>
+                        <li>5 social media posts/week</li>
+                        <li>Email newsletters</li>
+                        <li>SEO-optimized writing</li>
+                        <li>Analytics & reporting</li>
+                    </ul>
+                    <a href="#waitlist" class="cta-button">Select</a>
+                </div>
+                
+                <div class="pricing-card fade-in-up">
+                    <h3>Full Team</h3>
+                    <div class="price">$2,000<span>/mo</span></div>
+                    <p>3 AI employees working together</p>
+                    <ul>
+                        <li>Lead Responder included</li>
+                        <li>Content Creator included</li>
+                        <li>Appointment Scheduler</li>
+                        <li>Priority support</li>
+                        <li>Custom integrations</li>
+                    </ul>
+                    <a href="#waitlist" class="cta-button">Select</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="waitlist" id="waitlist">
+        <div class="container">
+            <h2>Join the Waitlist</h2>
+            <p>Be among the first to hire an AI employee. Beta access launching Spring 2026.</p>
+            <form class="waitlist-form" id="waitlistForm">
+                <div class="form-row">
+                    <input type="text" name="name" placeholder="Your name" required>
+                    <input type="email" name="email" placeholder="Your email" required>
+                </div>
+                <div class="form-row">
+                    <input type="text" name="business" placeholder="Business name" required>
+                    <button type="submit">Join Waitlist</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 HireAI. Built to help small businesses grow.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Handle Waitlist Submission
+        document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = form.querySelector('button');
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Joining...';
+            btn.disabled = true;
+
+            try {
+                // Sends to the Python API defined in api/waitlist.py
+                // Note: Ensure the API is running (python api/waitlist.py)
+                const response = await fetch('http://localhost:8001/api/waitlist', {
+                    method: 'POST',
+                    body: new FormData(form)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message);
+                    form.reset();
+                } else {
+                    alert('Error: ' + (data.message || 'Could not join waitlist'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Could not connect to the server. Make sure the backend API is running!');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
