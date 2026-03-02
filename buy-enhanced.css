@@ -189,11 +189,17 @@ INTERACTIVE "HOW TO BUY" SECTION
 
 .step-arrow {
   font-size: 1rem;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
   color: #64748b;
+  display: inline-block;
 }
 
 .step-item.active .step-arrow {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+.step-item.open .step-arrow {
   transform: rotate(180deg);
 }
 
