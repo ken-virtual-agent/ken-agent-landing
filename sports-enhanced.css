@@ -1,0 +1,255 @@
+/* Sports Picks Enhanced - All Features */
+
+/* Hot Streak Banner */
+.hot-streak-banner {
+  background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(249,115,22,0.2));
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  animation: hotPulse 2s ease-in-out infinite;
+}
+
+@keyframes hotPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(239,68,68,0.1); transform: scale(1); }
+  50% { box-shadow: 0 0 30px rgba(239,68,68,0.2); transform: scale(1.01); }
+}
+
+.hot-streak-banner .flame {
+  font-size: 1.5rem;
+  animation: flameFlicker 1s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes flameFlicker {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.hot-streak-banner .streak-text {
+  color: #fca5a5;
+  font-size: 1rem;
+  margin: 0 0.5rem;
+}
+
+.hot-streak-banner .streak-text strong {
+  color: #f87171;
+}
+
+/* Filter Buttons */
+.sport-filters {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+/* Calendar */
+.sports-calendar {
+  background: rgba(0,0,0,0.2);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.sports-calendar h4 {
+  color: #e2e8f0;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.calendar-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cal-day {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem 0.25rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+}
+
+.cal-day.today {
+  background: rgba(99,102,241,0.2);
+  border: 1px solid rgba(99,102,241,0.3);
+}
+
+.cal-day.has-pick {
+  border: 1px solid rgba(6,182,212,0.3);
+}
+
+.cal-day .day-name {
+  display: block;
+  font-size: 0.625rem;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.cal-day .day-num {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0.25rem 0;
+}
+
+.cal-day .pick-count {
+  display: block;
+  font-size: 0.625rem;
+  color: var(--accent);
+}
+
+/* Parlay Card */
+.parlay-card {
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(236,72,153,0.1));
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.parlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.parlay-icon { font-size: 1.5rem; }
+.parlay-title { font-weight: 600; color: #e2e8f0; }
+.parlay-odds {
+  background: var(--primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.parlay-legs {
+  margin-bottom: 1rem;
+}
+
+.parlay-leg {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.leg-check { color: #64748b; }
+
+.parlay-confidence {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.conf-label { font-size: 0.75rem; color: #64748b; }
+.conf-bar-container {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.conf-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+.conf-value { font-size: 0.75rem; color: var(--accent); font-weight: 600; }
+
+.btn-share-parlay {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1da1f2;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.btn-share-parlay:hover { background: #0d8bd9; transform: translateY(-2px); }
+
+/* Countdown Timer */
+.game-countdown {
+  background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(99,102,241,0.2));
+  border-radius: 12px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.countdown-label {
+  display: block;
+  font-size: 0.625rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.countdown-time {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Opposition Stats */
+.opposition-stats {
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.625rem;
+  color: #64748b;
+  width: 50px;
+  text-transform: uppercase;
+}
+
+.stat-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
