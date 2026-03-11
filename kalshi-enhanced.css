@@ -1,0 +1,384 @@
+/* ============================================
+ KALSHI MARKET PICKS SECTION
+ ============================================ */
+.kalshi-picks {
+ padding: 6rem 0;
+ background: linear-gradient(135deg, rgba(99,102,241,0.03) 0%, rgba(236,72,153,0.03) 50%, rgba(6,182,212,0.03) 100%);
+ position: relative;
+ overflow: hidden;
+}
+
+.kalshi-picks::before {
+ content: '';
+ position: absolute;
+ top: -50%;
+ right: -20%;
+ width: 60%;
+ height: 100%;
+ background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+ pointer-events: none;
+}
+
+.kalshi-header {
+ text-align: center;
+ margin-bottom: 1rem;
+}
+
+.kalshi-icon {
+ font-size: 3.5rem;
+ margin-bottom: 0.5rem;
+ animation: targetPulse 2s ease-in-out infinite;
+ display: inline-block;
+}
+
+@keyframes targetPulse {
+ 0%, 100% { transform: scale(1); }
+ 50% { transform: scale(1.1); }
+}
+
+.kalshi-header h2 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 2.25rem;
+ background: linear-gradient(90deg, #6366f1, #ec4899, #06b6d4);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ margin-bottom: 0.5rem;
+}
+
+.kalshi-header p {
+ color: #64748b;
+ font-size: 1.1rem;
+}
+
+.kalshi-intro {
+ text-align: center;
+ max-width: 600px;
+ margin: 0 auto 2rem;
+ color: #94a3b8;
+ font-size: 1rem;
+}
+
+.kalshi-intro a {
+ color: #06b6d4;
+ text-decoration: none;
+ font-weight: 500;
+}
+
+.kalshi-intro a:hover {
+ text-decoration: underline;
+}
+
+.kalshi-section {
+ margin-bottom: 3rem;
+}
+
+.kalshi-section h3 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 1.25rem;
+ color: #e2e8f0;
+ margin-bottom: 1.5rem;
+ text-align: center;
+}
+
+/* Results Summary Stats */
+.results-summary {
+ display: flex;
+ justify-content: center;
+ gap: 2rem;
+ margin-bottom: 2rem;
+ flex-wrap: wrap;
+}
+
+.result-stat {
+ text-align: center;
+ padding: 1rem 1.5rem;
+ background: rgba(255,255,255,0.03);
+ border: 1px solid rgba(255,255,255,0.1);
+ border-radius: 16px;
+ min-width: 100px;
+}
+
+.result-stat.win {
+ border-color: rgba(74,222,128,0.3);
+ background: rgba(74,222,128,0.05);
+}
+
+.result-stat.loss {
+ border-color: rgba(244,63,94,0.3);
+ background: rgba(244,63,94,0.05);
+}
+
+.result-stat .stat-number {
+ display: block;
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 1.75rem;
+ font-weight: 700;
+ background: linear-gradient(90deg, #6366f1, #ec4899);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+}
+
+.result-stat.win .stat-number {
+ background: linear-gradient(90deg, #4ade80, #22c55e);
+ -webkit-background-clip: text;
+}
+
+.result-stat.loss .stat-number {
+ background: linear-gradient(90deg, #f43f5e, #ef4444);
+ -webkit-background-clip: text;
+}
+
+.result-stat .stat-label {
+ display: block;
+ font-size: 0.75rem;
+ color: #64748b;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+ margin-top: 0.25rem;
+}
+
+/* Kalshi Grid */
+.kalshi-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ gap: 1.5rem;
+}
+
+/* Kalshi Cards */
+.kalshi-card {
+ background: rgba(15,23,42,0.8);
+ border: 1px solid rgba(255,255,255,0.1);
+ border-radius: 20px;
+ padding: 1.5rem;
+ position: relative;
+ backdrop-filter: blur(10px);
+ transition: all 0.3s ease;
+}
+
+.kalshi-card:hover {
+ transform: translateY(-5px);
+ border-color: rgba(99,102,241,0.3);
+ box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.kalshi-card.active {
+ border-color: rgba(6,182,212,0.3);
+ animation: activePulse 2s infinite;
+}
+
+@keyframes activePulse {
+ 0%, 100% { box-shadow: 0 0 20px rgba(6,182,212,0.1); }
+ 50% { box-shadow: 0 0 30px rgba(6,182,212,0.2); }
+}
+
+.kalshi-card.resolved.win {
+ border-color: rgba(74,222,128,0.3);
+}
+
+.kalshi-card.resolved.loss {
+ border-color: rgba(244,63,94,0.2);
+ opacity: 0.9;
+}
+
+/* Resolved Badge */
+.kalshi-badge {
+ position: absolute;
+ top: -10px;
+ right: 15px;
+ padding: 0.25rem 0.75rem;
+ border-radius: 20px;
+ font-size: 0.75rem;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+}
+
+.kalshi-badge.win {
+ background: rgba(74,222,128,0.2);
+ color: #4ade80;
+ border: 1px solid rgba(74,222,128,0.3);
+}
+
+.kalshi-badge.loss {
+ background: rgba(244,63,94,0.2);
+ color: #f43f5e;
+ border: 1px solid rgba(244,63,94,0.3);
+}
+
+/* Market Title */
+.kalshi-market {
+ font-weight: 600;
+ color: #e2e8f0;
+ font-size: 1rem;
+ margin-bottom: 1rem;
+ line-height: 1.4;
+}
+
+/* Pick Row */
+.kalshi-pick {
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ margin-bottom: 0.75rem;
+ padding: 0.5rem;
+ background: rgba(0,0,0,0.2);
+ border-radius: 8px;
+}
+
+.pick-label {
+ font-size: 0.75rem;
+ color: #64748b;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+}
+
+.pick-value {
+ font-weight: 700;
+ padding: 0.25rem 0.5rem;
+ border-radius: 4px;
+ font-size: 0.875rem;
+}
+
+.pick-value.yes {
+ background: rgba(74,222,128,0.2);
+ color: #4ade80;
+}
+
+.pick-value.no {
+ background: rgba(244,63,94,0.2);
+ color: #f43f5e;
+}
+
+.pick-confidence {
+ margin-left: auto;
+ font-size: 0.75rem;
+ color: #64748b;
+ background: rgba(255,255,255,0.05);
+ padding: 0.25rem 0.5rem;
+ border-radius: 4px;
+}
+
+/* Odds Bar */
+.kalshi-odds {
+ margin-bottom: 1rem;
+}
+
+.odds-label {
+ display: block;
+ font-size: 0.75rem;
+ color: #64748b;
+ margin-bottom: 0.5rem;
+}
+
+.odds-bar {
+ height: 8px;
+ background: rgba(255,255,255,0.1);
+ border-radius: 4px;
+ overflow: hidden;
+ margin-bottom: 0.25rem;
+}
+
+.odds-yes {
+ height: 100%;
+ background: linear-gradient(90deg, #4ade80, #22c55e);
+ border-radius: 4px;
+}
+
+.odds-no {
+ height: 100%;
+ background: linear-gradient(90deg, #f43f5e, #ef4444);
+ border-radius: 4px;
+}
+
+.odds-text {
+ font-size: 0.75rem;
+ color: #94a3b8;
+ display: block;
+}
+
+/* Result Row */
+.kalshi-result {
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ margin-bottom: 0.75rem;
+ padding: 0.5rem;
+ background: rgba(0,0,0,0.2);
+ border-radius: 8px;
+}
+
+.result-label {
+ font-size: 0.75rem;
+ color: #64748b;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+}
+
+.result-value {
+ font-weight: 700;
+ color: #4ade80;
+}
+
+/* Meta Row */
+.kalshi-meta {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-top: 1rem;
+ padding-top: 1rem;
+ border-top: 1px solid rgba(255,255,255,0.05);
+ font-size: 0.875rem;
+}
+
+.meta-date {
+ color: #94a3b8;
+}
+
+.meta-contracts, .meta-return {
+ color: #06b6d4;
+ font-weight: 600;
+}
+
+.meta-return.negative {
+ color: #f43f5e;
+}
+
+/* CTA Section */
+.kalshi-cta {
+ text-align: center;
+ margin-top: 2rem;
+}
+
+.kalshi-cta .btn-large {
+ padding: 1.25rem 2.5rem;
+ font-size: 1.1rem;
+}
+
+.kalshi-disclaimer {
+ margin-top: 1rem;
+ font-size: 0.75rem;
+ color: #64748b;
+ max-width: 500px;
+ margin-left: auto;
+ margin-right: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+ .kalshi-header h2 {
+ font-size: 1.75rem;
+ }
+ 
+ .kalshi-grid {
+ grid-template-columns: 1fr;
+ }
+ 
+ .results-summary {
+ gap: 1rem;
+ }
+ 
+ .result-stat {
+ min-width: 80px;
+ padding: 0.75rem 1rem;
+ }
+}

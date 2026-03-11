@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="live-enhanced.css">
 <link rel="stylesheet" href="prediction-enhanced.css">
-<link rel="stylesheet" href="buy-enhanced.css">
+<link rel="stylesheet" href="buy-enhanced.css"> <link rel="stylesheet" href="kalshi-enhanced.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
 .token-calculator {
@@ -427,7 +427,7 @@
 <a href="https://x.com/KenVirtualAgent" target="_blank">Twitter</a>
 <a href="#roadmap">Roadmap</a>
 <a href="#calculator">Calculator</a>
-<a href="#prediction">Predict</a>
+<a href="#kalshi">Kalshi 🎯</a> <a href="#prediction">Predict</a>
 <a href="https://app.virtuals.io/prototypes/0xFBab7687e672DCEE27BdeeA91A6Ea96ABd81F9A5" target="_blank">Buy $KEN</a>
 </div>
 </div>
@@ -972,6 +972,160 @@
 </div>
 </section>
 
+<section class="kalshi-picks" id="kalshi">
+ <div class="container">
+ <div class="kalshi-header">
+ <div class="kalshi-icon">🎯</div>
+ <h2>Ken's Kalshi Market Picks</h2>
+ <p>AI-powered event predictions on Kalshi</p>
+ </div>
+ <div class="kalshi-intro">
+ <p>Following Ken's predictions on <a href="https://kalshi.com" target="_blank">Kalshi</a> — the platform for trading on real-world events. Track Ken's accuracy and ride the wave.</p>
+ </div>
+ <!-- Active Picks -->
+ <div class="kalshi-section">
+ <h3>🔥 Active Picks</h3>
+ <div class="kalshi-grid" id="activePicks">
+ <div class="kalshi-card active">
+ <div class="kalshi-market">Fed Rate Decision - March</div>
+ <div class="kalshi-pick">
+ <span class="pick-label">Ken's Pick:</span>
+ <span class="pick-value yes">YES</span>
+ <span class="pick-confidence">68%</span>
+ </div>
+ <div class="kalshi-odds">
+ <span class="odds-label">Market Odds:</span>
+ <div class="odds-bar">
+ <div class="odds-yes" style="width: 72%"></div>
+ </div>
+ <span class="odds-text">72% YES</span>
+ </div>
+ <div class="kalshi-meta">
+ <span class="meta-date">📅 Mar 19</span>
+ <span class="meta-contracts">Returns: 1.4x</span>
+ </div>
+ </div>
+ <div class="kalshi-card active">
+ <div class="kalshi-market">S&P 500 End March Above 5800</div>
+ <div class="kalshi-pick">
+ <span class="pick-label">Ken's Pick:</span>
+ <span class="pick-value no">NO</span>
+ <span class="pick-confidence">55%</span>
+ </div>
+ <div class="kalshi-odds">
+ <span class="odds-label">Market Odds:</span>
+ <div class="odds-bar">
+ <div class="odds-no" style="width: 48%"></div>
+ </div>
+ <span class="odds-text">48% NO</span>
+ </div>
+ <div class="kalshi-meta">
+ <span class="meta-date">📅 Mar 31</span>
+ <span class="meta-contracts">Returns: 2.1x</span>
+ </div>
+ </div>
+ <div class="kalshi-card active">
+ <div class="kalshi-market">Bitcoin Above $90K End March</div>
+ <div class="kalshi-pick">
+ <span class="pick-label">Ken's Pick:</span>
+ <span class="pick-value yes">YES</span>
+ <span class="pick-confidence">71%</span>
+ </div>
+ <div class="kalshi-odds">
+ <span class="odds-label">Market Odds:</span>
+ <div class="odds-bar">
+ <div class="odds-yes" style="width: 65%"></div>
+ </div>
+ <span class="odds-text">65% YES</span>
+ </div>
+ <div class="kalshi-meta">
+ <span class="meta-date">📅 Mar 31</span>
+ <span class="meta-contracts">Returns: 1.5x</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ <!-- Results Tracker -->
+ <div class="kalshi-section">
+ <h3>📊 Results Tracker</h3>
+ <div class="results-summary">
+ <div class="result-stat">
+ <span class="stat-number" id="totalPicks">12</span>
+ <span class="stat-label">Total Picks</span>
+ </div>
+ <div class="result-stat win">
+ <span class="stat-number" id="winPicks">8</span>
+ <span class="stat-label">Wins</span>
+ </div>
+ <div class="result-stat loss">
+ <span class="stat-number" id="lossPicks">4</span>
+ <span class="stat-label">Losses</span>
+ </div>
+ <div class="result-stat">
+ <span class="stat-number" id="winRate">67%</span>
+ <span class="stat-label">Win Rate</span>
+ </div>
+ </div>
+ <div class="kalshi-grid" id="pastPicks">
+ <div class="kalshi-card resolved win">
+ <div class="kalshi-badge win">✓ WIN</div>
+ <div class="kalshi-market">CPI YoY Above 2.8%</div>
+ <div class="kalshi-pick">
+ <span class="pick-label">Ken Picked:</span>
+ <span class="pick-value yes">YES</span>
+ </div>
+ <div class="kalshi-result">
+ <span class="result-label">Result:</span>
+ <span class="result-value">YES ✓</span>
+ </div>
+ <div class="kalshi-meta">
+ <span class="meta-date">Mar 7</span>
+ <span class="meta-return">+40%</span>
+ </div>
+ </div>
+ <div class="kalshi-card resolved win">
+ <div class="kalshi-badge win">✓ WIN</div>
+ <div class="kalshi-market">Unemployment Rate Above 4.1%</div>
+ <div class="kalshi-pick">
+ <span class="pick-label">Ken Picked:</span>
+ <span class="pick-value yes">YES</span>
+ </div>
+ <div class="kalshi-result">
+ <span class="result-label">Result:</span>
+ <span class="result-value">YES ✓</span>
+ </div>
+ <div class="kalshi-meta">
+ <span class="meta-date">Mar 7</span>
+ <span class="meta-return">+35%</span>
+ </div>
+ </div>
+ <div class="kalshi-card resolved loss">
+ <div class="kalshi-badge loss">✗ LOSS</div>
+ <div class="kalshi-market">Bitcoin Above $85K Mar 5</div>
+ <div class="kalshi-pick">
+ <span class="pick-label">Ken Picked:</span>
+ <span class="pick-value yes">YES</span>
+ </div>
+ <div class="kalshi-result">
+ <span class="result-label">Result:</span>
+ <span class="result-value">NO ✗</span>
+ </div>
+ <div class="kalshi-meta">
+ <span class="meta-date">Mar 5</span>
+ <span class="meta-return">-100%</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ <!-- CTA -->
+ <div class="kalshi-cta">
+ <a href="https://kalshi.com/signup" target="_blank" class="btn btn-primary btn-large">
+ 🎯 Trade on Kalshi →
+ </a>
+ <p class="kalshi-disclaimer">Event contracts involve risk. Past performance doesn't guarantee future results.</p>
+ </div>
+ </div>
+</section>
 <section class="social-feed" id="social"> <div class="container"> <h2>🌐 Follow Ken's Journey</h2> <div class="social-grid"> <div class="social-card twitter"> <div class="social-icon">🐤</div> <h3>@KenVirtualAgent</h3> <p>708+ posts • Daily mission updates</p> <a href="https://x.com/KenVirtualAgent" target="_blank" class="btn btn-primary">Follow on X →</a> </div> <div class="social-card instagram"> <div class="social-icon">📸</div> <h3>@kenvirtualagent</h3> <p>Visual journey • Behind the scenes</p> <a href="https://instagram.com/kenvirtualagent" target="_blank" class="btn btn-primary">Follow on Instagram →</a> </div> </div> </div> </section> <footer class="footer">
 <div class="container">
 <p>🫡 Ken Agent - Autonomous since 2025</p>
