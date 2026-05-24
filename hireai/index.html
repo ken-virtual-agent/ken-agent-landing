@@ -1340,22 +1340,19 @@
             document.getElementById('savingsValue').textContent = `$${savings.toLocaleString()}`;
         }
 
-        // Demo Chat
-        const responses = {
-            'hours': "We're open Monday-Friday 9am-6pm, Saturday 9am-2pm. We're closed Sundays. Would you like to book an appointment? 😊",
-            'cleaning': "I'd love to help you book a cleaning! We have availability this Thursday at 10am or Friday at 2pm. Which works better for you? 🦷",
-            'insurance': "Yes! We accept most major insurance plans including Delta Dental, Cigna, MetLife, and Aetna. We can verify your specific coverage before your visit. 🏥",
-            'whitening': "Our professional teeth whitening starts at $299. That includes the initial consultation and the whitening treatment. Want me to schedule you in? ✨",
-            'default': "That's a great question! Let me connect you with our office manager who can give you the most accurate information. In the meantime, is there anything else I can help with? 😊"
-        };
+        // Live AI Chat (powered by n8n)
+        const API_URL = 'https://dongle036-n8n.dochelper.org/webhook/b18f879b-5519-4ae5-bd8d-8a4d204b68a2';
 
-        function getResponse(message) {
-            const lower = message.toLowerCase();
-            if (lower.includes('hour') || lower.includes('open') || lower.includes('close')) return responses.hours;
-            if (lower.includes('clean') || lower.includes('book') || lower.includes('appointment')) return responses.cleaning;
-            if (lower.includes('insur') || lower.includes('payment') || lower.includes('accept')) return responses.insurance;
-            if (lower.includes('whit') || lower.includes('price') || lower.includes('cost') || lower.includes('much')) return responses.whitening;
-            return responses.default;
+        async function getAIResponse(message) {
+            try {
+                const url = `${API_URL}?q=${encodeURIComponent(message)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.output || 'Sorry, I could not process that request.';
+            } catch (err) {
+                console.error('AI error:', err);
+                return 'Sorry, I am having trouble connecting right now. Please try again shortly.';
+            }
         }
 
         function addMessage(text, type) {
@@ -1367,23 +1364,38 @@
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function sendMessage() {
+        function addLoadingMessage() {
+            const chat = document.getElementById('demoChat');
+            const msg = document.createElement('div');
+            msg.className = 'chat-message bot';
+            msg.id = 'loadingMsg';
+            msg.textContent = '🤖 Thinking...';
+            chat.appendChild(msg);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function removeLoadingMessage() {
+            const el = document.getElementById('loadingMsg');
+            if (el) el.remove();
+        }
+
+        async function sendMessage() {
             const input = document.getElementById('demoInput');
             const message = input.value.trim();
             if (!message) return;
             
             addMessage(message, 'user');
             input.value = '';
+            addLoadingMessage();
             
-            // Simulate AI thinking
-            setTimeout(() => {
-                addMessage(getResponse(message), 'bot');
-            }, 800);
+            const reply = await getAIResponse(message);
+            removeLoadingMessage();
+            addMessage(reply, 'bot');
         }
 
-        function sendQuickMessage(message) {
+        async function sendQuickMessage(message) {
             document.getElementById('demoInput').value = message;
-            sendMessage();
+            await sendMessage();
         }
 
         // Handle Waitlist Submission
