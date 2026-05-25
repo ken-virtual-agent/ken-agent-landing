@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HireAI - Your First Employee is an AI</title>
+    <title>HireAI - Hire Real AI Employees for Your Business</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -129,31 +129,343 @@
             margin-bottom: 60px;
         }
         
-        /* Interactive Demo */
-        .demo-section {
+        /* AI Agent Marketplace */
+        .marketplace {
             padding: 100px 0;
             background: white;
         }
         
-        .demo-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #0f172a;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
         }
         
-        .demo-header {
-            padding: 20px 24px;
-            background: #1e293b;
+        .agent-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 32px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .agent-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .agent-card.featured {
+            border-color: #ed8936;
+            background: linear-gradient(135deg, #fff7ed 0%, #fff 100%);
+        }
+        
+        .agent-card.featured::before {
+            content: "⭐ MOST POPULAR";
+            position: absolute;
+            top: 16px;
+            right: -32px;
+            background: #ed8936;
+            color: white;
+            padding: 4px 40px;
+            font-size: 11px;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+        
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .agent-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .agent-info h3 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .agent-info .role {
+            color: #6366f1;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .agent-info .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #4ade80;
+            margin-top: 4px;
+        }
+        
+        .agent-info .status::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .agent-description {
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .agent-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .skill-tag {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #4a5568;
+        }
+        
+        .agent-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a365d;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .agent-pricing {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .price {
+            font-size: 28px;
+            font-weight: 900;
+            color: #1a365d;
+        }
+        
+        .price span {
+            font-size: 14px;
+            color: #718096;
+            font-weight: 400;
+        }
+        
+        .hire-button {
+            padding: 12px 32px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .hire-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        .hire-button.hired {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+        }
+        
+        /* Hire Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+        
+        .modal h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .modal .agent-summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        
+        .modal .agent-summary .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1a365d;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #6366f1;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .submit-hire {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .submit-hire:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* My Team Dashboard */
+        .dashboard {
+            padding: 100px 0;
+            background: #f8fafc;
+            display: none;
+        }
+        
+        .dashboard.active {
+            display: block;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .dashboard-card-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            border-bottom: 1px solid #334155;
+            margin-bottom: 16px;
         }
         
-        .demo-avatar {
+        .dashboard-card-header .avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -164,39 +476,91 @@
             font-size: 20px;
         }
         
-        .demo-status {
+        .dashboard-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .dashboard-btn {
             flex: 1;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .demo-status h4 {
+        .dashboard-btn:hover {
+            border-color: #6366f1;
+            background: #f8fafc;
+        }
+        
+        .dashboard-btn.primary {
+            background: linear-gradient(135deg, #6366f1, #ec4899);
             color: white;
-            font-size: 14px;
+            border: none;
         }
         
-        .demo-status span {
-            color: #4ade80;
-            font-size: 12px;
+        /* Chat Interface */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 24px;
+            width: 400px;
+            height: 600px;
+            background: white;
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            flex-direction: column;
+        }
+        
+        .chat-modal.active {
+            display: flex;
+        }
+        
+        .chat-header {
+            padding: 20px;
+            background: #0f172a;
+            color: white;
+            border-radius: 24px 24px 0 0;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 12px;
         }
         
-        .demo-status span::before {
-            content: "";
-            width: 6px;
-            height: 6px;
-            background: #4ade80;
+        .chat-header .avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
         
-        .demo-chat {
-            height: 400px;
+        .chat-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            flex: 1;
             overflow-y: auto;
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
         
         .chat-message {
@@ -214,8 +578,8 @@
         }
         
         .chat-message.bot {
-            background: #1e293b;
-            color: white;
+            background: #f1f5f9;
+            color: #1a365d;
             align-self: flex-start;
             border-bottom-left-radius: 4px;
         }
@@ -227,396 +591,60 @@
             border-bottom-right-radius: 4px;
         }
         
-        .demo-input-container {
-            padding: 20px 24px;
-            background: #1e293b;
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
             display: flex;
             gap: 12px;
-            border-top: 1px solid #334155;
         }
         
-        .demo-input {
+        .chat-input {
             flex: 1;
-            padding: 14px 20px;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: white;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.2s;
+            font-family: 'Inter', sans-serif;
         }
         
-        .demo-input:focus {
+        .chat-input:focus {
             border-color: #6366f1;
         }
         
-        .demo-input::placeholder {
-            color: #64748b;
-        }
-        
-        .demo-send {
-            padding: 14px 24px;
-            border-radius: 12px;
+        .chat-send {
+            padding: 12px 20px;
             border: none;
+            border-radius: 12px;
             background: linear-gradient(135deg, #6366f1, #ec4899);
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
         }
         
-        .demo-send:hover {
-            transform: scale(1.05);
-        }
-        
-        .demo-quick-actions {
-            display: flex;
-            gap: 8px;
-            padding: 12px 24px;
-            background: #1e293b;
-            flex-wrap: wrap;
-            border-top: 1px solid #334155;
-        }
-        
-        .quick-action {
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #334155;
-            background: transparent;
-            color: #94a3b8;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .quick-action:hover {
-            border-color: #6366f1;
+        /* Success Message */
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: #4ade80;
             color: white;
-            background: rgba(99, 102, 241, 0.1);
-        }
-        
-        /* Industry Use Cases */
-        .industries {
-            padding: 100px 0;
-            background: #f8fafc;
-        }
-        
-        .industry-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-        
-        .industry-card {
-            background: white;
-            border-radius: 16px;
-            padding: 32px;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .industry-card:hover {
-            border-color: #ed8936;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-        }
-        
-        .industry-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .industry-card h3 {
-            font-size: 20px;
-            margin-bottom: 8px;
-            color: #1a365d;
-        }
-        
-        .industry-card p {
-            color: #4a5568;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-        
-        .industry-features {
-            list-style: none;
-            font-size: 13px;
-            color: #718096;
-        }
-        
-        .industry-features li {
-            padding: 4px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .industry-features li::before {
-            content: "→";
-            color: #ed8936;
-            font-weight: 700;
-        }
-        
-        /* Comparison Table */
-        .comparison {
-            padding: 100px 0;
-            background: white;
-        }
-        
-        .comparison-table {
-            max-width: 900px;
-            margin: 0 auto;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        
-        .comparison-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .comparison-row.header {
-            background: #1a365d;
-            color: white;
-            font-weight: 700;
-        }
-        
-        .comparison-row:not(.header) {
-            background: white;
-        }
-        
-        .comparison-row:not(.header):hover {
-            background: #f8fafc;
-        }
-        
-        .comparison-cell {
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .comparison-cell.check {
-            color: #4ade80;
-            font-size: 20px;
-        }
-        
-        .comparison-cell.x {
-            color: #ef4444;
-            font-size: 20px;
-        }
-        
-        .comparison-cell.highlight {
-            background: rgba(237, 137, 54, 0.05);
+            padding: 16px 24px;
+            border-radius: 12px;
             font-weight: 600;
-            color: #ed8936;
+            box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
         }
         
-        /* ROI Calculator */
-        .roi-calculator {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
-            color: white;
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
-        .roi-calculator .section-title,
-        .roi-calculator .section-subtitle {
-            color: white;
-        }
-        
-        .roi-calculator .section-subtitle {
-            color: #94a3b8;
-        }
-        
-        .roi-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.05);
-            border-radius: 24px;
-            padding: 48px;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .roi-input-group {
-            margin-bottom: 32px;
-        }
-        
-        .roi-input-group label {
+        .success-message.active {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-        
-        .roi-slider {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: #334155;
-            outline: none;
-            -webkit-appearance: none;
-        }
-        
-        .roi-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            cursor: pointer;
-        }
-        
-        .roi-value {
-            text-align: right;
-            color: #ed8936;
-            font-weight: 700;
-            margin-top: 8px;
-        }
-        
-        .roi-result {
-            background: rgba(74, 222, 128, 0.1);
-            border: 1px solid rgba(74, 222, 128, 0.3);
-            border-radius: 16px;
-            padding: 32px;
-            text-align: center;
-            margin-top: 32px;
-        }
-        
-        .roi-result h3 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-        
-        .roi-result .savings {
-            font-size: 48px;
-            font-weight: 900;
-            color: #4ade80;
-            margin-bottom: 8px;
-        }
-        
-        .roi-result p {
-            color: #94a3b8;
-            font-size: 14px;
-        }
-        
-        /* AI Team */
-        .ai-team {
-            padding: 100px 0;
-            background: #f8fafc;
-        }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 32px;
-        }
-        
-        .team-card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px 32px;
-            text-align: center;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s;
-        }
-        
-        .team-card:hover {
-            border-color: #6366f1;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-        }
-        
-        .team-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-        }
-        
-        .team-card h3 {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        
-        .team-card .role {
-            color: #6366f1;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        
-        .team-card p {
-            color: #4a5568;
-            font-size: 14px;
-        }
-        
-        /* FAQ */
-        .faq {
-            padding: 100px 0;
-            background: white;
-        }
-        
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .faq-item {
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .faq-question {
-            width: 100%;
-            padding: 24px 0;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a365d;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        .faq-question::after {
-            content: "+";
-            font-size: 24px;
-            color: #ed8936;
-            transition: transform 0.3s;
-        }
-        
-        .faq-item.active .faq-question::after {
-            transform: rotate(45deg);
-        }
-        
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-        }
-        
-        .faq-answer p {
-            padding-bottom: 24px;
-            color: #4a5568;
-            line-height: 1.6;
         }
         
         /* Features */
@@ -636,8 +664,12 @@
             padding: 32px;
             border-radius: 16px;
             background: #f8fafc;
-            transition: transform 0.3s, opacity 0.6s;
+            transition: transform 0.3s;
             border: 1px solid #e2e8f0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
         }
         
         .feature-icon {
@@ -672,7 +704,7 @@
             border-radius: 16px;
             padding: 40px 32px;
             text-align: center;
-            transition: transform 0.2s, border-color 0.2s, opacity 0.6s;
+            transition: transform 0.2s, border-color 0.2s;
         }
         
         .pricing-card.featured {
@@ -741,123 +773,12 @@
             margin-right: 12px;
         }
         
-        /* Waitlist */
-        .waitlist {
-            padding: 100px 0;
-            text-align: center;
-            background: #0f172a;
-            color: white;
-            position: relative;
-        }
-        
-        .waitlist h2 {
-            font-size: 40px;
-            font-weight: 900;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .waitlist p {
-            font-size: 18px;
-            color: #94a3b8;
-            margin-bottom: 40px;
-        }
-        
-        .waitlist-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .waitlist-form input {
-            flex: 1;
-            padding: 16px 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            outline: none;
-        }
-        
-        .waitlist-form input:focus {
-            border-color: #6366f1;
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
-        
-        .waitlist-form input::placeholder {
-            color: #64748b;
-        }
-        
-        .waitlist-form button {
-            flex: 1;
-            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .waitlist-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -10px rgba(236, 72, 153, 0.5);
-        }
-        
         /* Footer */
         footer {
             padding: 40px 0;
             text-align: center;
             color: #718096;
             font-size: 14px;
-        }
-        
-        /* Animation Utility */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Try Badge */
-        .try-badge {
-            margin-top: 16px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            color: white;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-block;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .try-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
         }
         
         /* Smooth Scroll */
@@ -875,29 +796,18 @@
                 font-size: 18px;
             }
             
-            .form-row {
-                flex-direction: column;
-            }
-            
-            .section-title, .waitlist h2 {
+            .section-title {
                 font-size: 32px;
             }
             
-            .comparison-row {
-                grid-template-columns: 1.5fr 1fr 1fr;
+            .marketplace-grid {
+                grid-template-columns: 1fr;
             }
             
-            .comparison-cell {
-                padding: 12px 16px;
-                font-size: 14px;
-            }
-            
-            .roi-container {
-                padding: 32px 24px;
-            }
-            
-            .roi-result .savings {
-                font-size: 36px;
+            .chat-modal {
+                width: 100%;
+                right: 0;
+                border-radius: 0;
             }
         }
     </style>
@@ -907,287 +817,326 @@
         <div class="logo">Hire<span>AI</span></div>
         <nav>
             <a href="/">← Back to Ken</a>
-            <a href="#demo">Try Demo</a>
+            <a href="#marketplace">Browse Agents</a>
             <a href="#pricing">Pricing</a>
-            <a href="#waitlist">Join Waitlist</a>
+            <a href="#features">Features</a>
         </nav>
     </header>
 
     <!-- HERO -->
     <section class="hero">
         <div class="container">
-            <h1>Your First Employee<br>is an <span>AI</span></h1>
-            <p>HireAI gives small businesses pre-trained AI employees that answer calls, book appointments, and capture leads—24/7, for less than a part-time hire.</p>
-            <a href="#demo" class="cta-button">Try It Live</a>
-            <p class="social-proof">Starting at <strong>$500/month</strong> • No contracts • 30-day guarantee</p>
+            <h1>Hire Real <span>AI Employees</span><br>for Your Business</h1>
+            <p>Browse our marketplace of pre-trained AI agents. Hire them in minutes, not months. They start working immediately.</p>
+            <a href="#marketplace" class="cta-button">Browse AI Agents</a>
+            <p class="social-proof">Starting at <strong>$49/month per agent</strong> • No contracts • Cancel anytime</p>
         </div>
     </section>
 
-    <!-- INTERACTIVE DEMO -->
-    <section class="demo-section" id="demo">
+    <!-- AI AGENT MARKETPLACE -->
+    <section class="marketplace" id="marketplace">
         <div class="container">
-            <h2 class="section-title">Try Your AI Employee Now</h2>
-            <p class="section-subtitle">Meet Luna, an AI receptionist for "Sunrise Dental". Ask her anything.</p>
+            <h2 class="section-title">Available AI Agents</h2>
+            <p class="section-subtitle">Click 'Hire' to add an AI employee to your team. They start working immediately.</p>
             
-            <div class="demo-container">
-                <div class="demo-header">
-                    <div class="demo-avatar">🌙</div>
-                    <div class="demo-status">
-                        <h4>Luna — Sunrise Dental AI</h4>
-                        <span>Online • Ready to help</span>
+            <div class="marketplace-grid">
+                <!-- Luna - Receptionist -->
+                <div class="agent-card featured">
+                    <div class="agent-header">
+                        <div class="agent-avatar">🌙</div>
+                        <div class="agent-info">
+                            <h3>Luna</h3>
+                            <div class="role">AI Receptionist</div>
+                            <div class="status">Available for hire</div>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        Luna handles your front desk 24/7. She answers calls, books appointments, responds to inquiries, and never takes a sick day.
+                    </p>
+                    <div class="agent-skills">
+                        <span class="skill-tag">📞 Call answering</span>
+                        <span class="skill-tag">📅 Scheduling</span>
+                        <span class="skill-tag">💬 Customer support</span>
+                        <span class="skill-tag">📝 Note taking</span>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Availability</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">15+</div>
+                            <div class="stat-label">Languages</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">&lt;2s</div>
+                            <div class="stat-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="agent-pricing">
+                        <div class="price">$49<span>/month</span></div>
+                        <button class="hire-button" onclick="openHireModal('Luna', 'AI Receptionist', '🌙', '$49/month')">Hire Luna</button>
                     </div>
                 </div>
-                
-                <div class="demo-chat" id="demoChat">
-                    <div class="chat-message bot">
-                        Hi there! 👋 I'm Luna, the AI receptionist for Sunrise Dental. How can I help you today?
+
+                <!-- Atlas - Content Creator -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-avatar">🏔️</div>
+                        <div class="agent-info">
+                            <h3>Atlas</h3>
+                            <div class="role">AI Content Creator</div>
+                            <div class="status">Available for hire</div>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        Atlas creates engaging content for your social media, blog, email campaigns, and website. Always on brand, always fresh.
+                    </p>
+                    <div class="agent-skills">
+                        <span class="skill-tag">✍️ Copywriting</span>
+                        <span class="skill-tag">📱 Social media</span>
+                        <span class="skill-tag">📧 Email campaigns</span>
+                        <span class="skill-tag">🎨 SEO</span>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Posts/week</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">10+</div>
+                            <div class="stat-label">Styles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Original</div>
+                        </div>
+                    </div>
+                    <div class="agent-pricing">
+                        <div class="price">$79<span>/month</span></div>
+                        <button class="hire-button" onclick="openHireModal('Atlas', 'AI Content Creator', '🏔️', '$79/month')">Hire Atlas</button>
                     </div>
                 </div>
-                
-                <div class="demo-quick-actions">
-                    <button class="quick-action" onclick="sendQuickMessage('What are your hours?')">🕐 What are your hours?</button>
-                    <button class="quick-action" onclick="sendQuickMessage('I need a cleaning')">🦷 Book a cleaning</button>
-                    <button class="quick-action" onclick="sendQuickMessage('Do you take insurance?')">🏥 Insurance?</button>
-                    <button class="quick-action" onclick="sendQuickMessage('How much is a whitening?')">💰 Pricing?</button>
+
+                <!-- Cleo - Scheduler -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-avatar">📅</div>
+                        <div class="agent-info">
+                            <h3>Cleo</h3>
+                            <div class="role">AI Scheduler</div>
+                            <div class="status">Available for hire</div>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        Cleo manages your calendar, schedules meetings, sends reminders, and coordinates with your team automatically.
+                    </p>
+                    <div class="agent-skills">
+                        <span class="skill-tag">📅 Calendar mgmt</span>
+                        <span class="skill-tag">⏰ Reminders</span>
+                        <span class="skill-tag">👥 Coordination</span>
+                        <span class="skill-tag">🔄 Sync</span>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <div class="stat-value">∞</div>
+                            <div class="stat-label">Meetings</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Conflicts</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                    <div class="agent-pricing">
+                        <div class="price">$39<span>/month</span></div>
+                        <button class="hire-button" onclick="openHireModal('Cleo', 'AI Scheduler', '📅', '$39/month')">Hire Cleo</button>
+                    </div>
                 </div>
-                
-                <div class="demo-input-container">
-                    <input type="text" class="demo-input" id="demoInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter')sendMessage()">
-                    <button class="demo-send" onclick="sendMessage()">Send</button>
+
+                <!-- Max - Analytics -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-avatar">📊</div>
+                        <div class="agent-info">
+                            <h3>Max</h3>
+                            <div class="role">AI Analytics</div>
+                            <div class="status">Available for hire</div>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        Max analyzes your business data, generates reports, identifies trends, and provides actionable insights daily.
+                    </p>
+                    <div class="agent-skills">
+                        <span class="skill-tag">📈 Data analysis</span>
+                        <span class="skill-tag">📊 Reporting</span>
+                        <span class="skill-tag">🔍 Insights</span>
+                        <span class="skill-tag">📉 Forecasting</span>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <div class="stat-value">Daily</div>
+                            <div class="stat-label">Reports</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Metrics</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Real-time</div>
+                            <div class="stat-label">Updates</div>
+                        </div>
+                    </div>
+                    <div class="agent-pricing">
+                        <div class="price">$99<span>/month</span></div>
+                        <button class="hire-button" onclick="openHireModal('Max', 'AI Analytics', '📊', '$99/month')">Hire Max</button>
+                    </div>
+                </div>
+
+                <!-- Zara - Sales -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-avatar">💰</div>
+                        <div class="agent-info">
+                            <h3>Zara</h3>
+                            <div class="role">AI Sales Rep</div>
+                            <div class="status">Available for hire</div>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        Zara qualifies leads, follows up with prospects, handles objections, and closes deals while you sleep.
+                    </p>
+                    <div class="agent-skills">
+                        <span class="skill-tag">🎯 Lead qualifying</span>
+                        <span class="skill-tag">📞 Follow-ups</span>
+                        <span class="skill-tag">💬 Objection handling</span>
+                        <span class="skill-tag">📝 CRM</span>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <div class="stat-value">100+</div>
+                            <div class="stat-label">Leads/day</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Prospecting</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">3x</div>
+                            <div class="stat-label">Faster</div>
+                        </div>
+                    </div>
+                    <div class="agent-pricing">
+                        <div class="price">$129<span>/month</span></div>
+                        <button class="hire-button" onclick="openHireModal('Zara', 'AI Sales Rep', '💰', '$129/month')">Hire Zara</button>
+                    </div>
+                </div>
+
+                <!-- Oliver - Support -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-avatar">🎧</div>
+                        <div class="agent-info">
+                            <h3>Oliver</h3>
+                            <div class="role">AI Customer Support</div>
+                            <div class="status">Available for hire</div>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        Oliver handles customer support tickets, answers FAQs, resolves issues, and escalates complex cases to your team.
+                    </p>
+                    <div class="agent-skills">
+                        <span class="skill-tag">🎫 Ticket handling</span>
+                        <span class="skill-tag">❓ FAQ responses</span>
+                        <span class="skill-tag">🔧 Troubleshooting</span>
+                        <span class="skill-tag">⬆️ Escalation</span>
+                    </div>
+                    <div class="agent-stats">
+                        <div class="stat">
+                            <div class="stat-value">500+</div>
+                            <div class="stat-label">Tickets/day</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">95%</div>
+                            <div class="stat-label">Resolution</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">&lt;30s</div>
+                            <div class="stat-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="agent-pricing">
+                        <div class="price">$69<span>/month</span></div>
+                        <button class="hire-button" onclick="openHireModal('Oliver', 'AI Customer Support', '🎧', '$69/month')">Hire Oliver</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- INDUSTRY USE CASES -->
-    <section class="industries">
+    <!-- MY TEAM DASHBOARD -->
+    <section class="dashboard" id="dashboard">
         <div class="container">
-            <h2 class="section-title">Built for Your Industry</h2>
-            <p class="section-subtitle">Pre-trained AI employees that understand your business.</p>
+            <h2 class="section-title">My AI Team</h2>
+            <p class="section-subtitle">Manage your hired AI agents. Click 'Chat' to interact with them directly.</p>
             
-            <div class="industry-grid">
-                <div class="industry-card fade-in-up" onclick="switchIndustry('Dental Clinics','Sunrise Dental','🦷')">
-                    <div class="industry-icon">🦷</div>
-                    <h3>Dental Clinics</h3>
-                    <p>AI receptionist that books appointments, confirms visits, and handles insurance questions.</p>
-                    <ul class="industry-features">
-                        <li>24/7 appointment scheduling</li>
-                        <li>Insurance verification</li>
-                        <li>Automated reminders</li>
-                    </ul>
-                    <div class="try-badge">▶ Try Demo</div>
-                </div>
-                
-                <div class="industry-card fade-in-up" onclick="switchIndustry('Restaurants','La Bella Cucina','🍽️')">
-                    <div class="industry-icon">🍽️</div>
-                    <h3>Restaurants</h3>
-                    <p>AI host that takes reservations, answers menu questions, and manages waitlists.</p>
-                    <ul class="industry-features">
-                        <li>Table reservations</li>
-                        <li>Menu & allergy info</li>
-                        <li>Catering inquiries</li>
-                    </ul>
-                    <div class="try-badge">▶ Try Demo</div>
-                </div>
-                
-                <div class="industry-card fade-in-up" onclick="switchIndustry('Real Estate','Premier Properties','🏠')">
-                    <div class="industry-icon">🏠</div>
-                    <h3>Real Estate</h3>
-                    <p>AI agent that qualifies leads, schedules showings, and sends property details.</p>
-                    <ul class="industry-features">
-                        <li>Lead qualification</li>
-                        <li>Showing scheduling</li>
-                        <li>Property matching</li>
-                    </ul>
-                    <div class="try-badge">▶ Try Demo</div>
-                </div>
-                
-                <div class="industry-card fade-in-up" onclick="switchIndustry('Gyms & Fitness','IronFit Gym','💪')">
-                    <div class="industry-icon">💪</div>
-                    <h3>Gyms & Fitness</h3>
-                    <p>AI front desk that handles memberships, class bookings, and trainer inquiries.</p>
-                    <ul class="industry-features">
-                        <li>Membership sign-ups</li>
-                        <li>Class scheduling</li>
-                        <li>Personal trainer matching</li>
-                    </ul>
-                    <div class="try-badge">▶ Try Demo</div>
-                </div>
-                
-                <div class="industry-card fade-in-up" onclick="switchIndustry('Salons & Spas','Glow Spa & Salon','💇')">
-                    <div class="industry-icon">💇</div>
-                    <h3>Salons & Spas</h3>
-                    <p>AI scheduler that books appointments, confirms services, and handles cancellations.</p>
-                    <ul class="industry-features">
-                        <li>Service menu & pricing</li>
-                        <li>Stylist matching</li>
-                        <li>Cancellation management</li>
-                    </ul>
-                    <div class="try-badge">▶ Try Demo</div>
-                </div>
-                
-                <div class="industry-card fade-in-up" onclick="switchIndustry('Contractors','BuildRight Contractors','🔧')">
-                    <div class="industry-icon">🔧</div>
-                    <h3>Contractors</h3>
-                    <p>AI estimator that captures leads, sends quotes, and schedules consultations.</p>
-                    <ul class="industry-features">
-                        <li>Instant estimates</li>
-                        <li>Photo-based quotes</li>
-                        <li>Follow-up automation</li>
-                    </ul>
-                    <div class="try-badge">▶ Try Demo</div>
-                </div>
+            <div class="dashboard-grid" id="dashboardGrid">
+                <!-- Hired agents will appear here -->
+            </div>
+            
+            <div id="emptyDashboard" style="text-align: center; padding: 60px 0;">
+                <div style="font-size: 64px; margin-bottom: 16px;">🤖</div>
+                <h3 style="margin-bottom: 8px;">Your team is empty</h3>
+                <p style="color: #718096; margin-bottom: 24px;">Browse our marketplace and hire your first AI agent!</p>
+                <a href="#marketplace" class="cta-button">Browse Agents</a>
             </div>
         </div>
     </section>
 
-    <!-- WHY HIRE AI -->
-    <section class="features">
+    <!-- FEATURES -->
+    <section class="features" id="features">
         <div class="container">
-            <h2 class="section-title">Why Hire an AI?</h2>
-            <p class="section-subtitle">Reliable, instant, and infinitely scalable.</p>
+            <h2 class="section-title">Why HireAI?</h2>
+            <p class="section-subtitle">Real AI employees that deliver real results.</p>
             
             <div class="features-grid">
-                <div class="feature-card fade-in-up">
+                <div class="feature-card">
                     <div class="feature-icon">⚡</div>
-                    <h3>Instant Response</h3>
-                    <p>Never miss a lead again. Your AI employee responds to inquiries in under 5 seconds, 24/7/365.</p>
+                    <h3>Instant Hire</h3>
+                    <p>No interviews, no onboarding, no waiting. Hire an AI agent and they start working in minutes.</p>
                 </div>
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">🧠</div>
-                    <h3>Always Learning</h3>
-                    <p>Trained on your business data. It knows your pricing, services, and schedule perfectly.</p>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>24/7 Availability</h3>
+                    <p>Your AI employees never sleep, never take breaks, and never call in sick. Always ready to work.</p>
                 </div>
-                <div class="feature-card fade-in-up">
+                
+                <div class="feature-card">
                     <div class="feature-icon">💰</div>
-                    <h3>Cost Effective</h3>
-                    <p>A full-time employee costs $4,000/mo. HireAI starts at $500/mo with no benefits or sick days.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI vs HUMAN COMPARISON -->
-    <section class="comparison">
-        <div class="container">
-            <h2 class="section-title">AI Employee vs. Human Employee</h2>
-            <p class="section-subtitle">The numbers speak for themselves.</p>
-            
-            <div class="comparison-table">
-                <div class="comparison-row header">
-                    <div class="comparison-cell">Feature</div>
-                    <div class="comparison-cell">HireAI</div>
-                    <div class="comparison-cell">Human Hire</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">Monthly cost</div>
-                    <div class="comparison-cell highlight">$500</div>
-                    <div class="comparison-cell">$3,500+</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">Available 24/7</div>
-                    <div class="comparison-cell check">✓</div>
-                    <div class="comparison-cell x">✗</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">Response time</div>
-                    <div class="comparison-cell highlight">Under 5 sec</div>
-                    <div class="comparison-cell">30+ sec</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">Handles multiple chats</div>
-                    <div class="comparison-cell check">✓</div>
-                    <div class="comparison-cell x">✗</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">No sick days / PTO</div>
-                    <div class="comparison-cell check">✓</div>
-                    <div class="comparison-cell x">✗</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">Benefits & taxes</div>
-                    <div class="comparison-cell highlight">$0</div>
-                    <div class="comparison-cell">$1,000+/mo</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">Training time</div>
-                    <div class="comparison-cell highlight">1 hour</div>
-                    <div class="comparison-cell">2+ weeks</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-cell">Consistent quality</div>
-                    <div class="comparison-cell check">✓</div>
-                    <div class="comparison-cell">Varies</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ROI CALCULATOR -->
-    <section class="roi-calculator">
-        <div class="container">
-            <h2 class="section-title">Calculate Your Savings</h2>
-            <p class="section-subtitle">See how much HireAI can save your business.</p>
-            
-            <div class="roi-container">
-                <div class="roi-input-group">
-                    <label>Current employee salary (monthly)</label>
-                    <input type="range" class="roi-slider" id="salarySlider" min="2000" max="8000" value="3500" step="100" oninput="updateROI()">
-                    <div class="roi-value" id="salaryValue">$3,500</div>
+                    <h3>Save 80%+</h3>
+                    <p>AI agents cost a fraction of human employees. Save thousands per month while getting better results.</p>
                 </div>
                 
-                <div class="roi-input-group">
-                    <label>Number of front-desk employees</label>
-                    <input type="range" class="roi-slider" id="employeeSlider" min="1" max="5" value="2" step="1" oninput="updateROI()">
-                    <div class="roi-value" id="employeeValue">2</div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Customizable</h3>
+                    <p>Train your AI agents on your business. They learn your brand voice, policies, and procedures.</p>
                 </div>
                 
-                <div class="roi-result">
-                    <h3>Your Annual Savings with HireAI</h3>
-                    <div class="savings" id="savingsValue">$66,000</div>
-                    <p>That's enough to hire an AI content creator AND a lead responder</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- MEET YOUR AI TEAM -->
-    <section class="ai-team">
-        <div class="container">
-            <h2 class="section-title">Meet Your AI Team</h2>
-            <p class="section-subtitle">Each AI employee has a unique personality and specialty.</p>
-            
-            <div class="team-grid">
-                <div class="team-card fade-in-up" onclick="switchPersona('Luna','AI Receptionist','🌙','linear-gradient(135deg, #6366f1, #8b5cf6)')">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🌙</div>
-                    <h3>Luna</h3>
-                    <div class="role">AI Receptionist</div>
-                    <p>Warm, professional, and always ready. Luna answers calls, books appointments, and never misses a lead.</p>
-                    <div class="try-badge">▶ Try Luna</div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Scalable</h3>
+                    <p>Hire 1 AI or 100. Scale your team up or down instantly based on your needs.</p>
                 </div>
                 
-                <div class="team-card fade-in-up" onclick="switchPersona('Atlas','AI Content Creator','✍️','linear-gradient(135deg, #ec4899, #f43f5e)')">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">✍️</div>
-                    <h3>Atlas</h3>
-                    <div class="role">AI Content Creator</div>
-                    <p>Creative and strategic. Atlas writes blog posts, manages social media, and drives organic traffic.</p>
-                    <div class="try-badge">▶ Try Atlas</div>
-                </div>
-                
-                <div class="team-card fade-in-up" onclick="switchPersona('Cleo','AI Scheduler','📅','linear-gradient(135deg, #14b8a6, #0ea5e9)')">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #14b8a6, #0ea5e9);">📅</div>
-                    <h3>Cleo</h3>
-                    <div class="role">AI Scheduler</div>
-                    <p>Organized and detail-oriented. Cleo manages your calendar, sends reminders, and optimizes your schedule.</p>
-                    <div class="try-badge">▶ Try Cleo</div>
-                </div>
-                
-                <div class="team-card fade-in-up" onclick="switchPersona('Max','AI Analytics Dashboard','📊','linear-gradient(135deg, #f59e0b, #ef4444)')">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">📊</div>
-                    <h3>Max</h3>
-                    <div class="role">AI Analytics Dashboard</div>
-                    <p>Data-driven and insightful. Max tracks leads, conversions, and ROI so you always know what's working.</p>
-                    <div class="try-badge">▶ Try Max</div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure</h3>
+                    <p>Enterprise-grade security. Your data is encrypted and never shared with third parties.</p>
                 </div>
             </div>
         </div>
@@ -1196,337 +1145,341 @@
     <!-- PRICING -->
     <section class="pricing" id="pricing">
         <div class="container">
-            <h2 class="section-title">Choose Your First Employee</h2>
-            <p class="section-subtitle">Hire one worker now. Add more as you grow.</p>
+            <h2 class="section-title">Simple Pricing</h2>
+            <p class="section-subtitle">No hidden fees. No contracts. Cancel anytime.</p>
             
             <div class="pricing-cards">
-                <div class="pricing-card fade-in-up">
-                    <h3>Lead Responder</h3>
-                    <div class="price">$500<span>/mo</span></div>
-                    <p>Instantly responds to website inquiries</p>
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$49<span>/month</span></div>
+                    <p>Perfect for solopreneurs</p>
                     <ul>
-                        <li>24/7 chat & SMS responses</li>
-                        <li>Qualifies leads automatically</li>
-                        <li>Books appointments in your calendar</li>
-                        <li>Follows up via email</li>
-                        <li>Hands off hot leads to you</li>
+                        <li>1 AI Agent</li>
+                        <li>1,000 interactions/month</li>
+                        <li>Email support</li>
+                        <li>Basic analytics</li>
                     </ul>
-                    <button class="cta-button" onclick="selectPlan('Lead Responder','$500/mo')">Select</button>
                 </div>
                 
-                <div class="pricing-card featured fade-in-up">
-                    <h3>Content Creator</h3>
-                    <div class="price">$800<span>/mo</span></div>
-                    <p>Creates content that brings customers</p>
+                <div class="pricing-card featured">
+                    <h3>Pro</h3>
+                    <div class="price">$149<span>/month</span></div>
+                    <p>Best for small teams</p>
                     <ul>
-                        <li>Weekly blog posts</li>
-                        <li>5 social media posts/week</li>
-                        <li>Email newsletters</li>
-                        <li>SEO-optimized writing</li>
-                        <li>Analytics & reporting</li>
-                    </ul>
-                    <button class="cta-button" onclick="selectPlan('Content Creator','$800/mo')">Select</button>
-                </div>
-                
-                <div class="pricing-card fade-in-up">
-                    <h3>Full Team</h3>
-                    <div class="price">$2,000<span>/mo</span></div>
-                    <p>3 AI employees working together</p>
-                    <ul>
-                        <li>Lead Responder included</li>
-                        <li>Content Creator included</li>
-                        <li>Appointment Scheduler</li>
+                        <li>3 AI Agents</li>
+                        <li>5,000 interactions/month</li>
                         <li>Priority support</li>
-                        <li>Custom integrations</li>
+                        <li>Advanced analytics</li>
+                        <li>Custom training</li>
                     </ul>
-                    <button class="cta-button" onclick="selectPlan('Full Team','$2,000/mo')">Select</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$499<span>/month</span></div>
+                    <p>For growing businesses</p>
+                    <ul>
+                        <li>Unlimited AI Agents</li>
+                        <li>Unlimited interactions</li>
+                        <li>24/7 dedicated support</li>
+                        <li>Full analytics suite</li>
+                        <li>Custom integrations</li>
+                        <li>API access</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="faq">
-        <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="section-subtitle">Everything you need to know about hiring AI.</p>
-            
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question">Will my AI employee sound robotic?</button>
-                    <div class="faq-answer">
-                        <p>Not at all. Our AI employees are trained on natural conversation patterns and can be customized to match your brand's tone. Most customers can't tell they're talking to an AI.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">What if the AI gives wrong information?</button>
-                    <div class="faq-answer">
-                        <p>Your AI employee is trained exclusively on your business data—your website, pricing, services, and policies. It won't guess; if it doesn't know, it will escalate to you.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">How long does setup take?</button>
-                    <div class="faq-answer">
-                        <p>Most businesses are live within 24 hours. We import your website data, configure your AI's personality, and test everything before going live.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">Can I customize my AI employee?</button>
-                    <div class="faq-answer">
-                        <p>Absolutely. You can customize the name, personality, tone, knowledge base, and even the voice. Your AI employee should feel like part of your team.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">What happens when the AI can't handle a request?</button>
-                    <div class="faq-answer">
-                        <p>Your AI employee knows its limits. When it encounters something complex, it seamlessly escalates to you with full context so you can step in.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">Is my customer data secure?</button>
-                    <div class="faq-answer">
-                        <p>Yes. All conversations are encrypted end-to-end. We're SOC 2 compliant and never share your data with third parties. Your customers' privacy is our priority.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <button class="faq-question">Can I cancel anytime?</button>
-                    <div class="faq-answer">
-                        <p>Yes. No contracts, no cancellation fees. We offer a 30-day money-back guarantee because we're confident you'll see the value immediately.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- WAITLIST -->
-    <section class="waitlist" id="waitlist">
-        <div class="container">
-            <h2>Join the Waitlist</h2>
-            <p>Be among the first to hire an AI employee. Beta access launching Summer 2026.</p>
-            <form class="waitlist-form" id="waitlistForm">
-                <div class="form-row">
-                    <input type="text" name="name" placeholder="Your name" required>
-                    <input type="email" name="email" placeholder="Your email" required>
-                </div>
-                <div class="form-row">
-                    <input type="text" name="business" placeholder="Business name" required>
-                    <button type="submit">Join Waitlist</button>
-                </div>
-            </form>
-        </div>
-    </section>
-
+    <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p>© 2026 HireAI. Built to help small businesses grow.</p>
+            <p>© 2026 HireAI by Ken Agent • Made with 🤖 and ❤️</p>
         </div>
     </footer>
 
+    <!-- HIRE MODAL -->
+    <div class="modal-overlay" id="hireModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeHireModal()">×</button>
+            <h2>Hire an AI Agent</h2>
+            <p style="color: #718096; margin-bottom: 24px;">Fill out the form below to hire your new AI employee.</p>
+            
+            <div class="agent-summary" id="modalAgentSummary">
+                <div class="avatar" id="modalAvatar">🤖</div>
+                <div>
+                    <div id="modalAgentName" style="font-weight: 700;">Agent Name</div>
+                    <div id="modalAgentRole" style="color: #6366f1; font-size: 14px;">Role</div>
+                    <div id="modalAgentPrice" style="color: #718096; font-size: 13px;">$0/month</div>
+                </div>
+            </div>
+            
+            <form id="hireForm" onsubmit="submitHire(event)">
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" id="userName" required placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="userEmail" required placeholder="john@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Business Name *</label>
+                    <input type="text" id="businessName" required placeholder="Your Business LLC">
+                </div>
+                
+                <div class="form-group">
+                    <label>Industry</label>
+                    <select id="industry">
+                        <option value="">Select industry...</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="realestate">Real Estate</option>
+                        <option value="retail">Retail</option>
+                        <option value="technology">Technology</option>
+                        <option value="finance">Finance</option>
+                        <option value="education">Education</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>What do you need help with?</label>
+                    <textarea id="needs" placeholder="Tell us what tasks you'd like this AI agent to handle..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-hire">🚀 Hire This Agent</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHAT MODAL -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-header">
+            <div class="avatar" id="chatAvatar">🤖</div>
+            <div>
+                <div id="chatAgentName" style="font-weight: 700;">Agent</div>
+                <div style="font-size: 12px; color: #94a3b8;" id="chatAgentRole">Role</div>
+            </div>
+            <button class="chat-close" onclick="closeChat()">×</button>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">
+                Hi! I'm your AI agent. How can I help you today? 🤖
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter')sendChatMessage()">
+            <button class="chat-send" onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- SUCCESS MESSAGE -->
+    <div class="success-message" id="successMessage">
+        ✅ Agent hired successfully! Check your email for next steps.
+    </div>
+
     <script>
-        // Scroll Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
+        // State
+        let hiredAgents = JSON.parse(localStorage.getItem('hiredAgents') || '[]');
+        let currentChatAgent = null;
+        let selectedAgent = null;
+        
+        // n8n webhook URL
+        const WEBHOOK_URL = 'https://dongle036-n8n.dochelper.org/webhook-production/hireai';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDashboard();
         });
-
-        // FAQ Accordion
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const item = button.parentElement;
-                const isActive = item.classList.contains('active');
-                
-                // Close all
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                
-                // Toggle current
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        // ROI Calculator
-        function updateROI() {
-            const salary = parseInt(document.getElementById('salarySlider').value);
-            const employees = parseInt(document.getElementById('employeeSlider').value);
-            
-            document.getElementById('salaryValue').textContent = `$${salary.toLocaleString()}`;
-            document.getElementById('employeeValue').textContent = employees;
-            
-            const currentCost = salary * employees * 12;
-            const hireaiCost = 500 * 12; // One AI employee
-            const savings = currentCost - hireaiCost;
-            
-            document.getElementById('savingsValue').textContent = `$${savings.toLocaleString()}`;
+        
+        // Hire Modal
+        function openHireModal(name, role, avatar, price) {
+            selectedAgent = { name, role, avatar, price };
+            document.getElementById('modalAvatar').textContent = avatar;
+            document.getElementById('modalAgentName').textContent = name;
+            document.getElementById('modalAgentRole').textContent = role;
+            document.getElementById('modalAgentPrice').textContent = price;
+            document.getElementById('hireModal').classList.add('active');
         }
-
-        // Live AI Chat (powered by n8n)
-        const API_URL = 'https://dongle036-n8n.dochelper.org/webhook/b18f879b-5519-4ae5-bd8d-8a4d204b68a2';
-        let selectedPlan = '';
-        let currentPersona = 'Luna';
-        let currentIndustry = 'Sunrise Dental';
-
-        async function getAIResponse(message) {
+        
+        function closeHireModal() {
+            document.getElementById('hireModal').classList.remove('active');
+            document.getElementById('hireForm').reset();
+        }
+        
+        // Submit Hire
+        async function submitHire(event) {
+            event.preventDefault();
+            
+            const hireData = {
+                agent: selectedAgent,
+                user: {
+                    name: document.getElementById('userName').value,
+                    email: document.getElementById('userEmail').value,
+                    business: document.getElementById('businessName').value,
+                    industry: document.getElementById('industry').value,
+                    needs: document.getElementById('needs').value
+                },
+                timestamp: new Date().toISOString()
+            };
+            
             try {
-                const context = `You are ${currentPersona}, an AI employee for ${currentIndustry}. Respond in character.`;
-                const url = `${API_URL}?q=${encodeURIComponent(context + ' ' + message)}`;
-                const response = await fetch(url);
-                const data = await response.json();
-                return data.output || 'Sorry, I could not process that request.';
-            } catch (err) {
-                console.error('AI error:', err);
-                return 'Sorry, I am having trouble connecting right now. Please try again shortly.';
+                // Send to n8n webhook
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(hireData)
+                });
+                
+                // Save to local storage
+                hiredAgents.push(hireData);
+                localStorage.setItem('hiredAgents', JSON.stringify(hiredAgents));
+                
+                // Update UI
+                closeHireModal();
+                updateDashboard();
+                showSuccess();
+                
+                // Show dashboard
+                document.getElementById('dashboard').classList.add('active');
+                
+            } catch (error) {
+                console.error('Hire failed:', error);
+                alert('Something went wrong. Please try again.');
             }
         }
-
-        function addMessage(text, type) {
-            const chat = document.getElementById('demoChat');
-            const msg = document.createElement('div');
-            msg.className = `chat-message ${type}`;
-            msg.textContent = text;
-            chat.appendChild(msg);
-            chat.scrollTop = chat.scrollHeight;
+        
+        // Update Dashboard
+        function updateDashboard() {
+            const grid = document.getElementById('dashboardGrid');
+            const empty = document.getElementById('emptyDashboard');
+            
+            if (hiredAgents.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            empty.style.display = 'none';
+            
+            grid.innerHTML = hiredAgents.map((hire, index) => `
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <div class="avatar">${hire.agent.avatar}</div>
+                        <div>
+                            <div style="font-weight: 700;">${hire.agent.name}</div>
+                            <div style="font-size: 13px; color: #6366f1;">${hire.agent.role}</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 13px; color: #718096;">
+                        <div>📧 ${hire.user.email}</div>
+                        <div>🏢 ${hire.user.business}</div>
+                        <div>📅 Hired: ${new Date(hire.timestamp).toLocaleDateString()}</div>
+                    </div>
+                    <div class="dashboard-actions">
+                        <button class="dashboard-btn primary" onclick="openChat(${index})">💬 Chat</button>
+                        <button class="dashboard-btn" onclick="removeAgent(${index})">🗑️ Remove</button>
+                    </div>
+                </div>
+            `).join('');
         }
-
-        function addLoadingMessage() {
-            const chat = document.getElementById('demoChat');
-            const msg = document.createElement('div');
-            msg.className = 'chat-message bot';
-            msg.id = 'loadingMsg';
-            msg.textContent = '🤖 Thinking...';
-            chat.appendChild(msg);
-            chat.scrollTop = chat.scrollHeight;
+        
+        // Remove Agent
+        function removeAgent(index) {
+            if (confirm('Remove this AI agent from your team?')) {
+                hiredAgents.splice(index, 1);
+                localStorage.setItem('hiredAgents', JSON.stringify(hiredAgents));
+                updateDashboard();
+            }
         }
-
-        function removeLoadingMessage() {
-            const el = document.getElementById('loadingMsg');
-            if (el) el.remove();
+        
+        // Chat
+        function openChat(index) {
+            const hire = hiredAgents[index];
+            currentChatAgent = hire.agent;
+            
+            document.getElementById('chatAvatar').textContent = hire.agent.avatar;
+            document.getElementById('chatAgentName').textContent = hire.agent.name;
+            document.getElementById('chatAgentRole').textContent = hire.agent.role;
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="chat-message bot">
+                    Hi! I'm ${hire.agent.name}, your ${hire.agent.role}. How can I help ${hire.user.business} today? 🤖
+                </div>
+            `;
+            document.getElementById('chatModal').classList.add('active');
         }
-
-        async function sendMessage() {
-            const input = document.getElementById('demoInput');
+        
+        function closeChat() {
+            document.getElementById('chatModal').classList.remove('active');
+            currentChatAgent = null;
+        }
+        
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
             const message = input.value.trim();
             if (!message) return;
             
-            addMessage(message, 'user');
+            // Add user message
+            addChatMessage(message, 'user');
             input.value = '';
-            addLoadingMessage();
             
-            const reply = await getAIResponse(message);
-            removeLoadingMessage();
-            addMessage(reply, 'bot');
-        }
-
-        async function sendQuickMessage(message) {
-            document.getElementById('demoInput').value = message;
-            await sendMessage();
-        }
-
-        // Switch AI Persona
-        function switchPersona(name, role, emoji, gradient) {
-            currentPersona = name;
+            // Show typing indicator
+            const typingId = 'typing-' + Date.now();
+            addChatMessage('🤖 Thinking...', 'bot', typingId);
             
-            // Update demo header
-            document.querySelector('.demo-avatar').textContent = emoji;
-            document.querySelector('.demo-avatar').style.background = gradient;
-            document.querySelector('.demo-status h4').textContent = `${name} — ${role}`;
-            
-            // Clear chat and add welcome message
-            const chat = document.getElementById('demoChat');
-            chat.innerHTML = '';
-            addMessage(`Hi! I'm ${name}, your ${role}. How can I help you today?`, 'bot');
-            
-            // Scroll to demo
-            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Switch Industry Demo
-        function switchIndustry(industry, business, emoji) {
-            currentIndustry = business;
-            
-            // Update demo header
-            document.querySelector('.demo-status h4').textContent = `${currentPersona} — ${business} AI`;
-            
-            // Clear chat and add welcome message
-            const chat = document.getElementById('demoChat');
-            chat.innerHTML = '';
-            addMessage(`Welcome to ${business}! I'm ${currentPersona}, your AI assistant. How can I help you today?`, 'bot');
-            
-            // Scroll to demo
-            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Select Pricing Plan
-        function selectPlan(plan, price) {
-            selectedPlan = `${plan} (${price})`;
-            
-            // Scroll to waitlist
-            document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
-            
-            // Highlight the selected plan
-            document.querySelectorAll('.pricing-card').forEach(card => {
-                card.style.borderColor = '#e2e8f0';
-            });
-            event.target.closest('.pricing-card').style.borderColor = '#ed8936';
-            
-            // Show plan selected message
-            const waitlistSection = document.querySelector('.waitlist p');
-            waitlistSection.textContent = `Selected: ${selectedPlan} — Join the waitlist for early access!`;
-        }
-
-        // Handle Waitlist Submission
-        document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const form = e.target;
-            const btn = form.querySelector('button');
-            const originalText = btn.textContent;
-            const name = form.querySelector('[name="name"]').value;
-            const email = form.querySelector('[name="email"]').value;
-            const business = form.querySelector('[name="business"]').value;
-            const plan = selectedPlan || 'Not specified';
-            
-            btn.textContent = 'Joining...';
-            btn.disabled = true;
-
             try {
-                const response = await fetch(`${API_URL}?q=Waitlist signup: ${name} (${email}) from ${business}, plan: ${plan}`, {
-                    method: 'GET'
+                // Call n8n webhook with the message
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'chat',
+                        agent: currentChatAgent,
+                        message: message,
+                        user: hiredAgents.find(h => h.agent.name === currentChatAgent.name)?.user
+                    })
                 });
                 
-                if (response.ok) {
-                    btn.textContent = '✓ Joined!';
-                    btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
-                    setTimeout(() => {
-                        btn.textContent = originalText;
-                        btn.style.background = '';
-                        form.reset();
-                        selectedPlan = '';
-                    }, 2000);
-                } else {
-                    alert('Error joining waitlist. Please try again.');
+                const data = await response.json();
+                
+                // Remove typing indicator
+                const typing = document.getElementById(typingId);
+                if (typing) typing.remove();
+                
+                // Add bot response
+                addChatMessage(data.response || 'I received your message! How can I help?', 'bot');
+                
+            } catch (error) {
+                console.error('Chat failed:', error);
+                const typing = document.getElementById(typingId);
+                if (typing) {
+                    typing.textContent = '⚠️ Sorry, I\'m having trouble connecting. Please try again.';
                 }
-            } catch (err) {
-                console.error(err);
-                alert('Could not connect. Please try again later.');
-            } finally {
-                setTimeout(() => {
-                    btn.disabled = false;
-                }, 2000);
             }
-        });
+        }
+        
+        function addChatMessage(text, type, id = null) {
+            const messages = document.getElementById('chatMessages');
+            const message = document.createElement('div');
+            message.className = `chat-message ${type}`;
+            message.textContent = text;
+            if (id) message.id = id;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        // Success message
+        function showSuccess() {
+            const msg = document.getElementById('successMessage');
+            msg.classList.add('active');
+            setTimeout(() => msg.classList.remove('active'), 5000);
+        }
     </script>
 </body>
 </html>
