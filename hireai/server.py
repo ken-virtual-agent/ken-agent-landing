@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(app)  # Allow requests from any origin (GitHub Pages frontend)
 
 # ─── Config ────────────────────────────────────────────────────────────
-LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "http://10.33.1.215:1234/v1")
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://eligibility-galleries-collar-sep.trycloudflare.com/v1")
 LLM_MODEL = os.environ.get("LLM_MODEL", "qwen/qwen3.6-27b")
 DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "hireai.db"))
 
