@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireAI - Your First Employee is an AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a365d;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: 900;
+            font-size: 28px;
+            color: #1a365d;
+        }
+        
+        .logo span {
+            color: #ed8936;
+        }
+        
+        nav a {
+            margin-left: 32px;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: #1a365d;
+        }
+        
+        /* Hero */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.1), transparent 40%);
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: #1a365d;
+        }
+        
+        .hero h1 span {
+            color: #ed8936;
+        }
+        
+        .hero p {
+            font-size: 22px;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            color: white;
+            text-decoration: none;
+            padding: 18px 48px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(237, 137, 54, 0.3);
+        }
+        
+        .social-proof {
+            margin-top: 48px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .social-proof strong {
+            color: #1a365d;
+        }
+        
+        /* Section titles */
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            color: #1a365d;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #718096;
+            margin-bottom: 60px;
+        }
+        
+        /* Interactive Demo */
+        .demo-section {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #0f172a;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .demo-header {
+            padding: 20px 24px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .demo-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .demo-status {
+            flex: 1;
+        }
+        
+        .demo-status h4 {
+            color: white;
+            font-size: 14px;
+        }
+        
+        .demo-status span {
+            color: #4ade80;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .demo-status span::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .demo-chat {
+            height: 400px;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .chat-message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chat-message.bot {
+            background: #1e293b;
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-message.user {
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .demo-input-container {
+            padding: 20px 24px;
+            background: #1e293b;
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid #334155;
+        }
+        
+        .demo-input {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .demo-input:focus {
+            border-color: #6366f1;
+        }
+        
+        .demo-input::placeholder {
+            color: #64748b;
+        }
+        
+        .demo-send {
+            padding: 14px 24px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .demo-send:hover {
+            transform: scale(1.05);
+        }
+        
+        .demo-quick-actions {
+            display: flex;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #1e293b;
+            flex-wrap: wrap;
+            border-top: 1px solid #334155;
+        }
+        
+        .quick-action {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-action:hover {
+            border-color: #6366f1;
+            color: white;
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        /* Industry Use Cases */
+        .industries {
+            padding: 100px 0;
+            background: #f8fafc;
+        }
+        
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .industry-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .industry-card:hover {
+            border-color: #ed8936;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .industry-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .industry-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #1a365d;
+        }
+        
+        .industry-card p {
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .industry-features {
+            list-style: none;
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        .industry-features li {
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .industry-features li::before {
+            content: "→";
+            color: #ed8936;
+            font-weight: 700;
+        }
+        
+        /* Comparison Table */
+        .comparison {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .comparison-table {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-row.header {
+            background: #1a365d;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .comparison-row:not(.header) {
+            background: white;
+        }
+        
+        .comparison-row:not(.header):hover {
+            background: #f8fafc;
+        }
+        
+        .comparison-cell {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .comparison-cell.check {
+            color: #4ade80;
+            font-size: 20px;
+        }
+        
+        .comparison-cell.x {
+            color: #ef4444;
+            font-size: 20px;
+        }
+        
+        .comparison-cell.highlight {
+            background: rgba(237, 137, 54, 0.05);
+            font-weight: 600;
+            color: #ed8936;
+        }
+        
+        /* ROI Calculator */
+        .roi-calculator {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+        }
+        
+        .roi-calculator .section-title,
+        .roi-calculator .section-subtitle {
+            color: white;
+        }
+        
+        .roi-calculator .section-subtitle {
+            color: #94a3b8;
+        }
+        
+        .roi-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 48px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .roi-input-group {
+            margin-bottom: 32px;
+        }
+        
+        .roi-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        
+        .roi-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #334155;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .roi-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            cursor: pointer;
+        }
+        
+        .roi-value {
+            text-align: right;
+            color: #ed8936;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        
+        .roi-result {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        
+        .roi-result h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        
+        .roi-result .savings {
+            font-size: 48px;
+            font-weight: 900;
+            color: #4ade80;
+            margin-bottom: 8px;
+        }
+        
+        .roi-result p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        /* AI Team */
+        .ai-team {
+            padding: 100px 0;
+            background: #f8fafc;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 32px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .team-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+        
+        .team-card h3 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .team-card .role {
+            color: #6366f1;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .team-card p {
+            color: #4a5568;
+            font-size: 14px;
+        }
+        
+        /* FAQ */
+        .faq {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .faq-question {
+            width: 100%;
+            padding: 24px 0;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a365d;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .faq-question::after {
+            content: "+";
+            font-size: 24px;
+            color: #ed8936;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+        
+        .faq-answer p {
+            padding-bottom: 24px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 48px;
+        }
+        
+        .feature-card {
+            padding: 32px;
+            border-radius: 16px;
+            background: #f8fafc;
+            transition: transform 0.3s, opacity 0.6s;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            background: white;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+        
+        .pricing-card {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s, opacity 0.6s;
+        }
+        
+        .pricing-card.featured {
+            border-color: #ed8936;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .pricing-card.featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ed8936;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a365d;
+        }
+        
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: 900;
+            color: #1a365d;
+            margin: 16px 0;
+        }
+        
+        .pricing-card .price span {
+            font-size: 16px;
+            color: #718096;
+            font-weight: 400;
+        }
+        
+        .pricing-card p {
+            color: #4a5568;
+            margin-bottom: 24px;
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-card ul li {
+            padding: 8px 0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-card ul li::before {
+            content: "✓";
+            color: #ed8936;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        
+        /* Waitlist */
+        .waitlist {
+            padding: 100px 0;
+            text-align: center;
+            background: #0f172a;
+            color: white;
+            position: relative;
+        }
+        
+        .waitlist h2 {
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .waitlist p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        
+        .waitlist-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .waitlist-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .waitlist-form input:focus {
+            border-color: #6366f1;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        
+        .waitlist-form input::placeholder {
+            color: #64748b;
+        }
+        
+        .waitlist-form button {
+            flex: 1;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .waitlist-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(236, 72, 153, 0.5);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        /* Animation Utility */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Try Badge */
+        .try-badge {
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .try-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .section-title, .waitlist h2 {
+                font-size: 32px;
+            }
+            
+            .comparison-row {
+                grid-template-columns: 1.5fr 1fr 1fr;
+            }
+            
+            .comparison-cell {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            .roi-container {
+                padding: 32px 24px;
+            }
+            
+            .roi-result .savings {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <div class="logo">Hire<span>AI</span></div>
+        <nav>
+            <a href="/">← Back to Ken</a>
+            <a href="#demo">Try Demo</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#waitlist">Join Waitlist</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <h1>Your First Employee<br>is an <span>AI</span></h1>
+            <p>HireAI gives small businesses pre-trained AI employees that answer calls, book appointments, and capture leads—24/7, for less than a part-time hire.</p>
+            <a href="#demo" class="cta-button">Try It Live</a>
+            <p class="social-proof">Starting at <strong>$500/month</strong> • No contracts • 30-day guarantee</p>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE DEMO -->
+    <section class="demo-section" id="demo">
+        <div class="container">
+            <h2 class="section-title">Try Your AI Employee Now</h2>
+            <p class="section-subtitle">Meet Luna, an AI receptionist for "Sunrise Dental". Ask her anything.</p>
+            
+            <div class="demo-container">
+                <div class="demo-header">
+                    <div class="demo-avatar">🌙</div>
+                    <div class="demo-status">
+                        <h4>Luna — Sunrise Dental AI</h4>
+                        <span>Online • Ready to help</span>
+                    </div>
+                </div>
+                
+                <div class="demo-chat" id="demoChat">
+                    <div class="chat-message bot">
+                        Hi there! 👋 I'm Luna, the AI receptionist for Sunrise Dental. How can I help you today?
+                    </div>
+                </div>
+                
+                <div class="demo-quick-actions">
+                    <button class="quick-action" onclick="sendQuickMessage('What are your hours?')">🕐 What are your hours?</button>
+                    <button class="quick-action" onclick="sendQuickMessage('I need a cleaning')">🦷 Book a cleaning</button>
+                    <button class="quick-action" onclick="sendQuickMessage('Do you take insurance?')">🏥 Insurance?</button>
+                    <button class="quick-action" onclick="sendQuickMessage('How much is a whitening?')">💰 Pricing?</button>
+                </div>
+                
+                <div class="demo-input-container">
+                    <input type="text" class="demo-input" id="demoInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter')sendMessage()">
+                    <button class="demo-send" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDUSTRY USE CASES -->
+    <section class="industries">
+        <div class="container">
+            <h2 class="section-title">Built for Your Industry</h2>
+            <p class="section-subtitle">Pre-trained AI employees that understand your business.</p>
+            
+            <div class="industry-grid">
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Dental Clinics','Sunrise Dental','🦷')">
+                    <div class="industry-icon">🦷</div>
+                    <h3>Dental Clinics</h3>
+                    <p>AI receptionist that books appointments, confirms visits, and handles insurance questions.</p>
+                    <ul class="industry-features">
+                        <li>24/7 appointment scheduling</li>
+                        <li>Insurance verification</li>
+                        <li>Automated reminders</li>
+                    </ul>
+                    <div class="try-badge">▶ Try Demo</div>
+                </div>
+                
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Restaurants','La Bella Cucina','🍽️')">
+                    <div class="industry-icon">🍽️</div>
+                    <h3>Restaurants</h3>
+                    <p>AI host that takes reservations, answers menu questions, and manages waitlists.</p>
+                    <ul class="industry-features">
+                        <li>Table reservations</li>
+                        <li>Menu & allergy info</li>
+                        <li>Catering inquiries</li>
+                    </ul>
+                    <div class="try-badge">▶ Try Demo</div>
+                </div>
+                
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Real Estate','Premier Properties','🏠')">
+                    <div class="industry-icon">🏠</div>
+                    <h3>Real Estate</h3>
+                    <p>AI agent that qualifies leads, schedules showings, and sends property details.</p>
+                    <ul class="industry-features">
+                        <li>Lead qualification</li>
+                        <li>Showing scheduling</li>
+                        <li>Property matching</li>
+                    </ul>
+                    <div class="try-badge">▶ Try Demo</div>
+                </div>
+                
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Gyms & Fitness','IronFit Gym','💪')">
+                    <div class="industry-icon">💪</div>
+                    <h3>Gyms & Fitness</h3>
+                    <p>AI front desk that handles memberships, class bookings, and trainer inquiries.</p>
+                    <ul class="industry-features">
+                        <li>Membership sign-ups</li>
+                        <li>Class scheduling</li>
+                        <li>Personal trainer matching</li>
+                    </ul>
+                    <div class="try-badge">▶ Try Demo</div>
+                </div>
+                
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Salons & Spas','Glow Spa & Salon','💇')">
+                    <div class="industry-icon">💇</div>
+                    <h3>Salons & Spas</h3>
+                    <p>AI scheduler that books appointments, confirms services, and handles cancellations.</p>
+                    <ul class="industry-features">
+                        <li>Service menu & pricing</li>
+                        <li>Stylist matching</li>
+                        <li>Cancellation management</li>
+                    </ul>
+                    <div class="try-badge">▶ Try Demo</div>
+                </div>
+                
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Contractors','BuildRight Contractors','🔧')">
+                    <div class="industry-icon">🔧</div>
+                    <h3>Contractors</h3>
+                    <p>AI estimator that captures leads, sends quotes, and schedules consultations.</p>
+                    <ul class="industry-features">
+                        <li>Instant estimates</li>
+                        <li>Photo-based quotes</li>
+                        <li>Follow-up automation</li>
+                    </ul>
+                    <div class="try-badge">▶ Try Demo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY HIRE AI -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Hire an AI?</h2>
+            <p class="section-subtitle">Reliable, instant, and infinitely scalable.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Response</h3>
+                    <p>Never miss a lead again. Your AI employee responds to inquiries in under 5 seconds, 24/7/365.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Always Learning</h3>
+                    <p>Trained on your business data. It knows your pricing, services, and schedule perfectly.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">💰</div>
+                    <h3>Cost Effective</h3>
+                    <p>A full-time employee costs $4,000/mo. HireAI starts at $500/mo with no benefits or sick days.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI vs HUMAN COMPARISON -->
+    <section class="comparison">
+        <div class="container">
+            <h2 class="section-title">AI Employee vs. Human Employee</h2>
+            <p class="section-subtitle">The numbers speak for themselves.</p>
+            
+            <div class="comparison-table">
+                <div class="comparison-row header">
+                    <div class="comparison-cell">Feature</div>
+                    <div class="comparison-cell">HireAI</div>
+                    <div class="comparison-cell">Human Hire</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Monthly cost</div>
+                    <div class="comparison-cell highlight">$500</div>
+                    <div class="comparison-cell">$3,500+</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Available 24/7</div>
+                    <div class="comparison-cell check">✓</div>
+                    <div class="comparison-cell x">✗</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Response time</div>
+                    <div class="comparison-cell highlight">Under 5 sec</div>
+                    <div class="comparison-cell">30+ sec</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Handles multiple chats</div>
+                    <div class="comparison-cell check">✓</div>
+                    <div class="comparison-cell x">✗</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">No sick days / PTO</div>
+                    <div class="comparison-cell check">✓</div>
+                    <div class="comparison-cell x">✗</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Benefits & taxes</div>
+                    <div class="comparison-cell highlight">$0</div>
+                    <div class="comparison-cell">$1,000+/mo</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Training time</div>
+                    <div class="comparison-cell highlight">1 hour</div>
+                    <div class="comparison-cell">2+ weeks</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Consistent quality</div>
+                    <div class="comparison-cell check">✓</div>
+                    <div class="comparison-cell">Varies</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI CALCULATOR -->
+    <section class="roi-calculator">
+        <div class="container">
+            <h2 class="section-title">Calculate Your Savings</h2>
+            <p class="section-subtitle">See how much HireAI can save your business.</p>
+            
+            <div class="roi-container">
+                <div class="roi-input-group">
+                    <label>Current employee salary (monthly)</label>
+                    <input type="range" class="roi-slider" id="salarySlider" min="2000" max="8000" value="3500" step="100" oninput="updateROI()">
+                    <div class="roi-value" id="salaryValue">$3,500</div>
+                </div>
+                
+                <div class="roi-input-group">
+                    <label>Number of front-desk employees</label>
+                    <input type="range" class="roi-slider" id="employeeSlider" min="1" max="5" value="2" step="1" oninput="updateROI()">
+                    <div class="roi-value" id="employeeValue">2</div>
+                </div>
+                
+                <div class="roi-result">
+                    <h3>Your Annual Savings with HireAI</h3>
+                    <div class="savings" id="savingsValue">$66,000</div>
+                    <p>That's enough to hire an AI content creator AND a lead responder</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEET YOUR AI TEAM -->
+    <section class="ai-team">
+        <div class="container">
+            <h2 class="section-title">Meet Your AI Team</h2>
+            <p class="section-subtitle">Each AI employee has a unique personality and specialty.</p>
+            
+            <div class="team-grid">
+                <div class="team-card fade-in-up" onclick="switchPersona('Luna','AI Receptionist','🌙','linear-gradient(135deg, #6366f1, #8b5cf6)')">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🌙</div>
+                    <h3>Luna</h3>
+                    <div class="role">AI Receptionist</div>
+                    <p>Warm, professional, and always ready. Luna answers calls, books appointments, and never misses a lead.</p>
+                    <div class="try-badge">▶ Try Luna</div>
+                </div>
+                
+                <div class="team-card fade-in-up" onclick="switchPersona('Atlas','AI Content Creator','✍️','linear-gradient(135deg, #ec4899, #f43f5e)')">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">✍️</div>
+                    <h3>Atlas</h3>
+                    <div class="role">AI Content Creator</div>
+                    <p>Creative and strategic. Atlas writes blog posts, manages social media, and drives organic traffic.</p>
+                    <div class="try-badge">▶ Try Atlas</div>
+                </div>
+                
+                <div class="team-card fade-in-up" onclick="switchPersona('Cleo','AI Scheduler','📅','linear-gradient(135deg, #14b8a6, #0ea5e9)')">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #14b8a6, #0ea5e9);">📅</div>
+                    <h3>Cleo</h3>
+                    <div class="role">AI Scheduler</div>
+                    <p>Organized and detail-oriented. Cleo manages your calendar, sends reminders, and optimizes your schedule.</p>
+                    <div class="try-badge">▶ Try Cleo</div>
+                </div>
+                
+                <div class="team-card fade-in-up" onclick="switchPersona('Max','AI Analytics Dashboard','📊','linear-gradient(135deg, #f59e0b, #ef4444)')">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">📊</div>
+                    <h3>Max</h3>
+                    <div class="role">AI Analytics Dashboard</div>
+                    <p>Data-driven and insightful. Max tracks leads, conversions, and ROI so you always know what's working.</p>
+                    <div class="try-badge">▶ Try Max</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Choose Your First Employee</h2>
+            <p class="section-subtitle">Hire one worker now. Add more as you grow.</p>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card fade-in-up">
+                    <h3>Lead Responder</h3>
+                    <div class="price">$500<span>/mo</span></div>
+                    <p>Instantly responds to website inquiries</p>
+                    <ul>
+                        <li>24/7 chat & SMS responses</li>
+                        <li>Qualifies leads automatically</li>
+                        <li>Books appointments in your calendar</li>
+                        <li>Follows up via email</li>
+                        <li>Hands off hot leads to you</li>
+                    </ul>
+                    <button class="cta-button" onclick="selectPlan('Lead Responder','$500/mo')">Select</button>
+                </div>
+                
+                <div class="pricing-card featured fade-in-up">
+                    <h3>Content Creator</h3>
+                    <div class="price">$800<span>/mo</span></div>
+                    <p>Creates content that brings customers</p>
+                    <ul>
+                        <li>Weekly blog posts</li>
+                        <li>5 social media posts/week</li>
+                        <li>Email newsletters</li>
+                        <li>SEO-optimized writing</li>
+                        <li>Analytics & reporting</li>
+                    </ul>
+                    <button class="cta-button" onclick="selectPlan('Content Creator','$800/mo')">Select</button>
+                </div>
+                
+                <div class="pricing-card fade-in-up">
+                    <h3>Full Team</h3>
+                    <div class="price">$2,000<span>/mo</span></div>
+                    <p>3 AI employees working together</p>
+                    <ul>
+                        <li>Lead Responder included</li>
+                        <li>Content Creator included</li>
+                        <li>Appointment Scheduler</li>
+                        <li>Priority support</li>
+                        <li>Custom integrations</li>
+                    </ul>
+                    <button class="cta-button" onclick="selectPlan('Full Team','$2,000/mo')">Select</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Everything you need to know about hiring AI.</p>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">Will my AI employee sound robotic?</button>
+                    <div class="faq-answer">
+                        <p>Not at all. Our AI employees are trained on natural conversation patterns and can be customized to match your brand's tone. Most customers can't tell they're talking to an AI.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">What if the AI gives wrong information?</button>
+                    <div class="faq-answer">
+                        <p>Your AI employee is trained exclusively on your business data—your website, pricing, services, and policies. It won't guess; if it doesn't know, it will escalate to you.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">How long does setup take?</button>
+                    <div class="faq-answer">
+                        <p>Most businesses are live within 24 hours. We import your website data, configure your AI's personality, and test everything before going live.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">Can I customize my AI employee?</button>
+                    <div class="faq-answer">
+                        <p>Absolutely. You can customize the name, personality, tone, knowledge base, and even the voice. Your AI employee should feel like part of your team.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">What happens when the AI can't handle a request?</button>
+                    <div class="faq-answer">
+                        <p>Your AI employee knows its limits. When it encounters something complex, it seamlessly escalates to you with full context so you can step in.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">Is my customer data secure?</button>
+                    <div class="faq-answer">
+                        <p>Yes. All conversations are encrypted end-to-end. We're SOC 2 compliant and never share your data with third parties. Your customers' privacy is our priority.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">Can I cancel anytime?</button>
+                    <div class="faq-answer">
+                        <p>Yes. No contracts, no cancellation fees. We offer a 30-day money-back guarantee because we're confident you'll see the value immediately.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section class="waitlist" id="waitlist">
+        <div class="container">
+            <h2>Join the Waitlist</h2>
+            <p>Be among the first to hire an AI employee. Beta access launching Summer 2026.</p>
+            <form class="waitlist-form" id="waitlistForm">
+                <div class="form-row">
+                    <input type="text" name="name" placeholder="Your name" required>
+                    <input type="email" name="email" placeholder="Your email" required>
+                </div>
+                <div class="form-row">
+                    <input type="text" name="business" placeholder="Business name" required>
+                    <button type="submit">Join Waitlist</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 HireAI. Built to help small businesses grow.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                // Toggle current
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // ROI Calculator
+        function updateROI() {
+            const salary = parseInt(document.getElementById('salarySlider').value);
+            const employees = parseInt(document.getElementById('employeeSlider').value);
+            
+            document.getElementById('salaryValue').textContent = `$${salary.toLocaleString()}`;
+            document.getElementById('employeeValue').textContent = employees;
+            
+            const currentCost = salary * employees * 12;
+            const hireaiCost = 500 * 12; // One AI employee
+            const savings = currentCost - hireaiCost;
+            
+            document.getElementById('savingsValue').textContent = `$${savings.toLocaleString()}`;
+        }
+
+        // Live AI Chat (powered by n8n)
+        const API_URL = 'https://dongle036-n8n.dochelper.org/webhook/b18f879b-5519-4ae5-bd8d-8a4d204b68a2';
+        let selectedPlan = '';
+        let currentPersona = 'Luna';
+        let currentIndustry = 'Sunrise Dental';
+
+        async function getAIResponse(message) {
+            try {
+                const context = `You are ${currentPersona}, an AI employee for ${currentIndustry}. Respond in character.`;
+                const url = `${API_URL}?q=${encodeURIComponent(context + ' ' + message)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.output || 'Sorry, I could not process that request.';
+            } catch (err) {
+                console.error('AI error:', err);
+                return 'Sorry, I am having trouble connecting right now. Please try again shortly.';
+            }
+        }
+
+        function addMessage(text, type) {
+            const chat = document.getElementById('demoChat');
+            const msg = document.createElement('div');
+            msg.className = `chat-message ${type}`;
+            msg.textContent = text;
+            chat.appendChild(msg);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function addLoadingMessage() {
+            const chat = document.getElementById('demoChat');
+            const msg = document.createElement('div');
+            msg.className = 'chat-message bot';
+            msg.id = 'loadingMsg';
+            msg.textContent = '🤖 Thinking...';
+            chat.appendChild(msg);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function removeLoadingMessage() {
+            const el = document.getElementById('loadingMsg');
+            if (el) el.remove();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('demoInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addMessage(message, 'user');
+            input.value = '';
+            addLoadingMessage();
+            
+            const reply = await getAIResponse(message);
+            removeLoadingMessage();
+            addMessage(reply, 'bot');
+        }
+
+        async function sendQuickMessage(message) {
+            document.getElementById('demoInput').value = message;
+            await sendMessage();
+        }
+
+        // Switch AI Persona
+        function switchPersona(name, role, emoji, gradient) {
+            currentPersona = name;
+            
+            // Update demo header
+            document.querySelector('.demo-avatar').textContent = emoji;
+            document.querySelector('.demo-avatar').style.background = gradient;
+            document.querySelector('.demo-status h4').textContent = `${name} — ${role}`;
+            
+            // Clear chat and add welcome message
+            const chat = document.getElementById('demoChat');
+            chat.innerHTML = '';
+            addMessage(`Hi! I'm ${name}, your ${role}. How can I help you today?`, 'bot');
+            
+            // Scroll to demo
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Switch Industry Demo
+        function switchIndustry(industry, business, emoji) {
+            currentIndustry = business;
+            
+            // Update demo header
+            document.querySelector('.demo-status h4').textContent = `${currentPersona} — ${business} AI`;
+            
+            // Clear chat and add welcome message
+            const chat = document.getElementById('demoChat');
+            chat.innerHTML = '';
+            addMessage(`Welcome to ${business}! I'm ${currentPersona}, your AI assistant. How can I help you today?`, 'bot');
+            
+            // Scroll to demo
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Select Pricing Plan
+        function selectPlan(plan, price) {
+            selectedPlan = `${plan} (${price})`;
+            
+            // Scroll to waitlist
+            document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+            
+            // Highlight the selected plan
+            document.querySelectorAll('.pricing-card').forEach(card => {
+                card.style.borderColor = '#e2e8f0';
+            });
+            event.target.closest('.pricing-card').style.borderColor = '#ed8936';
+            
+            // Show plan selected message
+            const waitlistSection = document.querySelector('.waitlist p');
+            waitlistSection.textContent = `Selected: ${selectedPlan} — Join the waitlist for early access!`;
+        }
+
+        // Handle Waitlist Submission
+        document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = form.querySelector('button');
+            const originalText = btn.textContent;
+            const name = form.querySelector('[name="name"]').value;
+            const email = form.querySelector('[name="email"]').value;
+            const business = form.querySelector('[name="business"]').value;
+            const plan = selectedPlan || 'Not specified';
+            
+            btn.textContent = 'Joining...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_URL}?q=Waitlist signup: ${name} (${email}) from ${business}, plan: ${plan}`, {
+                    method: 'GET'
+                });
+                
+                if (response.ok) {
+                    btn.textContent = '✓ Joined!';
+                    btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        form.reset();
+                        selectedPlan = '';
+                    }, 2000);
+                } else {
+                    alert('Error joining waitlist. Please try again.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Could not connect. Please try again later.');
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
