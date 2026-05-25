@@ -842,6 +842,29 @@
             transform: translateY(0);
         }
         
+        /* Try Badge */
+        .try-badge {
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .try-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
         /* Mobile */
         @media (max-width: 768px) {
             .hero h1 {
@@ -943,7 +966,7 @@
             <p class="section-subtitle">Pre-trained AI employees that understand your business.</p>
             
             <div class="industry-grid">
-                <div class="industry-card fade-in-up">
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Dental Clinics','Sunrise Dental','🦷')">
                     <div class="industry-icon">🦷</div>
                     <h3>Dental Clinics</h3>
                     <p>AI receptionist that books appointments, confirms visits, and handles insurance questions.</p>
@@ -952,9 +975,10 @@
                         <li>Insurance verification</li>
                         <li>Automated reminders</li>
                     </ul>
+                    <div class="try-badge">▶ Try Demo</div>
                 </div>
                 
-                <div class="industry-card fade-in-up">
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Restaurants','La Bella Cucina','🍽️')">
                     <div class="industry-icon">🍽️</div>
                     <h3>Restaurants</h3>
                     <p>AI host that takes reservations, answers menu questions, and manages waitlists.</p>
@@ -963,9 +987,10 @@
                         <li>Menu & allergy info</li>
                         <li>Catering inquiries</li>
                     </ul>
+                    <div class="try-badge">▶ Try Demo</div>
                 </div>
                 
-                <div class="industry-card fade-in-up">
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Real Estate','Premier Properties','🏠')">
                     <div class="industry-icon">🏠</div>
                     <h3>Real Estate</h3>
                     <p>AI agent that qualifies leads, schedules showings, and sends property details.</p>
@@ -974,9 +999,10 @@
                         <li>Showing scheduling</li>
                         <li>Property matching</li>
                     </ul>
+                    <div class="try-badge">▶ Try Demo</div>
                 </div>
                 
-                <div class="industry-card fade-in-up">
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Gyms & Fitness','IronFit Gym','💪')">
                     <div class="industry-icon">💪</div>
                     <h3>Gyms & Fitness</h3>
                     <p>AI front desk that handles memberships, class bookings, and trainer inquiries.</p>
@@ -985,9 +1011,10 @@
                         <li>Class scheduling</li>
                         <li>Personal trainer matching</li>
                     </ul>
+                    <div class="try-badge">▶ Try Demo</div>
                 </div>
                 
-                <div class="industry-card fade-in-up">
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Salons & Spas','Glow Spa & Salon','💇')">
                     <div class="industry-icon">💇</div>
                     <h3>Salons & Spas</h3>
                     <p>AI scheduler that books appointments, confirms services, and handles cancellations.</p>
@@ -996,9 +1023,10 @@
                         <li>Stylist matching</li>
                         <li>Cancellation management</li>
                     </ul>
+                    <div class="try-badge">▶ Try Demo</div>
                 </div>
                 
-                <div class="industry-card fade-in-up">
+                <div class="industry-card fade-in-up" onclick="switchIndustry('Contractors','BuildRight Contractors','🔧')">
                     <div class="industry-icon">🔧</div>
                     <h3>Contractors</h3>
                     <p>AI estimator that captures leads, sends quotes, and schedules consultations.</p>
@@ -1007,6 +1035,7 @@
                         <li>Photo-based quotes</li>
                         <li>Follow-up automation</li>
                     </ul>
+                    <div class="try-badge">▶ Try Demo</div>
                 </div>
             </div>
         </div>
@@ -1129,32 +1158,36 @@
             <p class="section-subtitle">Each AI employee has a unique personality and specialty.</p>
             
             <div class="team-grid">
-                <div class="team-card fade-in-up">
+                <div class="team-card fade-in-up" onclick="switchPersona('Luna','AI Receptionist','🌙','linear-gradient(135deg, #6366f1, #8b5cf6)')">
                     <div class="team-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🌙</div>
                     <h3>Luna</h3>
                     <div class="role">AI Receptionist</div>
                     <p>Warm, professional, and always ready. Luna answers calls, books appointments, and never misses a lead.</p>
+                    <div class="try-badge">▶ Try Luna</div>
                 </div>
                 
-                <div class="team-card fade-in-up">
+                <div class="team-card fade-in-up" onclick="switchPersona('Atlas','AI Content Creator','✍️','linear-gradient(135deg, #ec4899, #f43f5e)')">
                     <div class="team-avatar" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">✍️</div>
                     <h3>Atlas</h3>
                     <div class="role">AI Content Creator</div>
                     <p>Creative and strategic. Atlas writes blog posts, manages social media, and drives organic traffic.</p>
+                    <div class="try-badge">▶ Try Atlas</div>
                 </div>
                 
-                <div class="team-card fade-in-up">
+                <div class="team-card fade-in-up" onclick="switchPersona('Cleo','AI Scheduler','📅','linear-gradient(135deg, #14b8a6, #0ea5e9)')">
                     <div class="team-avatar" style="background: linear-gradient(135deg, #14b8a6, #0ea5e9);">📅</div>
                     <h3>Cleo</h3>
                     <div class="role">AI Scheduler</div>
                     <p>Organized and detail-oriented. Cleo manages your calendar, sends reminders, and optimizes your schedule.</p>
+                    <div class="try-badge">▶ Try Cleo</div>
                 </div>
                 
-                <div class="team-card fade-in-up">
+                <div class="team-card fade-in-up" onclick="switchPersona('Max','AI Analytics Dashboard','📊','linear-gradient(135deg, #f59e0b, #ef4444)')">
                     <div class="team-avatar" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">📊</div>
                     <h3>Max</h3>
                     <div class="role">AI Analytics Dashboard</div>
                     <p>Data-driven and insightful. Max tracks leads, conversions, and ROI so you always know what's working.</p>
+                    <div class="try-badge">▶ Try Max</div>
                 </div>
             </div>
         </div>
@@ -1178,7 +1211,7 @@
                         <li>Follows up via email</li>
                         <li>Hands off hot leads to you</li>
                     </ul>
-                    <a href="#waitlist" class="cta-button">Select</a>
+                    <button class="cta-button" onclick="selectPlan('Lead Responder','$500/mo')">Select</button>
                 </div>
                 
                 <div class="pricing-card featured fade-in-up">
@@ -1192,7 +1225,7 @@
                         <li>SEO-optimized writing</li>
                         <li>Analytics & reporting</li>
                     </ul>
-                    <a href="#waitlist" class="cta-button">Select</a>
+                    <button class="cta-button" onclick="selectPlan('Content Creator','$800/mo')">Select</button>
                 </div>
                 
                 <div class="pricing-card fade-in-up">
@@ -1206,7 +1239,7 @@
                         <li>Priority support</li>
                         <li>Custom integrations</li>
                     </ul>
-                    <a href="#waitlist" class="cta-button">Select</a>
+                    <button class="cta-button" onclick="selectPlan('Full Team','$2,000/mo')">Select</button>
                 </div>
             </div>
         </div>
@@ -1342,10 +1375,14 @@
 
         // Live AI Chat (powered by n8n)
         const API_URL = 'https://dongle036-n8n.dochelper.org/webhook/b18f879b-5519-4ae5-bd8d-8a4d204b68a2';
+        let selectedPlan = '';
+        let currentPersona = 'Luna';
+        let currentIndustry = 'Sunrise Dental';
 
         async function getAIResponse(message) {
             try {
-                const url = `${API_URL}?q=${encodeURIComponent(message)}`;
+                const context = `You are ${currentPersona}, an AI employee for ${currentIndustry}. Respond in character.`;
+                const url = `${API_URL}?q=${encodeURIComponent(context + ' ' + message)}`;
                 const response = await fetch(url);
                 const data = await response.json();
                 return data.output || 'Sorry, I could not process that request.';
@@ -1398,36 +1435,96 @@
             await sendMessage();
         }
 
+        // Switch AI Persona
+        function switchPersona(name, role, emoji, gradient) {
+            currentPersona = name;
+            
+            // Update demo header
+            document.querySelector('.demo-avatar').textContent = emoji;
+            document.querySelector('.demo-avatar').style.background = gradient;
+            document.querySelector('.demo-status h4').textContent = `${name} — ${role}`;
+            
+            // Clear chat and add welcome message
+            const chat = document.getElementById('demoChat');
+            chat.innerHTML = '';
+            addMessage(`Hi! I'm ${name}, your ${role}. How can I help you today?`, 'bot');
+            
+            // Scroll to demo
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Switch Industry Demo
+        function switchIndustry(industry, business, emoji) {
+            currentIndustry = business;
+            
+            // Update demo header
+            document.querySelector('.demo-status h4').textContent = `${currentPersona} — ${business} AI`;
+            
+            // Clear chat and add welcome message
+            const chat = document.getElementById('demoChat');
+            chat.innerHTML = '';
+            addMessage(`Welcome to ${business}! I'm ${currentPersona}, your AI assistant. How can I help you today?`, 'bot');
+            
+            // Scroll to demo
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Select Pricing Plan
+        function selectPlan(plan, price) {
+            selectedPlan = `${plan} (${price})`;
+            
+            // Scroll to waitlist
+            document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+            
+            // Highlight the selected plan
+            document.querySelectorAll('.pricing-card').forEach(card => {
+                card.style.borderColor = '#e2e8f0';
+            });
+            event.target.closest('.pricing-card').style.borderColor = '#ed8936';
+            
+            // Show plan selected message
+            const waitlistSection = document.querySelector('.waitlist p');
+            waitlistSection.textContent = `Selected: ${selectedPlan} — Join the waitlist for early access!`;
+        }
+
         // Handle Waitlist Submission
         document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
             const btn = form.querySelector('button');
             const originalText = btn.textContent;
+            const name = form.querySelector('[name="name"]').value;
+            const email = form.querySelector('[name="email"]').value;
+            const business = form.querySelector('[name="business"]').value;
+            const plan = selectedPlan || 'Not specified';
             
             btn.textContent = 'Joining...';
             btn.disabled = true;
 
             try {
-                const response = await fetch('https://neutral-modern-fox.ngrok-free.app/api/waitlist', {
-                    method: 'POST',
-                    body: new FormData(form)
+                const response = await fetch(`${API_URL}?q=Waitlist signup: ${name} (${email}) from ${business}, plan: ${plan}`, {
+                    method: 'GET'
                 });
                 
-                const data = await response.json();
-                
-                if (data.success) {
-                    alert(data.message);
-                    form.reset();
+                if (response.ok) {
+                    btn.textContent = '✓ Joined!';
+                    btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        form.reset();
+                        selectedPlan = '';
+                    }, 2000);
                 } else {
-                    alert('Error: ' + (data.message || 'Could not join waitlist'));
+                    alert('Error joining waitlist. Please try again.');
                 }
             } catch (err) {
                 console.error(err);
-                alert('Could not connect to the server. Make sure the backend API is running!');
+                alert('Could not connect. Please try again later.');
             } finally {
-                btn.textContent = originalText;
-                btn.disabled = false;
+                setTimeout(() => {
+                    btn.disabled = false;
+                }, 2000);
             }
         });
     </script>

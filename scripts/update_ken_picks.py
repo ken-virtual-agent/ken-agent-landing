@@ -182,6 +182,37 @@ def git_commit_and_push():
     """Commit and push changes to GitHub."""
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     
+    # Set remote with PAT
+    if GITHUB_PAT:
+        remote_url = f"https://ken-virtual-agent:***@github.com/ken-virtual-agent/ken-agent-landing.git"
+        subprocess.run(
+            ["git", "remote", "set-url", "origin", remote_url],
+            cwd=REPO_DIR, capture_output=True
+        )
+    else:
+        print("Warning: GITHUB_PAT not set, push may fail", file=sys.stderr)
+    
+    # Stash any uncommitted changes before pull --rebase
+    subprocess.run(
+        ["git", "stash", "--include-untracked"],
+        cwd=REPO_DIR, capture_output=True, text=True
+    )
+    
+    # Pull --rebase first to handle concurrent updates (before staging our changes)
+    pull_result = subprocess.run(
+        ["git", "pull", "--rebase"],
+        cwd=REPO_DIR, capture_output=True, text=True
+    )
+    if pull_result.returncode != 0:
+        print(f"Pull/rebase failed: {pull_result.stderr}", file=sys.stderr)
+        return False
+    
+    # Restore stashed changes
+    subprocess.run(
+        ["git", "stash", "pop"],
+        cwd=REPO_DIR, capture_output=True, text=True
+    )
+    
     # Add
     subprocess.run(
         ["git", "add", "index.html"],
@@ -205,16 +236,7 @@ def git_commit_and_push():
         cwd=REPO_DIR, capture_output=True, text=True
     )
     
-    # Set remote with PAT and push
-    if GITHUB_PAT:
-        remote_url = f"https://ken-virtual-agent:{GITHUB_PAT}@github.com/ken-virtual-agent/ken-agent-landing.git"
-        subprocess.run(
-            ["git", "remote", "set-url", "origin", remote_url],
-            cwd=REPO_DIR, capture_output=True
-        )
-    else:
-        print("Warning: GITHUB_PAT not set, push may fail", file=sys.stderr)
-    
+    # Push
     push_result = subprocess.run(
         ["git", "push"],
         cwd=REPO_DIR, capture_output=True, text=True
