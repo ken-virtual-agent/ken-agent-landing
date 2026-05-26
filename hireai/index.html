@@ -13,7 +13,7 @@
     
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     
     <style>
         * {
@@ -1543,90 +1543,94 @@
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
             const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x0f172a, 0.015);
+            scene.background = new THREE.Color(0x0f172a);
+            scene.fog = new THREE.FogExp2(0x0f172a, 0.02);
 
             const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.set(0, 5, 10);
 
-            const controls = new THREE.OrbitControls(camera, canvas);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.maxPolarAngle = Math.PI / 2;
-            controls.minDistance = 5;
-            controls.maxDistance = 30;
-            controls.target.set(0, 0, 0);
+            try {
+                const controls = new THREE.OrbitControls(camera, canvas);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.maxPolarAngle = Math.PI / 2;
+                controls.minDistance = 5;
+                controls.maxDistance = 30;
+                controls.target.set(0, 0, 0);
+            } catch(e) {
+                console.log('OrbitControls not available, using auto-rotate');
+            }
 
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+            // Lighting - much brighter!
+            const ambientLight = new THREE.AmbientLight(0x6366f1, 0.8);
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
             directionalLight.position.set(5, 10, 5);
-            directionalLight.castShadow = true;
-            directionalLight.shadow.mapSize.width = 2048;
-            directionalLight.shadow.mapSize.height = 2048;
             scene.add(directionalLight);
 
-            const pointLight1 = new THREE.PointLight(0x6366f1, 1, 20);
-            pointLight1.position.set(-5, 3, -5);
+            const pointLight1 = new THREE.PointLight(0x6366f1, 3, 50);
+            pointLight1.position.set(-5, 5, -5);
             scene.add(pointLight1);
 
-            const pointLight2 = new THREE.PointLight(0xec4899, 1, 20);
-            pointLight2.position.set(5, 3, 5);
+            const pointLight2 = new THREE.PointLight(0xec4899, 3, 50);
+            pointLight2.position.set(5, 5, 5);
             scene.add(pointLight2);
 
-            // Floor
+            const pointLight3 = new THREE.PointLight(0x10b981, 2, 50);
+            pointLight3.position.set(0, 8, 0);
+            scene.add(pointLight3);
+
+            // Floor - glossy and reflective
             const floorGeometry = new THREE.PlaneGeometry(50, 50);
             const floorMaterial = new THREE.MeshStandardMaterial({
                 color: 0x1e293b,
-                roughness: 0.8,
-                metalness: 0.2
+                roughness: 0.2,
+                metalness: 0.8
             });
             const floor = new THREE.Mesh(floorGeometry, floorMaterial);
             floor.rotation.x = -Math.PI / 2;
             floor.receiveShadow = true;
             scene.add(floor);
 
-            // Grid helper
-            const gridHelper = new THREE.GridHelper(50, 50, 0x6366f1, 0x1e293b);
+            // Bright grid helper
+            const gridHelper = new THREE.GridHelper(50, 50, 0x6366f1, 0x312e81);
             gridHelper.position.y = 0.01;
             scene.add(gridHelper);
 
-            // Walls
-            const wallMaterial = new THREE.MeshStandardMaterial({
-                color: 0x334155,
-                roughness: 0.7,
-                metalness: 0.3,
+            // Floating particles for visual effect
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particleCount = 500;
+            const posArray = new Float32Array(particleCount * 3);
+            for(let i = 0; i < particleCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 40;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x6366f1,
+                transparent: true,
+                opacity: 0.8
+            });
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // Glowing neon lines
+            const lineGeometry = new THREE.BufferGeometry();
+            const linePositions = [];
+            for (let i = 0; i < 20; i++) {
+                const x = (Math.random() - 0.5) * 30;
+                const z = (Math.random() - 0.5) * 30;
+                linePositions.push(x, 0, z, x, 5 + Math.random() * 5, z);
+            }
+            lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x6366f1,
                 transparent: true,
                 opacity: 0.3
             });
-
-            // Back wall
-            const backWall = new THREE.Mesh(
-                new THREE.BoxGeometry(50, 10, 0.5),
-                wallMaterial
-            );
-            backWall.position.set(0, 5, -25);
-            backWall.receiveShadow = true;
-            scene.add(backWall);
-
-            // Left wall
-            const leftWall = new THREE.Mesh(
-                new THREE.BoxGeometry(0.5, 10, 50),
-                wallMaterial
-            );
-            leftWall.position.set(-25, 5, 0);
-            leftWall.receiveShadow = true;
-            scene.add(leftWall);
-
-            // Right wall
-            const rightWall = new THREE.Mesh(
-                new THREE.BoxGeometry(0.5, 10, 50),
-                wallMaterial
-            );
-            rightWall.position.set(25, 5, 0);
-            rightWall.receiveShadow = true;
-            scene.add(rightWall);
+            const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lines);
 
             // Desks
             const deskMaterial = new THREE.MeshStandardMaterial({
@@ -1806,7 +1810,18 @@
                 pointLight2.position.x = Math.cos(time * 0.3) * 5;
                 pointLight2.position.z = Math.sin(time * 0.3) * 5;
                 
-                controls.update();
+                // Animate particles
+                particlesMesh.rotation.y = time * 0.05;
+                particlesMesh.rotation.x = Math.sin(time * 0.1) * 0.1;
+                
+                // Animate neon lines
+                lines.rotation.y = time * 0.02;
+                
+                // Auto-rotate camera if no controls
+                camera.position.x = Math.sin(time * 0.1) * 10;
+                camera.position.z = Math.cos(time * 0.1) * 10;
+                camera.lookAt(0, 1, 0);
+                
                 renderer.render(scene, camera);
             }
 
