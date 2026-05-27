@@ -5,7 +5,7 @@ import urllib.request
 import sys
 
 def fetch_nba_events():
-    url = "https://external-api.kalshi.com/trade-api/v2/events?limit=20&query=nba"
+    url = "https://api.elections.kalshi/trade-api/v2/events?limit=20&query=nba"
     try:
         with urllib.request.urlopen(url) as resp:
             data = json.loads(resp.read())
