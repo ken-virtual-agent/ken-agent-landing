@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(app)  # Allow requests from any origin (GitHub Pages frontend)
 
 # ─── Config ────────────────────────────────────────────────────────────
-LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://ken-api.dochelper.org/v1")
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://n8n.dochelper.org/v1")
 LLM_MODEL = os.environ.get("LLM_MODEL", "qwen/qwen3.6-27b")
 DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "hireai.db"))
 
