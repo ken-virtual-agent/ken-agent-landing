@@ -22,33 +22,23 @@
             box-sizing: border-box;
         }
         
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0f172a;
-            color: #f8fafc;
-            overflow-x: hidden;
-        }
-        
-        /* Make sure 3D canvas is visible */
-        #three-canvas {
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0 !important;
-            pointer-events: none;
-        }
-        
-        /* Three.js Canvas Background */
         #three-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: 1;
             pointer-events: none;
+        }
+        html {
+            background-color: #0f172a !important;
+        }
+        body {
+            background: transparent !important;
+            font-family: 'Inter', sans-serif;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
         
         /* HTML Content Overlay */
@@ -1531,11 +1521,44 @@
             setTimeout(() => msg.classList.remove('active'), 5000);
         }
 
+        <style>
+            html {
+                background-color: #0f172a !important;
+            }
+            body {
+                background: transparent !important;
+            }
+            section, .hero, .marketplace, .features, .pricing, .dashboard, .demo-section {
+                background: transparent !important;
+            }
+            #three-canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                pointer-events: none;
+            }
+            /* Restore card readability */
+            .agent-card, .dashboard-card, .feature-card, .pricing-card, .demo-container, .modal, .chat-modal {
+                background: rgba(15, 23, 42, 0.9) !important;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            }
+        </style>
+        <script>
         // ========================================
         // Three.js 3D Office Environment
         // ========================================
         function initThreeJS() {
+            console.log("Three.js (HireAI): Initializing...");
             const canvas = document.getElementById('three-canvas');
+            if (!canvas) {
+                console.error("Three.js (HireAI): Canvas not found!");
+                return;
+            }
+
             const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1543,296 +1566,154 @@
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
             const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0f172a);
-            scene.fog = new THREE.FogExp2(0x0f172a, 0.02);
+            scene.fog = new THREE.FogExp2(0x0f172a, 0.05);
 
             const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 5, 10);
+            camera.position.set(0, 5, 12);
 
+            let controls;
             try {
-                const controls = new THREE.OrbitControls(camera, canvas);
-                controls.enableDamping = true;
-                controls.dampingFactor = 0.05;
-                controls.maxPolarAngle = Math.PI / 2;
-                controls.minDistance = 5;
-                controls.maxDistance = 30;
-                controls.target.set(0, 0, 0);
+                if (typeof THREE.OrbitControls !== 'undefined') {
+                    controls = new THREE.OrbitControls(camera, canvas);
+                    controls.enableDamping = true;
+                    controls.dampingFactor = 0.05;
+                    controls.enableZoom = false;
+                    controls.enablePan = false;
+                    controls.autoRotate = true;
+                    controls.autoRotateSpeed = 0.5;
+                }
             } catch(e) {
-                console.log('OrbitControls not available, using auto-rotate');
+                console.warn('OrbitControls not available');
             }
 
-            // Lighting - much brighter!
-            const ambientLight = new THREE.AmbientLight(0x6366f1, 0.8);
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x6366f1, 0.4);
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-            directionalLight.position.set(5, 10, 5);
-            scene.add(directionalLight);
+            const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+            mainLight.position.set(5, 10, 7);
+            mainLight.castShadow = true;
+            scene.add(mainLight);
 
-            const pointLight1 = new THREE.PointLight(0x6366f1, 3, 50);
-            pointLight1.position.set(-5, 5, -5);
+            const pointLight1 = new THREE.PointLight(0xec4899, 2, 20);
             scene.add(pointLight1);
 
-            const pointLight2 = new THREE.PointLight(0xec4899, 3, 50);
-            pointLight2.position.set(5, 5, 5);
+            const pointLight2 = new THREE.PointLight(0x06b6d4, 2, 20);
             scene.add(pointLight2);
 
-            const pointLight3 = new THREE.PointLight(0x10b981, 2, 50);
-            pointLight3.position.set(0, 8, 0);
-            scene.add(pointLight3);
-
-            // Floor - glossy and reflective
-            const floorGeometry = new THREE.PlaneGeometry(50, 50);
-            const floorMaterial = new THREE.MeshStandardMaterial({
-                color: 0x1e293b,
+            // Floor
+            const floorGeo = new THREE.PlaneGeometry(100, 100);
+            const floorMat = new THREE.MeshStandardMaterial({ 
+                color: 0x0f172a,
                 roughness: 0.2,
                 metalness: 0.8
             });
-            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            const floor = new THREE.Mesh(floorGeo, floorMat);
             floor.rotation.x = -Math.PI / 2;
             floor.receiveShadow = true;
             scene.add(floor);
 
-            // Bright grid helper
-            const gridHelper = new THREE.GridHelper(50, 50, 0x6366f1, 0x312e81);
-            gridHelper.position.y = 0.01;
-            scene.add(gridHelper);
+            const grid = new THREE.GridHelper(100, 50, 0x6366f1, 0x1e293b);
+            grid.position.y = -0.01;
+            grid.material.transparent = true;
+            grid.material.opacity = 0.2;
+            scene.add(grid);
 
-            // Floating particles for visual effect
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particleCount = 500;
-            const posArray = new Float32Array(particleCount * 3);
-            for(let i = 0; i < particleCount * 3; i++) {
+            // Particles
+            const particlesGeo = new THREE.BufferGeometry();
+            const particlesCount = 200;
+            const posArray = new Float32Array(particlesCount * 3);
+            for(let i = 0; i < particlesCount * 3; i++) {
                 posArray[i] = (Math.random() - 0.5) * 40;
             }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.05,
-                color: 0x6366f1,
-                transparent: true,
-                opacity: 0.8
-            });
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMesh = new THREE.Points(particlesGeo, new THREE.PointsMaterial({ size: 0.05, color: 0x6366f1 }));
             scene.add(particlesMesh);
 
-            // Glowing neon lines
-            const lineGeometry = new THREE.BufferGeometry();
-            const linePositions = [];
-            for (let i = 0; i < 20; i++) {
-                const x = (Math.random() - 0.5) * 30;
-                const z = (Math.random() - 0.5) * 30;
-                linePositions.push(x, 0, z, x, 5 + Math.random() * 5, z);
-            }
-            lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-            const lineMaterial = new THREE.LineBasicMaterial({
-                color: 0x6366f1,
-                transparent: true,
-                opacity: 0.3
-            });
-            const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-            scene.add(lines);
-
-            // Desks
-            const deskMaterial = new THREE.MeshStandardMaterial({
-                color: 0x475569,
-                roughness: 0.6,
-                metalness: 0.4
-            });
-
-            const desks = [];
-            for (let i = 0; i < 6; i++) {
-                const deskGroup = new THREE.Group();
-                
-                // Desk surface
-                const deskSurface = new THREE.Mesh(
-                    new THREE.BoxGeometry(3, 0.2, 1.5),
-                    deskMaterial
-                );
-                deskSurface.position.y = 1;
-                deskSurface.castShadow = true;
-                deskSurface.receiveShadow = true;
-                deskGroup.add(deskSurface);
-                
-                // Desk legs
-                for (let j = 0; j < 4; j++) {
-                    const leg = new THREE.Mesh(
-                        new THREE.CylinderGeometry(0.05, 0.05, 1),
-                        deskMaterial
-                    );
-                    leg.position.set(
-                        (j % 2 === 0 ? -1.3 : 1.3),
-                        0.5,
-                        (j < 2 ? -0.6 : 0.6)
-                    );
-                    leg.castShadow = true;
-                    deskGroup.add(leg);
-                }
-                
-                // Computer monitor
-                const monitor = new THREE.Mesh(
-                    new THREE.BoxGeometry(1.2, 0.8, 0.1),
-                    new THREE.MeshStandardMaterial({
-                        color: 0x0f172a,
-                        roughness: 0.3,
-                        metalness: 0.7
-                    })
-                );
-                monitor.position.set(0, 1.6, -0.5);
-                monitor.castShadow = true;
-                deskGroup.add(monitor);
-                
-                // Monitor screen glow
-                const screenGlow = new THREE.Mesh(
-                    new THREE.PlaneGeometry(1, 0.6),
-                    new THREE.MeshBasicMaterial({
-                        color: 0x6366f1,
-                        transparent: true,
-                        opacity: 0.3
-                    })
-                );
-                screenGlow.position.set(0, 1.6, -0.44);
-                deskGroup.add(screenGlow);
-                
-                // Position desks in a grid
-                const row = Math.floor(i / 3);
-                const col = i % 3;
-                deskGroup.position.set(
-                    (col - 1) * 5,
-                    0,
-                    (row - 0.5) * 5
-                );
-                
-                scene.add(deskGroup);
-                desks.push(deskGroup);
-            }
-
-            // AI Agent Avatars
+            // Agents
             const agents = [
-                { name: 'Luna', color: 0x6366f1, position: [-5, 0, -2.5] },
-                { name: 'Atlas', color: 0xec4899, position: [0, 0, -2.5] },
-                { name: 'Cleo', color: 0x10b981, position: [5, 0, -2.5] },
-                { name: 'Max', color: 0xf59e0b, position: [-5, 0, 2.5] },
-                { name: 'Zara', color: 0xef4444, position: [0, 0, 2.5] },
-                { name: 'Oliver', color: 0x8b5cf6, position: [5, 0, 2.5] }
+                { name: 'Luna', color: 0x6366f1, pos: [-4, 0, -2] },
+                { name: 'Atlas', color: 0xec4899, pos: [0, 0, -4] },
+                { name: 'Cleo', color: 0x10b981, pos: [4, 0, -2] },
+                { name: 'Max', color: 0xf59e0b, pos: [-3, 0, 3] },
+                { name: 'Zara', color: 0xef4444, pos: [3, 0, 3] }
             ];
 
             const agentMeshes = [];
-
-            agents.forEach((agent, index) => {
-                const agentGroup = new THREE.Group();
+            agents.forEach((agent, i) => {
+                const group = new THREE.Group();
+                group.position.set(...agent.pos);
                 
-                // Body (capsule shape)
-                const bodyGeometry = new THREE.CapsuleGeometry(0.3, 0.8, 4, 8);
-                const bodyMaterial = new THREE.MeshStandardMaterial({
-                    color: agent.color,
-                    roughness: 0.4,
-                    metalness: 0.6
-                });
-                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-                body.position.y = 1.2;
+                const body = new THREE.Mesh(
+                    new THREE.CapsuleGeometry(0.3, 0.7, 4, 8),
+                    new THREE.MeshStandardMaterial({ color: agent.color, metalness: 0.6, roughness: 0.4 })
+                );
+                body.position.y = 1;
                 body.castShadow = true;
-                agentGroup.add(body);
+                group.add(body);
                 
-                // Head
-                const headGeometry = new THREE.SphereGeometry(0.25, 16, 16);
-                const headMaterial = new THREE.MeshStandardMaterial({
-                    color: agent.color,
-                    roughness: 0.3,
-                    metalness: 0.7
-                });
-                const head = new THREE.Mesh(headGeometry, headMaterial);
-                head.position.y = 1.8;
+                const head = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.25, 16, 16),
+                    new THREE.MeshStandardMaterial({ color: agent.color, metalness: 0.7, roughness: 0.3 })
+                );
+                head.position.y = 1.6;
                 head.castShadow = true;
-                agentGroup.add(head);
-                
-                // Eyes
-                const eyeGeometry = new THREE.SphereGeometry(0.05, 8, 8);
-                const eyeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                
-                const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-                leftEye.position.set(-0.1, 1.85, 0.2);
-                agentGroup.add(leftEye);
-                
-                const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-                rightEye.position.set(0.1, 1.85, 0.2);
-                agentGroup.add(rightEye);
-                
-                // Status indicator (glowing ring)
-                const ringGeometry = new THREE.TorusGeometry(0.4, 0.05, 8, 32);
-                const ringMaterial = new THREE.MeshBasicMaterial({
-                    color: agent.color,
-                    transparent: true,
-                    opacity: 0.5
-                });
-                const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-                ring.position.y = 2.1;
+                group.add(head);
+
+                const ring = new THREE.Mesh(
+                    new THREE.TorusGeometry(0.5, 0.02, 8, 32),
+                    new THREE.MeshBasicMaterial({ color: agent.color, transparent: true, opacity: 0.4 })
+                );
                 ring.rotation.x = Math.PI / 2;
-                agentGroup.add(ring);
-                
-                // Position agent
-                agentGroup.position.set(...agent.position);
-                scene.add(agentGroup);
-                
-                agentMeshes.push({
-                    group: agentGroup,
-                    body,
-                    head,
-                    ring,
-                    baseY: agent.position[1],
-                    phase: index * Math.PI / 3
-                });
+                ring.position.y = 0.1;
+                group.add(ring);
+
+                scene.add(group);
+                agentMeshes.push({ group, body, head, ring, phase: i * Math.PI / 2 });
             });
 
-            // Animation loop
-            let time = 0;
+            let mouseX = 0, mouseY = 0;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) - 0.5;
+                mouseY = (e.clientY / window.innerHeight) - 0.5;
+            });
+
             function animate() {
                 requestAnimationFrame(animate);
-                time += 0.016;
-                
-                // Animate agents
-                agentMeshes.forEach((agent, index) => {
-                    // Idle breathing animation
-                    agent.body.scale.y = 1 + Math.sin(time * 2 + agent.phase) * 0.05;
-                    agent.head.position.y = 1.8 + Math.sin(time * 2 + agent.phase) * 0.02;
-                    
-                    // Status ring rotation
-                    agent.ring.rotation.z = time * 0.5;
-                    agent.ring.material.opacity = 0.3 + Math.sin(time * 3 + agent.phase) * 0.2;
-                    
-                    // Subtle floating
-                    agent.group.position.y = agent.baseY + Math.sin(time + agent.phase) * 0.1;
+                const time = performance.now() * 0.001;
+
+                if (controls) {
+                    controls.update();
+                } else {
+                    camera.position.x = Math.sin(time * 0.1) * 12;
+                    camera.position.z = Math.cos(time * 0.1) * 12;
+                    camera.lookAt(0, 1, 0);
+                }
+
+                // Smooth mouse follow
+                camera.position.x += (mouseX * 4 - camera.position.x) * 0.01;
+                camera.position.y += (-(mouseY * 2) + 5 - camera.position.y) * 0.01;
+
+                agentMeshes.forEach(a => {
+                    a.group.position.y = Math.sin(time + a.phase) * 0.1;
+                    a.body.scale.y = 1 + Math.sin(time * 2 + a.phase) * 0.05;
+                    a.ring.rotation.z = time * 0.5;
                 });
-                
-                // Animate point lights
-                pointLight1.position.x = Math.sin(time * 0.5) * 5;
-                pointLight1.position.z = Math.cos(time * 0.5) * 5;
-                
-                pointLight2.position.x = Math.cos(time * 0.3) * 5;
-                pointLight2.position.z = Math.sin(time * 0.3) * 5;
-                
-                // Animate particles
+
+                pointLight1.position.set(Math.sin(time) * 5, 2, Math.cos(time) * 5);
+                pointLight2.position.set(Math.cos(time * 0.7) * 5, 2, Math.sin(time * 0.7) * 5);
                 particlesMesh.rotation.y = time * 0.05;
-                particlesMesh.rotation.x = Math.sin(time * 0.1) * 0.1;
-                
-                // Animate neon lines
-                lines.rotation.y = time * 0.02;
-                
-                // Auto-rotate camera if no controls
-                camera.position.x = Math.sin(time * 0.1) * 10;
-                camera.position.z = Math.cos(time * 0.1) * 10;
-                camera.lookAt(0, 1, 0);
-                
+
                 renderer.render(scene, camera);
             }
 
-            animate();
-
-            // Handle resize
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
+
+            animate();
         }
     </script>
 </body>
