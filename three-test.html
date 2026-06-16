@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Background Showcase</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #020617;
+            font-family: 'Inter', sans-serif;
+            color: white;
+        }
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .ui-overlay {
+            position: relative;
+            z-index: 10;
+            padding: 40px;
+            pointer-events: none;
+            text-align: center;
+        }
+        .ui-overlay h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .back-link {
+            pointer-events: auto;
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #6366f1;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .back-link:hover {
+            background: #6366f1;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="three-canvas"></canvas>
+    
+    <div class="ui-overlay">
+        <h1>Three.js Background Test</h1>
+        <p>If you see moving particles and lines, the 3D engine is working perfectly.</p>
+        <br><br>
+        <a href="/" class="back-link">← Back to Landing Page</a>
+    </div>
+
+    <script>
+        window.onerror = function(msg, url, line) {
+            console.error("Global Error: " + msg + "\nURL: " + url + "\nLine: " + line);
+            return false;
+        };
+
+        function initThreeJS() {
+            try {
+                const canvas = document.getElementById('three-canvas');
+                const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.shadowMap.enabled = true;
+
+                const scene = new THREE.Scene();
+                scene.fog = new THREE.FogExp2(0x020617, 0.05);
+
+                const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.set(0, 5, 15);
+
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0x6366f1, 0.5);
+                scene.add(ambientLight);
+
+                const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+                mainLight.position.set(5, 10, 7);
+                mainLight.castShadow = true;
+                scene.add(mainLight);
+
+                const pointLight1 = new THREE.PointLight(0xec4899, 2, 20);
+                scene.add(pointLight1);
+
+                const pointLight2 = new THREE.PointLight(0x06b6d4, 2, 20);
+                scene.add(pointLight2);
+
+                // Floor
+                const floorGeo = new THREE.PlaneGeometry(100, 100);
+                const floorMat = new THREE.MeshStandardMaterial({ 
+                    color: 0x020617,
+                    roughness: 0.2,
+                    metalness: 0.8
+                });
+                const floor = new THREE.Mesh(floorGeo, floorMat);
+                floor.rotation.x = -Math.PI / 2;
+                floor.receiveShadow = true;
+                scene.add(floor);
+
+                const grid = new THREE.GridHelper(100, 50, 0x6366f1, 0x1e293b);
+                grid.position.y = 0.01;
+                grid.material.transparent = true;
+                grid.material.opacity = 0.2;
+                scene.add(grid);
+
+                // Particles/Nodes
+                const count = 100;
+                const geometry = new THREE.BufferGeometry();
+                const posArr = new Float32Array(count * 3);
+                for(let i = 0; i < count * 3; i++) {
+                    posArr[i] = (Math.random() - 0.5) * 40;
+                }
+                geometry.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+                
+                const pointsMaterial = new THREE.PointsMaterial({
+                    size: 0.1,
+                    color: 0x6366f1,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                const points = new THREE.Points(geometry, pointsMaterial);
+                scene.add(points);
+
+                // Agents
+                const agentsData = [
+                    { name: 'Luna', color: 0x6366f1, pos: [-5, 0, -2] },
+                    { name: 'Atlas', color: 0xec4899, pos: [0, 0, -5] },
+                    { name: 'Cleo', color: 0x10b981, pos: [5, 0, -2] },
+                    { name: 'Max', color: 0xf59e0b, pos: [-3, 0, 4] },
+                    { name: 'Zara', color: 0xef4444, pos: [3, 0, 4] }
+                ];
+
+                const agentMeshes = [];
+                agentsData.forEach((agent, i) => {
+                    const group = new THREE.Group();
+                    group.position.set(...agent.pos);
+                    
+                    // Body (Cylinder instead of Capsule for compatibility)
+                    const body = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.35, 0.35, 1.2, 16),
+                        new THREE.MeshStandardMaterial({ color: agent.color, metalness: 0.6, roughness: 0.4 })
+                    );
+                    body.position.y = 1.0;
+                    body.castShadow = true;
+                    group.add(body);
+                    
+                    // Head
+                    const head = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.3, 16, 16),
+                        new THREE.MeshStandardMaterial({ color: agent.color, metalness: 0.7, roughness: 0.3 })
+                    );
+                    head.position.y = 1.8;
+                    head.castShadow = true;
+                    group.add(head);
+
+                    // Glow Ring
+                    const ring = new THREE.Mesh(
+                        new THREE.TorusGeometry(0.6, 0.03, 8, 32),
+                        new THREE.MeshBasicMaterial({ color: agent.color, transparent: true, opacity: 0.5 })
+                    );
+                    ring.rotation.x = Math.PI / 2;
+                    ring.position.y = 0.1;
+                    group.add(ring);
+
+                    scene.add(group);
+                    agentMeshes.push({ group, body, head, ring, phase: i * Math.PI / 2 });
+                });
+
+                let mouseX = 0, mouseY = 0;
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = (e.clientX / window.innerWidth) - 0.5;
+                    mouseY = (e.clientY / window.innerHeight) - 0.5;
+                });
+
+                function animate(time) {
+                    time *= 0.001;
+                    requestAnimationFrame(animate);
+                    
+                    points.rotation.y = time * 0.05;
+                    
+                    // Camera follow
+                    camera.position.x += (mouseX * 15 - camera.position.x) * 0.05;
+                    camera.position.y += (-(mouseY * 8) + 5 - camera.position.y) * 0.05;
+                    camera.lookAt(0, 1, 0);
+
+                    // Animate agents
+                    agentMeshes.forEach(a => {
+                        a.group.position.y = Math.sin(time + a.phase) * 0.1;
+                        a.body.scale.y = 1 + Math.sin(time * 2 + a.phase) * 0.05;
+                        a.ring.rotation.z = time * 0.5;
+                        a.ring.material.opacity = 0.3 + Math.sin(time * 3 + a.phase) * 0.2;
+                    });
+
+                    // Lights
+                    pointLight1.position.set(Math.sin(time) * 10, 5, Math.cos(time) * 10);
+                    pointLight2.position.set(Math.cos(time * 0.7) * 10, 5, Math.sin(time * 0.7) * 10);
+
+                    renderer.render(scene, camera);
+                }
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+
+                animate(0);
+                console.log("Three.js: Initialization successful!");
+            } catch (err) {
+                console.error("Three.js Initialization Failed:", err);
+            }
+        }
+        initThreeJS();
+    </script>
+</body>
+</html>
