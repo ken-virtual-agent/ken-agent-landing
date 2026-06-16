@@ -1454,8 +1454,7 @@
                 const typing = document.getElementById(typingId);
                 if (typing) typing.remove();
                 
-                addChatMessage(fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)], 'bot');
-            }
+            addChatMessage(fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)], 'bot');
         }
         
         function addChatMessage(text, type, id = null) {
