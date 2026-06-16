@@ -1474,38 +1474,40 @@
             msg.classList.add('active');
             setTimeout(() => msg.classList.remove('active'), 5000);
         }
+    </script>
 
-        <style>
-            html {
-                background-color: #0f172a !important;
-            }
-            body {
-                background: transparent !important;
-            }
-            section, .hero, .marketplace, .features, .pricing, .dashboard, .demo-section {
-                background: transparent !important;
-            }
-            #three-canvas {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-                pointer-events: none;
-            }
-            /* Restore card readability */
-            .agent-card, .dashboard-card, .feature-card, .pricing-card, .demo-container, .modal, .chat-modal {
-                background: rgba(15, 23, 42, 0.9) !important;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            }
-        </style>
-        <script>
-        // ========================================
-        // Three.js 3D Office Environment
-        // ========================================
-        function initThreeJS() {
+    <style>
+        html {
+            background-color: #0f172a !important;
+        }
+        body {
+            background: transparent !important;
+        }
+        section, .hero, .marketplace, .features, .pricing, .dashboard, .demo-section {
+            background: transparent !important;
+        }
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        /* Restore card readability */
+        .agent-card, .dashboard-card, .feature-card, .pricing-card, .demo-container, .modal, .chat-modal {
+            background: rgba(15, 23, 42, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+    </style>
+
+    <script>
+    // ========================================
+    // Three.js 3D Office Environment
+    // ========================================
+    function initThreeJS() {
             console.log("Three.js (HireAI): Initializing...");
             const canvas = document.getElementById('three-canvas');
             if (!canvas) {
