@@ -1440,21 +1440,35 @@
             const typingId = 'typing-' + Date.now();
             addChatMessage('🤖 Thinking...', 'bot', typingId);
             
-            // Fallback: generate response based on agent persona
+            // Get agent system prompt
             const agentName = currentChatAgent?.name || 'AI Agent';
+            const systemPrompt = AGENT_PROMPTS[agentName] || `You are ${agentName}, a helpful AI assistant.`;
             
-            // Simple fallback responses
-            const fallbackResponses = [
-                `That's a great question! As ${agentName}, I'm here to help with that.`,
-                `I understand what you need. Let me assist you with that right away.`,
-                `Sure thing! I'm ${agentName} and I'd be happy to help with that task.`,
-                `Got it! I'll take care of that for you right away.`
-                ];
-                
+            // Call real LLM API
+            fetch('http://100.117.190.19:1234/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'qwen/qwen3.6-27b',
+                    messages: [
+                        { role: 'system', content: systemPrompt },
+                        { role: 'user', content: message }
+                    ],
+                    temperature: 0.8
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
                 const typing = document.getElementById(typingId);
                 if (typing) typing.remove();
-                
-            addChatMessage(fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)], 'bot');
+                const reply = data.choices[0].message.content;
+                addChatMessage(reply, 'bot');
+            })
+            .catch(error => {
+                const typing = document.getElementById(typingId);
+                if (typing) typing.remove();
+                addChatMessage(`Sorry, I'm having trouble connecting right now. Please try again.`, 'bot');
+            });
         }
         
         function addChatMessage(text, type, id = null) {
