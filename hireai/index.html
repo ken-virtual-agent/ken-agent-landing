@@ -1444,24 +1444,21 @@
             const agentName = currentChatAgent?.name || 'AI Agent';
             const systemPrompt = AGENT_PROMPTS[agentName] || `You are ${agentName}, a helpful AI assistant.`;
             
-            // Call real LLM API
-            fetch('http://100.117.190.19:1234/v1/chat/completions', {
+            // Call n8n agent backend
+            fetch('https://dongle036-n8n.dochelper.org/webhook/agent-chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: 'qwen/qwen3.6-27b',
-                    messages: [
-                        { role: 'system', content: systemPrompt },
-                        { role: 'user', content: message }
-                    ],
-                    temperature: 0.8
+                    agent: agentName,
+                    system_prompt: systemPrompt,
+                    message: message
                 })
             })
             .then(response => response.json())
             .then(data => {
                 const typing = document.getElementById(typingId);
                 if (typing) typing.remove();
-                const reply = data.choices[0].message.content;
+                const reply = data.reply || data.message || data.output || 'No response from agent.';
                 addChatMessage(reply, 'bot');
             })
             .catch(error => {
