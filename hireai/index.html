@@ -1297,6 +1297,11 @@
         let hiredAgents = JSON.parse(localStorage.getItem('hiredAgents') || '[]');
         let currentChatAgent = null;
         let selectedAgent = null;
+        const newLunaSessionId = window.crypto && typeof window.crypto.randomUUID === 'function'
+            ? window.crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        const lunaSessionId = sessionStorage.getItem('lunaChatSessionId') || `luna-${newLunaSessionId}`;
+        sessionStorage.setItem('lunaChatSessionId', lunaSessionId);
         
         // Backend API URL (Cloudflare Tunnel)
         const API_URL = 'https://eligibility-galleries-collar-sep.trycloudflare.com';
@@ -1444,17 +1449,28 @@
             const agentName = currentChatAgent?.name || 'AI Agent';
             const systemPrompt = AGENT_PROMPTS[agentName] || `You are ${agentName}, a helpful AI assistant.`;
             
-            // Call n8n agent backend
-            fetch('https://dongle036-n8n.dochelper.org/webhook/agent-chat', {
+            // Luna uses the chat webhook; other agents keep the existing agent webhook.
+            const isLuna = agentName === 'Luna';
+            fetch(isLuna
+                ? 'https://dongle036-n8n.dochelper.org/webhook/agent/chat'
+                : 'https://dongle036-n8n.dochelper.org/webhook/agent-chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
+                body: JSON.stringify(isLuna ? {
+                    message: message,
+                    sessionId: lunaSessionId
+                } : {
                     agent: agentName,
                     system_prompt: systemPrompt,
                     message: message
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Chat request failed (${response.status}).`);
+                }
+                return response.json();
+            })
             .then(data => {
                 const typing = document.getElementById(typingId);
                 if (typing) typing.remove();
@@ -1464,6 +1480,7 @@
             .catch(error => {
                 const typing = document.getElementById(typingId);
                 if (typing) typing.remove();
+                console.error('Agent chat request failed:', error);
                 addChatMessage(`Sorry, I'm having trouble connecting right now. Please try again.`, 'bot');
             });
         }
