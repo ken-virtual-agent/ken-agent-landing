@@ -18,7 +18,7 @@ CORS(app)  # Allow requests from any origin (GitHub Pages frontend)
 
 # ─── Config ────────────────────────────────────────────────────────────
 LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://openrouter.ai/api/v1")
-LLM_MODEL = os.environ.get("LLM_MODEL", "/webhook/agent/luna")
+LLM_MODEL = os.environ.get("LLM_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
 DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "hireai.db"))
 
 # ─── LLM Personas ─────────────────────────────────────────────────────
