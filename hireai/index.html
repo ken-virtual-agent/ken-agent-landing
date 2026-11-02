@@ -1449,10 +1449,10 @@
             const agentName = currentChatAgent?.name || 'AI Agent';
             const systemPrompt = AGENT_PROMPTS[agentName] || `You are ${agentName}, a helpful AI assistant.`;
             
-            // Luna uses the chat webhook; other agents keep the existing agent webhook.
+            // Route Luna through the same-origin Netlify function to avoid browser CORS.
             const isLuna = agentName === 'Luna';
             fetch(isLuna
-                ? 'https://dongle036-n8n.dochelper.org/webhook/agent/chat'
+                ? '/.netlify/functions/ask-luna'
                 : 'https://dongle036-n8n.dochelper.org/webhook/agent-chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1467,7 +1467,12 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Chat request failed (${response.status}).`);
+                    if (!isLuna) {
+                        throw new Error(`Chat request failed (${response.status}).`);
+                    }
+                    return response.json().then(data => {
+                        throw new Error(data.error || `Chat request failed (${response.status}).`);
+                    });
                 }
                 return response.json();
             })
@@ -1481,7 +1486,7 @@
                 const typing = document.getElementById(typingId);
                 if (typing) typing.remove();
                 console.error('Agent chat request failed:', error);
-                addChatMessage(`Sorry, I'm having trouble connecting right now. Please try again.`, 'bot');
+                addChatMessage(`Sorry, I'm having trouble connecting right now. ${error.message}`, 'bot');
             });
         }
         

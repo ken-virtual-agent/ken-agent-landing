@@ -1,0 +1,6 @@
+hireai/hireai.db
+hireai/index.html.backup*
+hireai/server.py
+*.py
+scripts/
+warroom/
